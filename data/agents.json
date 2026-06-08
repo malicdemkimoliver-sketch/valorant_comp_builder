@@ -1,0 +1,272 @@
+[
+  {
+    "name": "Jett",
+    "role": "Duelist",
+    "icon": "🌪️",
+    "strengths": ["High mobility", "Entry fragging", "Escape potential", "Operator synergy"],
+    "weaknesses": ["Low utility for team", "Fragile if behind", "Low post-plant"],
+    "good_maps": ["Ascent", "Breeze", "Haven", "Pearl", "Split", "Icebox", "Abyss", "Sunset"],
+    "synergy_tags": ["entry", "op-friendly", "aggressive", "vertical"],
+    "utility": ["smokes", "dash", "updraft"]
+  },
+  {
+    "name": "Raze",
+    "role": "Duelist",
+    "icon": "💥",
+    "strengths": ["Explosive damage", "Area denial", "Map control", "High burst damage"],
+    "weaknesses": ["Limited information tools", "Short range utility", "No escapes on cooldown"],
+    "good_maps": ["Split", "Haven", "Fracture", "Ascent", "Bind", "Sunset"],
+    "synergy_tags": ["entry", "aggressive", "aoe", "vertical"],
+    "utility": ["grenades", "satchels", "rocket"]
+  },
+  {
+    "name": "Neon",
+    "role": "Duelist",
+    "icon": "⚡",
+    "strengths": ["Fastest agent", "Line-up heavy", "Aggressive pushing", "High DPS potential"],
+    "weaknesses": ["High skill ceiling", "Short wall duration", "Poor post-plant"],
+    "good_maps": ["Ascent", "Pearl", "Split", "Haven", "Bind", "Sunset"],
+    "synergy_tags": ["entry", "aggressive", "fast-push", "close-range"],
+    "utility": ["walls", "stun", "speed"]
+  },
+  {
+    "name": "Reyna",
+    "role": "Duelist",
+    "icon": "👁️",
+    "strengths": ["Self-sustain", "Snowball potential", "Clutch ability", "High individual value"],
+    "weaknesses": ["Zero team utility", "Weak when behind", "No intel tools"],
+    "good_maps": ["Ascent", "Haven", "Split", "Pearl", "Bind", "Sunset"],
+    "synergy_tags": ["entry", "aggressive", "snowball", "duel-heavy"],
+    "utility": ["heal", "dismiss", "blind"]
+  },
+  {
+    "name": "Phoenix",
+    "role": "Duelist",
+    "icon": "🔥",
+    "strengths": ["Self-heal on abilities", "Curved flash", "Revive ultimate", "One-way wall"],
+    "weaknesses": ["Outclassed by other duelists", "Low utility for team", "Ult requires setup"],
+    "good_maps": ["Split", "Haven", "Fracture", "Ascent", "Bind"],
+    "synergy_tags": ["entry", "aggressive", "flash", "self-sustain"],
+    "utility": ["flash", "heal", "wall", "revive"]
+  },
+  {
+    "name": "Yoru",
+    "role": "Duelist",
+    "icon": "👺",
+    "strengths": ["Extreme mind games", "Fake outs with decoys", "Teleport flanks", "Dimensional drift"],
+    "weaknesses": ["Very high skill ceiling", "Team-independent playstyle", "Punished when outplayed"],
+    "good_maps": ["Haven", "Fracture", "Split", "Breeze", "Bind"],
+    "synergy_tags": ["flanker", "aggressive", "deception", "entry"],
+    "utility": ["teleport", "decoy", "flash", "dimensional-drift"]
+  },
+  {
+    "name": "Iso",
+    "role": "Duelist",
+    "icon": "🔵",
+    "strengths": ["Shield on kills", "1v1 duel ult", "Aggressive pushing", "Undercut stun"],
+    "weaknesses": ["Low team utility", "Weak without kills", "Ult removes from play"],
+    "good_maps": ["Ascent", "Pearl", "Haven", "Split", "Sunset"],
+    "synergy_tags": ["entry", "aggressive", "duel-heavy", "snowball"],
+    "utility": ["shield", "stun", "contingency", "kill-contract"]
+  },
+  {
+    "name": "Waylay",
+    "role": "Duelist",
+    "icon": "🌀",
+    "strengths": ["Speed boost on abilities", "Refract rewind mechanic", "Aggressive entry", "Prism beams"],
+    "weaknesses": ["Very high skill ceiling", "Rewind timing crucial", "Predictable patterns"],
+    "good_maps": ["Split", "Ascent", "Haven", "Fracture", "Abyss"],
+    "synergy_tags": ["entry", "aggressive", "fast-push", "vertical"],
+    "utility": ["speed", "rewind", "prism", "aurora"]
+  },
+  {
+    "name": "Omen",
+    "role": "Controller",
+    "icon": "👻",
+    "strengths": ["Global smokes", "Teleport flexibility", "Paranoia info denial", "Any map viability"],
+    "weaknesses": ["Smokes require aim", "Teleport can be tracked", "Lower smoke duration"],
+    "good_maps": ["Ascent", "Haven", "Split", "Lotus", "Pearl", "Breeze", "Fracture", "Bind", "Icebox", "Sunset", "Abyss"],
+    "synergy_tags": ["smokes", "aggressive", "flanker", "global-util"],
+    "utility": ["smokes", "paranoia", "teleport"]
+  },
+  {
+    "name": "Brimstone",
+    "role": "Controller",
+    "icon": "🪖",
+    "strengths": ["Easiest smokes", "Stim beacon", "Post-plant fire", "Orbital strike"],
+    "weaknesses": ["Short smoke range", "Limited map coverage", "No mobility"],
+    "good_maps": ["Ascent", "Haven", "Split", "Fracture", "Bind", "Sunset"],
+    "synergy_tags": ["smokes", "post-plant", "attack-sided", "easy-util"],
+    "utility": ["smokes", "stim", "molotov", "orbital"]
+  },
+  {
+    "name": "Viper",
+    "role": "Controller",
+    "icon": "☠️",
+    "strengths": ["Huge wall coverage", "Post-plant dominance", "Orb control", "One-way setups"],
+    "weaknesses": ["Fuel mechanic", "High skill ceiling", "Weak without orb"],
+    "good_maps": ["Breeze", "Pearl", "Fracture", "Lotus", "Haven", "Icebox", "Abyss"],
+    "synergy_tags": ["smokes", "post-plant", "wall", "one-way", "defender-sided"],
+    "utility": ["wall", "orb", "snake-bite", "fuel"]
+  },
+  {
+    "name": "Astra",
+    "role": "Controller",
+    "icon": "🌟",
+    "strengths": ["Global control", "Pull/concuss utility", "Huge smoke coverage", "Cosmic Divide"],
+    "weaknesses": ["Very high skill ceiling", "Vulnerable in astral form", "High game sense required"],
+    "good_maps": ["Ascent", "Pearl", "Lotus", "Breeze", "Haven", "Bind", "Sunset"],
+    "synergy_tags": ["smokes", "global-util", "crowd-control", "defensive"],
+    "utility": ["smokes", "stun", "pull", "wall"]
+  },
+  {
+    "name": "Clove",
+    "role": "Controller",
+    "icon": "🍀",
+    "strengths": ["Self-revive", "Persistent smokes", "Aggressive controller play", "Flexible timing"],
+    "weaknesses": ["Relies on kills to sustain", "Smokes expire on death", "High pressure playstyle"],
+    "good_maps": ["Ascent", "Haven", "Split", "Lotus", "Sunset", "Abyss"],
+    "synergy_tags": ["smokes", "aggressive", "self-sustain", "entry"],
+    "utility": ["smokes", "heal", "revive", "meddle"]
+  },
+  {
+    "name": "Harbor",
+    "role": "Controller",
+    "icon": "🌊",
+    "strengths": ["Moving water wall", "High Tide covers long range", "Cove shield for plant", "Reckoning ultimate"],
+    "weaknesses": ["No traditional smokes", "Wall can be walked through", "Low individual impact"],
+    "good_maps": ["Breeze", "Pearl", "Lotus", "Haven", "Fracture", "Bind"],
+    "synergy_tags": ["smokes", "wall", "plant-util", "defensive"],
+    "utility": ["wall", "cove", "cascade", "reckoning"]
+  },
+  {
+    "name": "Sova",
+    "role": "Initiator",
+    "icon": "🏹",
+    "strengths": ["Global recon", "Long-range intel", "Post-plant shock darts", "Drone scouting"],
+    "weaknesses": ["High lineup knowledge required", "Countered by Cypher", "No flash utility"],
+    "good_maps": ["Ascent", "Breeze", "Haven", "Pearl", "Lotus", "Icebox", "Bind"],
+    "synergy_tags": ["recon", "information", "post-plant", "long-range"],
+    "utility": ["recon-bolt", "drone", "shock-dart", "hunter-fury"]
+  },
+  {
+    "name": "Fade",
+    "role": "Initiator",
+    "icon": "🌑",
+    "strengths": ["Strong recon", "Powerful debuffs", "Chase potential", "Team synergy"],
+    "weaknesses": ["High skill ceiling", "Abilities can be avoided", "Haunt breakable"],
+    "good_maps": ["Haven", "Fracture", "Lotus", "Split", "Ascent", "Sunset", "Abyss"],
+    "synergy_tags": ["recon", "information", "debuff", "chase"],
+    "utility": ["haunt", "seize", "prowler", "nightfall"]
+  },
+  {
+    "name": "Breach",
+    "role": "Initiator",
+    "icon": "🤜",
+    "strengths": ["Through-wall utility", "Team flash", "Stun chains", "Fault Line"],
+    "weaknesses": ["Geo-dependent", "Predictable angles", "Requires team coordination"],
+    "good_maps": ["Haven", "Split", "Fracture", "Ascent", "Lotus", "Bind", "Sunset"],
+    "synergy_tags": ["flash", "stun", "team-play", "through-wall"],
+    "utility": ["flash", "stun", "aftershock", "rolling-thunder"]
+  },
+  {
+    "name": "Skye",
+    "role": "Initiator",
+    "icon": "🦅",
+    "strengths": ["Team heal", "Versatile flash", "Trailblazer scout", "Seekers ultimate"],
+    "weaknesses": ["Heal limits per round", "Guiding Light alertable", "Self-flash risk"],
+    "good_maps": ["Haven", "Ascent", "Fracture", "Lotus", "Split", "Bind", "Sunset"],
+    "synergy_tags": ["flash", "heal", "recon", "versatile"],
+    "utility": ["flash", "heal", "trailblazer", "seekers"]
+  },
+  {
+    "name": "Gekko",
+    "role": "Initiator",
+    "icon": "🦎",
+    "strengths": ["Recallable abilities", "Plant/defuse assist", "Dizzy flash", "Wingman plant"],
+    "weaknesses": ["Recall timing gaps", "Easier to track", "Requires knowledge of timing"],
+    "good_maps": ["Ascent", "Haven", "Lotus", "Pearl", "Split", "Sunset"],
+    "synergy_tags": ["flash", "plant-util", "recon", "beginner-friendly"],
+    "utility": ["flash", "plant-assist", "recon", "ult-grab"]
+  },
+  {
+    "name": "KAY/O",
+    "role": "Initiator",
+    "icon": "🤖",
+    "strengths": ["Ability suppression", "Team flash", "ZERO/point ult", "Versatile kit"],
+    "weaknesses": ["Suppression radius small", "Knife predictable", "Ult team-reliant"],
+    "good_maps": ["Ascent", "Breeze", "Haven", "Pearl", "Split", "Icebox", "Bind"],
+    "synergy_tags": ["flash", "suppression", "anti-ability", "team-play"],
+    "utility": ["flash", "knife", "frag", "suppress"]
+  },
+  {
+    "name": "Tejo",
+    "role": "Initiator",
+    "icon": "🎖️",
+    "strengths": ["Long-range suppression grenades", "Stealth drone recon", "No-lineup utility", "Armageddon ult"],
+    "weaknesses": ["High cooldowns", "Less effective at close range", "Grenade skill required"],
+    "good_maps": ["Breeze", "Ascent", "Pearl", "Haven", "Lotus", "Abyss"],
+    "synergy_tags": ["recon", "suppression", "long-range", "information"],
+    "utility": ["drone", "suppression-grenades", "guided-salvo", "armageddon"]
+  },
+  {
+    "name": "Killjoy",
+    "role": "Sentinel",
+    "icon": "🔧",
+    "strengths": ["Passive site anchor", "Turret pressure", "Nanoswarm post-plant", "Lockdown ult"],
+    "weaknesses": ["Setup time needed", "Devices counterable", "No mobility"],
+    "good_maps": ["Ascent", "Haven", "Split", "Lotus", "Pearl", "Icebox", "Sunset", "Bind"],
+    "synergy_tags": ["site-control", "post-plant", "anchor", "defensive"],
+    "utility": ["turret", "alarmbot", "nanoswarm", "lockdown"]
+  },
+  {
+    "name": "Cypher",
+    "role": "Sentinel",
+    "icon": "🕵️",
+    "strengths": ["Best intel sentinel", "One-way tripwires", "Camera vision", "Spycam ult"],
+    "weaknesses": ["Fragile setups", "Punished if peeked", "High setup knowledge"],
+    "good_maps": ["Ascent", "Split", "Pearl", "Haven", "Lotus", "Bind", "Sunset"],
+    "synergy_tags": ["information", "flank-control", "anchor", "defensive"],
+    "utility": ["tripwire", "camera", "cage", "neural-theft"]
+  },
+  {
+    "name": "Sage",
+    "role": "Sentinel",
+    "icon": "💚",
+    "strengths": ["Only healer", "Revive ult", "Slow orb zone control", "Wall lineups"],
+    "weaknesses": ["Low fragging potential", "Wall breakable", "Ult high cost"],
+    "good_maps": ["Split", "Haven", "Ascent", "Lotus", "Pearl", "Icebox", "Bind"],
+    "synergy_tags": ["heal", "revive", "zone-control", "defensive"],
+    "utility": ["heal", "revive", "slow-orb", "barrier"]
+  },
+  {
+    "name": "Deadlock",
+    "role": "Sentinel",
+    "icon": "🔒",
+    "strengths": ["Flank denial", "Cocoon trap", "Net cannon ultimate", "Aggressive sentinel"],
+    "weaknesses": ["Harder to master", "GravNet limited", "Requires good positioning"],
+    "good_maps": ["Haven", "Lotus", "Split", "Fracture", "Ascent", "Abyss"],
+    "synergy_tags": ["flank-control", "aggressive", "zone-control", "defensive"],
+    "utility": ["gravnet", "sonic-sensor", "barrier-mesh", "annihilation"]
+  },
+  {
+    "name": "Chamber",
+    "role": "Sentinel",
+    "icon": "🎯",
+    "strengths": ["Operator play", "Anchor versatility", "Rendezvous escape", "Trademark info"],
+    "weaknesses": ["Nerfed teleport", "Weaker anchoring than KJ", "Relies on aim"],
+    "good_maps": ["Breeze", "Haven", "Pearl", "Ascent", "Lotus", "Icebox", "Abyss"],
+    "synergy_tags": ["op-friendly", "anchor", "aggressive", "duelist-like"],
+    "utility": ["teleport", "headhunter", "trademark", "tour-de-force"]
+  },
+  {
+    "name": "Vyse",
+    "role": "Sentinel",
+    "icon": "🌿",
+    "strengths": ["Arc Rose deny", "Shear wall split", "Razorvine slow", "Stealth setups"],
+    "weaknesses": ["Very high skill ceiling", "Setups can be destroyed", "Niche picks"],
+    "good_maps": ["Lotus", "Fracture", "Pearl", "Haven", "Split", "Abyss"],
+    "synergy_tags": ["zone-control", "flank-control", "defensive", "advanced"],
+    "utility": ["arc-rose", "shear", "razorvine", "steel-garden"]
+  }
+]

@@ -1,0 +1,99 @@
+{
+  "scoring_weights": {
+    "role_balance": {
+      "weight": 25,
+      "description": "Score based on role distribution in the comp",
+      "breakdown": {
+        "has_controller": 8,
+        "has_initiator": 6,
+        "has_sentinel": 6,
+        "duelist_count_optimal": 5
+      }
+    },
+    "map_fit": {
+      "weight": 20,
+      "description": "How well agents match the selected map",
+      "breakdown": {
+        "per_agent_on_good_map": 4,
+        "max_possible": 20
+      }
+    },
+    "synergy": {
+      "weight": 20,
+      "description": "Synergy tag overlap between agents",
+      "breakdown": {
+        "per_shared_tag": 2,
+        "max_possible": 20
+      }
+    },
+    "utility_coverage": {
+      "weight": 15,
+      "description": "Coverage of key utility types",
+      "breakdown": {
+        "has_smokes": 5,
+        "has_recon": 4,
+        "has_flash": 3,
+        "has_post_plant": 3
+      }
+    },
+    "attack_strength": {
+      "weight": 10,
+      "description": "Offensive capability of the comp",
+      "breakdown": {
+        "entry_tag": 5,
+        "aggressive_tag": 3,
+        "flash_for_entry": 2
+      }
+    },
+    "defense_strength": {
+      "weight": 10,
+      "description": "Defensive capability of the comp",
+      "breakdown": {
+        "anchor_tag": 4,
+        "defensive_tag": 3,
+        "flank_control_tag": 3
+      }
+    }
+  },
+  "penalties": {
+    "no_controller": -15,
+    "no_initiator": -10,
+    "no_sentinel": -10,
+    "too_many_duelists": -8,
+    "no_smokes": -12,
+    "no_recon": -8,
+    "no_flash": -5,
+    "no_entry": -6,
+    "low_map_fit": -5
+  },
+  "warnings": {
+    "no_controller": "No Controller selected — your team lacks smokes for site executes.",
+    "no_initiator": "No Initiator selected — your team lacks opening utility and information.",
+    "no_sentinel": "No Sentinel selected — your team has no site anchor or flank coverage.",
+    "too_many_duelists": "Too many Duelists (3+) — your team lacks utility and support.",
+    "no_entry_duelist": "No entry-focused Duelist — who is opening site?",
+    "no_smokes": "No smokes in your comp — you cannot safely execute sites.",
+    "no_recon": "No recon utility — your team is playing blind.",
+    "no_post_plant": "No post-plant utility — you may struggle to secure rounds.",
+    "no_flank_control": "No flank control — your team is vulnerable to rotations.",
+    "low_map_fit": "Several agents are not ideal for this map."
+  },
+  "preset_templates": {
+    "Standard": {
+      "description": "Balanced comp with clear roles",
+      "role_counts": {"Duelist": 1, "Controller": 1, "Initiator": 2, "Sentinel": 1}
+    },
+    "Double Controller": {
+      "description": "High utility and smoke coverage",
+      "role_counts": {"Duelist": 1, "Controller": 2, "Initiator": 1, "Sentinel": 1}
+    },
+    "Double Duelist": {
+      "description": "Aggressive, entry-heavy composition",
+      "role_counts": {"Duelist": 2, "Controller": 1, "Initiator": 1, "Sentinel": 1}
+    },
+    "Info Heavy": {
+      "description": "Maximum information and utility",
+      "role_counts": {"Duelist": 1, "Controller": 1, "Initiator": 2, "Sentinel": 1}
+    }
+  }
+}
