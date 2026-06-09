@@ -298,8 +298,51 @@ def render():
         <p class="page-subtitle">Pick a map · choose agents · analyze your comp</p>
     </div>""", unsafe_allow_html=True)
 
-    _step_bar(step)
-    st.markdown("<div style='height:6px'></div>", unsafe_allow_html=True)
+    # ── Top navigation toolbar — clickable step tabs + reset ──────────────────
+    map_done    = bool(sel_map := st.session_state.get("builder_map"))
+    agents_done = len(st.session_state.get("selected_agents", [])) > 0
+
+    nav_cols = st.columns([2.2, 2.2, 2.2, 1.4, 1.4])
+
+    with nav_cols[0]:
+        s1_done = map_done
+        lbl = f"{'✅' if s1_done else '①'} Map Selection"
+        if st.button(lbl, key="nav_step1", use_container_width=True,
+                     type="primary" if step == 1 else "secondary"):
+            st.session_state["builder_step"] = 1
+            st.rerun()
+
+    with nav_cols[1]:
+        lbl = f"{'✅' if agents_done else '②'} Agent Selection"
+        if st.button(lbl, key="nav_step2", use_container_width=True,
+                     disabled=not map_done,
+                     type="primary" if step == 2 else "secondary"):
+            st.session_state["builder_step"] = 2
+            st.rerun()
+
+    with nav_cols[2]:
+        lbl = f"{'③'} Analysis"
+        if st.button(lbl, key="nav_step3", use_container_width=True,
+                     disabled=not agents_done,
+                     type="primary" if step == 3 else "secondary"):
+            st.session_state["builder_step"] = 3
+            st.rerun()
+
+    with nav_cols[3]:
+        if st.button("💾 Saved", key="nav_saved", use_container_width=True):
+            st.session_state["active_page"] = "Saved Comps"
+            st.rerun()
+
+    with nav_cols[4]:
+        if st.button("🔄 Reset", key="nav_reset", use_container_width=True):
+            st.session_state["builder_step"]    = 1
+            st.session_state["selected_agents"] = []
+            st.session_state["builder_map"]     = map_names[0]
+            st.session_state.pop("compare_open", None)
+            st.session_state.pop("comp_b_agents", None)
+            st.rerun()
+
+    st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)
 
     # ══ STEP 1 — MAP ══════════════════════════════════════════════════════════
     if step == 1:
@@ -362,15 +405,10 @@ def render():
                 <div style="font-size:0.78rem;color:#64748b;">{md.get("notes","")}</div>
             </div>""", unsafe_allow_html=True)
 
-        c1, c_hub, _ = st.columns([1,1,2])
+        c1, _ = st.columns([1,3])
         with c1:
             if st.button("Next: Pick Agents →", type="primary", use_container_width=True, key="s1next"):
                 st.session_state["builder_step"] = 2
-                st.session_state["active_page"] = "Orbital Hub"
-                st.rerun()
-        with c_hub:
-            if st.button("🌐 Back to Hub", use_container_width=True, key="s1hub"):
-                st.session_state["active_page"] = "Orbital Hub"
                 st.rerun()
 
     # ══ STEP 2 — AGENT PICKER ═════════════════════════════════════════════════
@@ -606,18 +644,13 @@ def render():
 
         st.markdown("</div>", unsafe_allow_html=True)
 
-        c1,c2,c3 = st.columns([1,2,1])
+        c1,c2 = st.columns([1,3])
         with c1:
             if sel and st.button("🗑️ Clear All", key="clr"):
                 st.session_state["selected_agents"]=[]; st.rerun()
         with c2:
             if sel and st.button("View Analysis →", type="primary", use_container_width=True, key="to_s3"):
                 st.session_state["builder_step"]=3
-                st.session_state["active_page"] = "Orbital Hub"
-                st.rerun()
-        with c3:
-            if st.button("🌐 Hub", use_container_width=True, key="s2hub"):
-                st.session_state["active_page"] = "Orbital Hub"
                 st.rerun()
 
         # ── Live stats ───────────────────────────────────────────────────────
@@ -1084,5 +1117,4 @@ def render():
             if st.button("🔄 Start Over",key="restart"):
                 st.session_state["builder_step"]=1
                 st.session_state["selected_agents"]=[]
-                st.session_state["active_page"]="Orbital Hub"
                 st.rerun()

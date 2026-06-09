@@ -13,7 +13,6 @@ st.set_page_config(
 )
 
 # ── Import UI pages ───────────────────────────────────────────────────────────
-from app.ui.orbital_hub import render as render_hub
 from app.ui.builder_page import render as render_builder
 from app.ui.agent_database_page import render as render_database
 from app.ui.saved_comps_page import render as render_saved
@@ -1023,7 +1022,6 @@ with st.sidebar:
     st.markdown('<div style="padding: 0 8px;">', unsafe_allow_html=True)
 
     pages = {
-        "🌐  Orbital Hub":    "Orbital Hub",
         "⚙️  Builder":        "Builder",
         "📚  Agent Database": "Agent Database",
         "💾  Saved Comps":    "Saved Comps",
@@ -1034,12 +1032,12 @@ with st.sidebar:
     page_values = list(pages.values())
 
     if "active_page" not in st.session_state:
-        st.session_state["active_page"] = "Orbital Hub"
+        st.session_state["active_page"] = "Builder"
 
-    # Keep the radio widget's state in sync with active_page.
-    # If another part of the app (e.g. the orbital hub buttons) changed
-    # active_page, push that change into the radio's key BEFORE the widget
-    # is instantiated — otherwise the widget's remembered value wins.
+    # Keep the radio widget's state in sync with active_page so that
+    # programmatic navigation (e.g. from other pages) works correctly.
+    if st.session_state["active_page"] not in page_values:
+        st.session_state["active_page"] = "Builder"
     target_label = page_keys[page_values.index(st.session_state["active_page"])]
     if st.session_state.get("nav_radio") != target_label:
         st.session_state["nav_radio"] = target_label
@@ -1081,9 +1079,7 @@ with st.sidebar:
 
 
 # ── Main content ──────────────────────────────────────────────────────────────
-if selected_page == "Orbital Hub":
-    render_hub()
-elif selected_page == "Account":
+if selected_page == "Account":
     render_account()
 elif selected_page == "Builder":
     render_builder()
