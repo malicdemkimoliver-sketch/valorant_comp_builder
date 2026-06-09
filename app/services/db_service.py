@@ -4,11 +4,26 @@ Stores users (Google auth) and their saved comps.
 On Streamlit Cloud the DB file lives in /tmp (ephemeral per session),
 so we also support Supabase via st.secrets for true persistence.
 """
-import sqlite3, json, os, hashlib
+import sqlite3, json, os, hashlib, tempfile
 from datetime import datetime
 from typing import Optional, List, Dict, Any
 
-DB_PATH = os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'db', 'gyds.db')
+# On Streamlit Cloud the app dir is read-only — use a writable location.
+_LOCAL_DB = os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'db', 'gyds.db')
+_TMP_DB   = os.path.join(tempfile.gettempdir(), 'gyds_comp_helper.db')
+
+def _resolve_db_path():
+    try:
+        os.makedirs(os.path.dirname(_LOCAL_DB), exist_ok=True)
+        testfile = os.path.join(os.path.dirname(_LOCAL_DB), '.write_test')
+        with open(testfile, 'w') as f:
+            f.write('ok')
+        os.remove(testfile)
+        return _LOCAL_DB
+    except Exception:
+        return _TMP_DB
+
+DB_PATH = _resolve_db_path()
 
 # ── Schema ────────────────────────────────────────────────────────────────────
 _SCHEMA = """
@@ -113,5 +128,9 @@ def get_public_comps(limit: int = 20) -> List[Dict]:
             result.append(d)
         return result
 
-# Initialise on import
-init_db()
+# Initialise on import — never let a DB error crash the whole app
+try:
+    init_db()
+except Exception as _e:
+    import sys
+    print(f"[db_service] init warning: {_e}", file=sys.stderr)

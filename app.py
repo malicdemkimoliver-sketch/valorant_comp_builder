@@ -14,16 +14,33 @@ st.set_page_config(
 
 # ── Import UI pages ───────────────────────────────────────────────────────────
 from app.ui.orbital_hub import render as render_hub
-from app.ui.login_page import render as render_account, render_login_banner
-from app.services.auth_service import handle_oauth_callback, is_logged_in, current_user
-from app.services.db_service import save_comp_db
 from app.ui.builder_page import render as render_builder
 from app.ui.agent_database_page import render as render_database
 from app.ui.saved_comps_page import render as render_saved
 from app.ui.rules_editor_page import render as render_rules
 
+# ── Optional auth/database (never crash the app if these fail) ──────────────────
+_AUTH_OK = True
+try:
+    from app.ui.login_page import render as render_account, render_login_banner
+    from app.services.auth_service import handle_oauth_callback, is_logged_in, current_user
+    from app.services.db_service import save_comp_db
+except Exception as _auth_err:
+    _AUTH_OK = False
+    import sys
+    print(f"[app] auth/db disabled: {_auth_err}", file=sys.stderr)
+    def render_account():
+        st.info("Account features are unavailable in this environment.")
+    def render_login_banner(): pass
+    def handle_oauth_callback(): return False
+    def is_logged_in(): return False
+    def current_user(): return {}
+
 # ── Handle Google OAuth callback ────────────────────────────────────────────
-handle_oauth_callback()
+try:
+    handle_oauth_callback()
+except Exception:
+    pass
 
 # ── Global CSS — Premium Dark Gaming Dashboard ────────────────────────────────
 st.markdown("""
@@ -1013,17 +1030,23 @@ with st.sidebar:
         "⚖️  Rules Editor":   "Rules Editor",
         "👤  Account":        "Account",
     }
+    page_keys   = list(pages.keys())
+    page_values = list(pages.values())
 
     if "active_page" not in st.session_state:
         st.session_state["active_page"] = "Orbital Hub"
 
-    page_keys = list(pages.keys())
-    default_idx = list(pages.values()).index(st.session_state.get("active_page", "Builder"))
+    # Keep the radio widget's state in sync with active_page.
+    # If another part of the app (e.g. the orbital hub buttons) changed
+    # active_page, push that change into the radio's key BEFORE the widget
+    # is instantiated — otherwise the widget's remembered value wins.
+    target_label = page_keys[page_values.index(st.session_state["active_page"])]
+    if st.session_state.get("nav_radio") != target_label:
+        st.session_state["nav_radio"] = target_label
 
     selected_label = st.radio(
         "Navigation",
         options=page_keys,
-        index=default_idx,
         key="nav_radio",
         label_visibility="collapsed",
     )

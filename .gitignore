@@ -6,3 +6,6 @@ __pycache__/
 .env
 venv/
 .venv/
+data/db/*.db
+data/db/.write_test
+.streamlit/secrets.toml
