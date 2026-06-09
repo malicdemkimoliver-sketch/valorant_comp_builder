@@ -14,10 +14,16 @@ st.set_page_config(
 
 # ── Import UI pages ───────────────────────────────────────────────────────────
 from app.ui.orbital_hub import render as render_hub
+from app.ui.login_page import render as render_account, render_login_banner
+from app.services.auth_service import handle_oauth_callback, is_logged_in, current_user
+from app.services.db_service import save_comp_db
 from app.ui.builder_page import render as render_builder
 from app.ui.agent_database_page import render as render_database
 from app.ui.saved_comps_page import render as render_saved
 from app.ui.rules_editor_page import render as render_rules
+
+# ── Handle Google OAuth callback ────────────────────────────────────────────
+handle_oauth_callback()
 
 # ── Global CSS — Premium Dark Gaming Dashboard ────────────────────────────────
 st.markdown("""
@@ -1000,11 +1006,12 @@ with st.sidebar:
     st.markdown('<div style="padding: 0 8px;">', unsafe_allow_html=True)
 
     pages = {
-        "🌐  Orbital Hub": "Orbital Hub",
-        "⚙️  Builder":     "Builder",
+        "🌐  Orbital Hub":    "Orbital Hub",
+        "⚙️  Builder":        "Builder",
         "📚  Agent Database": "Agent Database",
-        "💾  Saved Comps": "Saved Comps",
-        "⚖️  Rules Editor": "Rules Editor",
+        "💾  Saved Comps":    "Saved Comps",
+        "⚖️  Rules Editor":   "Rules Editor",
+        "👤  Account":        "Account",
     }
 
     if "active_page" not in st.session_state:
@@ -1039,6 +1046,10 @@ with st.sidebar:
     """, unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
+    # Login status in sidebar
+    st.markdown("<br>", unsafe_allow_html=True)
+    render_login_banner()
+
     st.markdown("""
     <div style="position:absolute; bottom:12px; left:0; right:0; text-align:center; font-size:0.65rem; color:#1e3a5f;">
         Made with 🎮 by GYDRENZIN
@@ -1049,6 +1060,8 @@ with st.sidebar:
 # ── Main content ──────────────────────────────────────────────────────────────
 if selected_page == "Orbital Hub":
     render_hub()
+elif selected_page == "Account":
+    render_account()
 elif selected_page == "Builder":
     render_builder()
 elif selected_page == "Agent Database":

@@ -66,6 +66,58 @@ def _html(content, h):
     </style></head><body>{content}</body></html>"""
     components.html(full, height=h, scrolling=False)
 
+
+# ── Playstyle detection ────────────────────────────────────────────────────────
+def _detect_playstyle(agents):
+    """Analyse synergy tags across all agents and return (label, color, description, tips)."""
+    from collections import Counter
+    all_tags = []
+    for a in agents:
+        all_tags.extend(a.synergy_tags)
+    tc = Counter(all_tags)
+    roles = [a.role for a in agents]
+
+    # Priority order — most dominant first
+    if tc.get("aggressive",0)+tc.get("entry",0)+tc.get("fast-push",0) >= 6:
+        return ("🔥 High-Aggression","#ff4d6d",
+                "This comp is built to overwhelm before opponents can set up. "
+                "Expect fast site hits, minimal waiting, and constant pressure.",
+                ["Win early, win often — don't play slow","Avoid passive setups","Punish slow rotators"])
+    if tc.get("smokes",0) >= 2 and tc.get("defensive",0)+tc.get("anchor",0) >= 3:
+        return ("🛡️ Fortress","#10b981",
+                "Deep utility with multiple site anchors. Excellent for holding angles "
+                "and winning retakes, but needs a dedicated entry caller.",
+                ["Identify your entry fragger clearly","Use util to trade info safely","Slow-play post-plant"])
+    if tc.get("recon",0)+tc.get("information",0) >= 4:
+        return ("🔍 Info-Heavy","#0ea5e9",
+                "Maximum information before committing. Rarely surprised, but can be slow to execute "
+                "if the team doesn't act on intel quickly.",
+                ["Convert intel into immediate action","Don't over-rotate on fakes","Drone + recon before every exec"])
+    if tc.get("smokes",0) >= 3:
+        return ("💨 Smoke-Centric","#7c3aed",
+                "Multiple layers of smoke coverage allow safe execution on any site. "
+                "Opponents struggle to peek without getting shut down.",
+                ["Stack smokes on execute — don't waste early","Use smokes to retake efficiently","Communicate smoke timings"])
+    if roles.count("Duelist") >= 2 and tc.get("entry",0) >= 2:
+        return ("⚔️ Double Entry","#ff9f43",
+                "Two entry fraggers create split pressure and alternating entry paths. "
+                "High kill potential but needs tight coordination.",
+                ["Never both entry at the same time","Stagger entries 2–3 seconds apart","Have a designated secondary duelist"])
+    if tc.get("plant-util",0)+tc.get("post-plant",0) >= 3:
+        return ("💣 Post-Plant Specialist","#a78bfa",
+                "Exceptional at winning rounds after planting. Strong utility holds the "
+                "spike even in disadvantaged situations.",
+                ["Force retake scenarios","Plant fast then fall back to util range","Nanoswarm + orbital timing is key"])
+    if tc.get("flank-control",0)+tc.get("flanker",0) >= 3:
+        return ("👁️ Flank-Aware","#fbbf24",
+                "Strong awareness of side angles and unexpected pushes. Rarely caught "
+                "off-guard but may sacrifice aggression.",
+                ["Play rotations conservatively","Dedicate one player to watch CT","Use intel before full commits"])
+    return ("⚖️ Balanced","#94a3b8",
+            "A well-rounded comp with no single dominant trait. Flexible and adaptable "
+            "across most in-game situations.",
+            ["Adapt playstyle to round economy","Can execute or defend equally well","Flexibility is your strength"])
+
 # ── PRESETS ────────────────────────────────────────────────────────────────────
 MAP_PRESETS = {
     "Ascent":[
@@ -146,6 +198,86 @@ MAP_PRESETS = {
         {"name":"EDG — Gekko/Cypher/Viper","agents":["Cypher","Gekko","Omen","Raze","Viper"],"description":"EDG 6W-3L (67% WR). Viper wall B-link + Gekko plant assist.","source":"EDward Gaming · VCT China 2025 · 67% WR"},
     ],
 }
+
+
+def _render_compare(comp_a_agents, selected_map, agents_list, rules, score_a, breakdown_a):
+    """Side-by-side comp comparison with diff highlighting."""
+    from app.services.scoring import score_comp, get_score_grade
+    from app.services.validator import validate_comp
+
+    st.markdown("""
+    <div style="background:#0a1628;border:1px solid #00d4ff44;border-radius:12px;padding:20px;margin:10px 0;">
+        <div style="font-family:Rajdhani,sans-serif;font-size:1rem;font-weight:700;color:#00d4ff;margin-bottom:12px;">
+            ⚖️ Comp Comparator — Build Comp B to compare
+        </div>""", unsafe_allow_html=True)
+
+    agent_names = [a.name for a in agents_list]
+    all_icons   = {a.name: a.icon for a in agents_list}
+
+    comp_b_sel = st.multiselect(
+        "Select Comp B agents (up to 5):",
+        options=agent_names,
+        default=st.session_state.get("comp_b_agents",[]),
+        max_selections=5,
+        key="comp_b_picker",
+        format_func=lambda n: f"{all_icons.get(n,'')} {n}",
+    )
+    st.session_state["comp_b_agents"] = comp_b_sel
+
+    if not comp_b_sel:
+        st.markdown('<div style="color:#334155;font-size:0.82rem;padding:8px 0;">Select agents for Comp B above.</div>', unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+        return
+
+    comp_b_agents = [a for a in agents_list if a.name in comp_b_sel]
+    score_b, breakdown_b = score_comp(comp_b_agents, selected_map, rules)
+    grade_a, gc_a = get_score_grade(score_a)
+    grade_b, gc_b = get_score_grade(score_b)
+
+    # Header row
+    col_cat, col_a, col_b, col_diff = st.columns([2,1,1,1])
+    with col_cat: st.markdown('<div style="font-size:0.72rem;color:#334155;padding-top:6px;">CATEGORY</div>', unsafe_allow_html=True)
+    with col_a:   st.markdown(f'<div style="font-size:0.8rem;font-weight:700;color:{gc_a};">Comp A — {score_a}/100 {grade_a}</div>', unsafe_allow_html=True)
+    with col_b:   st.markdown(f'<div style="font-size:0.8rem;font-weight:700;color:{gc_b};">Comp B — {score_b}/100 {grade_b}</div>', unsafe_allow_html=True)
+    with col_diff: st.markdown('<div style="font-size:0.72rem;color:#334155;padding-top:6px;">DIFF</div>', unsafe_allow_html=True)
+
+    cats = {"Role Balance":25,"Map Fit":20,"Agent Synergy":20,"Utility Coverage":15,"Attack Strength":10,"Defense Strength":10}
+    for cat, mx in cats.items():
+        va = breakdown_a.get(cat,0)
+        vb = breakdown_b.get(cat,0)
+        diff = vb - va
+        diff_color = "#10b981" if diff>0 else ("#ff4d6d" if diff<0 else "#475569")
+        diff_label = f"+{diff}" if diff>0 else str(diff)
+        pct_a = int((va/mx)*100) if mx else 0
+        pct_b = int((vb/mx)*100) if mx else 0
+
+        col_cat2, col_a2, col_b2, col_diff2 = st.columns([2,1,1,1])
+        with col_cat2:
+            st.markdown(f'<div style="font-size:0.75rem;color:#94a3b8;padding:4px 0;">{cat}</div>', unsafe_allow_html=True)
+        with col_a2:
+            bc = "#00d4ff" if pct_a>=70 else ("#ffd700" if pct_a>=40 else "#ff4444")
+            st.markdown(f'<div style="background:#0a1628;border-radius:6px;padding:4px 8px;font-size:0.78rem;font-weight:700;color:{bc};">{va}/{mx}</div>', unsafe_allow_html=True)
+        with col_b2:
+            bc2 = "#00d4ff" if pct_b>=70 else ("#ffd700" if pct_b>=40 else "#ff4444")
+            st.markdown(f'<div style="background:#0a1628;border-radius:6px;padding:4px 8px;font-size:0.78rem;font-weight:700;color:{bc2};">{vb}/{mx}</div>', unsafe_allow_html=True)
+        with col_diff2:
+            st.markdown(f'<div style="background:{diff_color}18;border:1px solid {diff_color}44;border-radius:6px;padding:4px 8px;font-size:0.78rem;font-weight:800;color:{diff_color};">{diff_label}</div>', unsafe_allow_html=True)
+
+    # Overall diff
+    total_diff = score_b - score_a
+    total_color = "#10b981" if total_diff>0 else ("#ff4d6d" if total_diff<0 else "#475569")
+    verdict = "Comp B is stronger" if total_diff>2 else ("Comp A is stronger" if total_diff<-2 else "Roughly equal")
+    st.markdown(f"""
+    <div style="background:{total_color}15;border:1px solid {total_color}55;border-radius:10px;
+                 padding:12px 16px;margin-top:10px;display:flex;align-items:center;gap:12px;">
+        <div style="font-size:1.4rem;">{"🏆" if total_diff>0 else ("⬇️" if total_diff<0 else "🤝")}</div>
+        <div>
+            <div style="font-weight:700;color:{total_color};font-size:0.9rem;">{verdict}</div>
+            <div style="font-size:0.75rem;color:#64748b;">Score difference: {'+' if total_diff>=0 else ''}{total_diff} pts</div>
+        </div>
+    </div>""", unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
+
 
 def render():
     agents_list = load_agents()
@@ -703,6 +835,34 @@ def render():
                 else:
                     st.markdown(f'<div style="color:#475569;font-size:0.8rem;">{"✅ No warnings!" if "Warning" in title else "None detected."}</div>', unsafe_allow_html=True)
                 st.markdown("</div>", unsafe_allow_html=True)
+
+        # ── Playstyle indicator ──────────────────────────────────────────────
+        ps_label, ps_color, ps_desc, ps_tips = _detect_playstyle(s_obj)
+        st.markdown(f"""
+        <div style="background:linear-gradient(135deg,{ps_color}12,{ps_color}06);
+                     border:1px solid {ps_color}55;border-radius:12px;padding:16px 20px;margin:12px 0;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                <div style="font-family:Rajdhani,sans-serif;font-size:1.15rem;font-weight:800;color:{ps_color};">
+                    {ps_label}</div>
+                <span style="font-size:0.68rem;padding:2px 9px;border-radius:20px;
+                             background:{ps_color}22;border:1px solid {ps_color}55;color:{ps_color};
+                             font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">Playstyle</span>
+            </div>
+            <div style="font-size:0.82rem;color:#94a3b8;margin-bottom:10px;line-height:1.6;">{ps_desc}</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;">""", unsafe_allow_html=True)
+        for tip in ps_tips:
+            st.markdown(f'<div style="background:{ps_color}10;border:1px solid {ps_color}33;border-radius:8px;padding:4px 12px;font-size:0.74rem;color:{ps_color};">💡 {tip}</div>', unsafe_allow_html=True)
+        st.markdown("</div></div>", unsafe_allow_html=True)
+
+        # ── Compare button ────────────────────────────────────────────────────
+        st.markdown("<div style='height:4px'></div>", unsafe_allow_html=True)
+        if "compare_open" not in st.session_state:
+            st.session_state["compare_open"] = False
+        if st.button("⚖️ Compare with Another Comp", key="open_compare", use_container_width=False):
+            st.session_state["compare_open"] = not st.session_state["compare_open"]
+
+        if st.session_state.get("compare_open"):
+            _render_compare(s_obj, selected_map, agents_list, rules, raw, bdwn)
 
         # Save + Export
         csave,cexp=st.columns(2)

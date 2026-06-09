@@ -2,7 +2,7 @@
 
 A premium Valorant team composition builder and analyzer.
 
-[[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://malicdemkimoliver-sketch-valorant-comp-builder-app-XXXXX.streamlit.app)](https://gyd-comp-maker.streamlit.app/)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://malicdemkimoliver-sketch-valorant-comp-builder-app-XXXXX.streamlit.app)
 
 ## Features
 
