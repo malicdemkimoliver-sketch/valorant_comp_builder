@@ -13,6 +13,7 @@ st.set_page_config(
 )
 
 # ── Import UI pages ───────────────────────────────────────────────────────────
+from app.ui.orbital_hub import render as render_hub
 from app.ui.builder_page import render as render_builder
 from app.ui.agent_database_page import render as render_database
 from app.ui.saved_comps_page import render as render_saved
@@ -999,14 +1000,15 @@ with st.sidebar:
     st.markdown('<div style="padding: 0 8px;">', unsafe_allow_html=True)
 
     pages = {
-        "⚙️  Builder": "Builder",
+        "🌐  Orbital Hub": "Orbital Hub",
+        "⚙️  Builder":     "Builder",
         "📚  Agent Database": "Agent Database",
         "💾  Saved Comps": "Saved Comps",
         "⚖️  Rules Editor": "Rules Editor",
     }
 
     if "active_page" not in st.session_state:
-        st.session_state["active_page"] = "Builder"
+        st.session_state["active_page"] = "Orbital Hub"
 
     page_keys = list(pages.keys())
     default_idx = list(pages.values()).index(st.session_state.get("active_page", "Builder"))
@@ -1045,7 +1047,9 @@ with st.sidebar:
 
 
 # ── Main content ──────────────────────────────────────────────────────────────
-if selected_page == "Builder":
+if selected_page == "Orbital Hub":
+    render_hub()
+elif selected_page == "Builder":
     render_builder()
 elif selected_page == "Agent Database":
     render_database()
