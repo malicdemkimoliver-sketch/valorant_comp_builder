@@ -202,6 +202,13 @@ def render():
         st.session_state.builder_step = 1
     if "builder_map" not in st.session_state: 
         st.session_state.builder_map = map_names[0] if map_names else "Ascent"
+    
+    # Auto-scroll to top when stage changes
+    if "last_builder_step" not in st.session_state:
+        st.session_state.last_builder_step = st.session_state.builder_step
+    elif st.session_state.last_builder_step != st.session_state.builder_step:
+        st.session_state.last_builder_step = st.session_state.builder_step
+        st.markdown('<script>window.scrollTo(0, 0);</script>', unsafe_allow_html=True)
 
     step = st.session_state.builder_step
     selected_map = st.session_state.builder_map
@@ -596,12 +603,4 @@ def render():
                 st.session_state.selected_agents = []
                 st.rerun()
 
-# Auto-scroll to top when stage changes
-if st.session_state.get("last_step") != st.session_state.get("builder_step"):
-    st.session_state["last_step"] = st.session_state.get("builder_step")
-    # JavaScript to scroll to top
-    st.markdown("""
-    <script>
-    window.scrollTo(0, 0);
-    </script>
-    """, unsafe_allow_html=True)
+
