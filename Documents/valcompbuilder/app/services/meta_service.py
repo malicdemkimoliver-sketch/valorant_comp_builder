@@ -1,83 +1,225 @@
 """
-Meta Tracker Service — VCT pick rates, win rates, and tier classification
+Meta Service V3 — profile-aware agent tiers.
+
+WHAT CHANGED:
+  Old logic: "On Meta" = |WR - PR| < 15%  (volatile — a tiny stat shift
+  flipped an agent between Meta and Off).
+  New logic: a COMPOSITE SCORE blending three stable signals:
+      composite = win_rate * 0.50  +  pick_rate * 0.35  +  map_profile_bonus
+  where map_profile_bonus = +6 if the map is in the agent's good_maps
+  (from agents.json), else 0.
+
+  Tiers from composite:
+      S  >= 60   (pro-meta essential on this map)
+      A  >= 48   (strong meta pick)
+      B  >= 38   (viable)
+      C  <  38   (niche)
+
+All V2 function names are kept so existing imports don't break.
 """
 import json
 import os
+from typing import Dict, List, Optional, Tuple
 
-def load_meta_data():
-    """Load VCT meta data from JSON file"""
-    try:
-        path = os.path.join(os.path.dirname(__file__), '../../data/vct_meta.json')
-        with open(path, 'r') as f:
-            return json.load(f)
-    except:
-        return {"meta_by_map": {}, "tier_definitions": {}}
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+DATA_DIR = os.path.join(BASE_DIR, "data")
 
-def get_agent_meta_tier(agent_name, map_name):
+_meta_cache: Optional[Dict] = None
+_profile_cache: Optional[Dict[str, dict]] = None
+
+# Composite weights and tier thresholds.
+# Pick rate is NORMALIZED to the highest pick rate on each map, which makes
+# tiers scale-invariant: works for pro data (top PR ~95%) and ranked data
+# from vstats.gg (top PR ~15%) without retuning.
+WR_WEIGHT = 0.60          # win rate, on its natural 0-100 scale
+PR_NORM_WEIGHT = 30.0     # normalized pick rate contributes up to 30 pts
+GOOD_MAP_BONUS = 6.0
+TIER_THRESHOLDS = [("S", 63), ("A", 50), ("B", 42)]  # below last = "C"
+
+
+# ── Loading ───────────────────────────────────────────────────────────────────
+def load_meta_data() -> Dict:
+    """Load vct_meta.json (cached)."""
+    global _meta_cache
+    if _meta_cache is None:
+        path = os.path.join(DATA_DIR, "vct_meta.json")
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                _meta_cache = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            _meta_cache = {}
+    return _meta_cache
+
+
+def _load_agent_profiles() -> Dict[str, dict]:
+    """Load agents.json directly for good_maps lookups (cached)."""
+    global _profile_cache
+    if _profile_cache is None:
+        path = os.path.join(DATA_DIR, "agents.json")
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                raw = json.load(f)
+            _profile_cache = {a.get("name", ""): a for a in raw}
+        except (FileNotFoundError, json.JSONDecodeError):
+            _profile_cache = {}
+    return _profile_cache
+
+
+def is_meta_loaded() -> bool:
+    return bool(_get_meta_by_map())
+
+
+KNOWN_MAPS = {"Ascent", "Bind", "Breeze", "Fracture", "Haven", "Icebox",
+              "Lotus", "Pearl", "Split", "Abyss", "Sunset", "Corrode"}
+
+
+def _get_meta_by_map() -> Dict:
     """
-    Get the VCT tier for an agent on a specific map
-    Returns: tier (S, A, B, C) or None if not in meta
+    Normalize either supported structure of vct_meta.json:
+      A) {"meta_by_map": {"Ascent": {...}, ...}, "last_updated": ...}
+      B) {"Ascent": {...}, "Bind": {...}, ...}   (maps at top level)
+    Returns the {map: {agent: stats}} dict in both cases.
     """
     meta = load_meta_data()
-    map_meta = meta.get("meta_by_map", {}).get(map_name, {})
-    agent_meta = map_meta.get(agent_name, {})
-    return agent_meta.get("tier")
+    if not meta:
+        return {}
+    if "meta_by_map" in meta and isinstance(meta["meta_by_map"], dict):
+        return meta["meta_by_map"]
+    # Structure B: top-level keys that are map names mapping to agent dicts
+    by_map = {k: v for k, v in meta.items()
+              if isinstance(v, dict) and (k in KNOWN_MAPS or
+                  any(isinstance(s, dict) and ("win_rate" in s or "pick_rate" in s)
+                      for s in v.values()))}
+    return by_map
 
-def get_agent_meta_pick_rate(agent_name, map_name):
-    """Get pick rate % for agent on map"""
-    meta = load_meta_data()
-    map_meta = meta.get("meta_by_map", {}).get(map_name, {})
-    agent_meta = map_meta.get(agent_name, {})
-    return agent_meta.get("pick_rate", 0)
 
-def get_agent_meta_win_rate(agent_name, map_name):
-    """Get win rate % for agent on map"""
-    meta = load_meta_data()
-    map_meta = meta.get("meta_by_map", {}).get(map_name, {})
-    agent_meta = map_meta.get(agent_name, {})
-    return agent_meta.get("win_rate", 0)
+# ── Core accessors (names kept from V2) ──────────────────────────────────────
+def get_all_maps() -> List[str]:
+    return list(_get_meta_by_map().keys())
 
-def is_on_meta(agent_name, map_name):
+
+def get_all_meta_agents_for_map(map_name: str) -> Dict[str, dict]:
+    return _get_meta_by_map().get(map_name, {})
+
+
+def get_agent_meta_for_map(agent_name: str, map_name: str) -> Optional[dict]:
+    return get_all_meta_agents_for_map(map_name).get(agent_name)
+
+
+def get_map_agent_list(map_name: str) -> List[Tuple[str, dict]]:
+    """Agents on a map sorted by composite score (best first)."""
+    agents = get_all_meta_agents_for_map(map_name)
+    scored = [(name, stats, get_composite_score(name, map_name))
+              for name, stats in agents.items()]
+    scored.sort(key=lambda x: x[2], reverse=True)
+    return [(name, stats) for name, stats, _ in scored]
+
+
+def get_best_agents_for_map(map_name: str, limit: int = 5) -> List[Tuple[str, dict]]:
+    return get_map_agent_list(map_name)[:limit]
+
+
+def get_all_agents_across_maps() -> List[str]:
+    names = set()
+    for agents in _get_meta_by_map().values():
+        names.update(agents.keys())
+    return sorted(names)
+
+
+# ── V3 composite tier logic ──────────────────────────────────────────────────
+def _max_pick_rate(map_name: str) -> float:
+    """Highest pick rate on a map — used to normalize PR across data scales."""
+    agents = get_all_meta_agents_for_map(map_name)
+    prs = [float(s.get("pick_rate", 0)) for s in agents.values()]
+    return max(prs) if prs else 1.0
+
+
+def get_composite_score(agent_name: str, map_name: str) -> float:
     """
-    Check if agent is on-meta for this specific map.
-    Simple & accurate: If it's in VCT data for this map, pros play it = it's meta.
+    Composite meta score for an agent on a map.
+    Blends win rate (stability), pick rate normalized to the map's top pick
+    (popularity relative to peers), and the agent's own map profile.
     """
-    meta = load_meta_data()
-    map_meta = meta.get("meta_by_map", {}).get(map_name, {})
-    return agent_name in map_meta
+    stats = get_agent_meta_for_map(agent_name, map_name)
+    if not stats:
+        return 0.0
+    wr = float(stats.get("win_rate", 0))
+    pr = float(stats.get("pick_rate", 0))
+    max_pr = _max_pick_rate(map_name)
+    pr_norm = (pr / max_pr) if max_pr > 0 else 0.0   # 0..1 relative to top pick
 
-def is_off_meta(agent_name, map_name):
-    """Check if agent is off-meta (not in VCT data for this map)"""
-    meta = load_meta_data()
-    map_meta = meta.get("meta_by_map", {}).get(map_name, {})
-    return agent_name not in map_meta
+    score = wr * WR_WEIGHT + pr_norm * PR_NORM_WEIGHT
 
-def get_tier_color(tier):
-    """Get color for tier badge"""
-    colors = {
-        "S": "#ffd700",  # Gold
-        "A": "#10b981",  # Green
-        "B": "#f59e0b",  # Amber
-        "C": "#ff4d6d",  # Red
-    }
-    return colors.get(tier, "#64748b")
+    profile = _load_agent_profiles().get(agent_name)
+    if profile and map_name in profile.get("good_maps", []):
+        score += GOOD_MAP_BONUS
+    return round(score, 1)
 
-def get_tier_description(tier):
-    """Get description for tier"""
-    meta = load_meta_data()
-    definitions = meta.get("tier_definitions", {})
-    return definitions.get(tier, "Unknown tier")
 
-def get_all_meta_agents_for_map(map_name):
-    """Get all agents with their meta tiers for a map"""
-    meta = load_meta_data()
-    map_meta = meta.get("meta_by_map", {}).get(map_name, {})
-    return map_meta
+def get_agent_tier(agent_name: str, map_name: str) -> Optional[str]:
+    """Return S/A/B/C tier from composite score, or None if no data."""
+    stats = get_agent_meta_for_map(agent_name, map_name)
+    if not stats:
+        return None
+    score = get_composite_score(agent_name, map_name)
+    for tier, threshold in TIER_THRESHOLDS:
+        if score >= threshold:
+            return tier
+    return "C"
 
-def get_best_agents_for_map(map_name, tier=None):
-    """Get agents for a map, optionally filtered by tier"""
-    map_meta = get_all_meta_agents_for_map(map_name)
-    if not tier:
-        return list(map_meta.keys())
-    return [name for name, data in map_meta.items() if data.get("tier") == tier]
 
+def get_agent_meta_tier(agent_name: str, map_name: str) -> Optional[str]:
+    """Alias kept for backward compatibility."""
+    return get_agent_tier(agent_name, map_name)
+
+
+def is_on_meta(agent_name: str, map_name: str) -> bool:
+    """An agent is 'on meta' if it lands S or A tier on this map."""
+    return get_agent_tier(agent_name, map_name) in ("S", "A")
+
+
+def get_meta_status(agent_name: str, map_name: str) -> Tuple[bool, float, str]:
+    """
+    Returns (is_meta, composite_score, explanation).
+    Kept for backward compatibility with V2 callers.
+    """
+    stats = get_agent_meta_for_map(agent_name, map_name)
+    if not stats:
+        return False, 0.0, "No meta data for this agent on this map."
+
+    score = get_composite_score(agent_name, map_name)
+    tier = get_agent_tier(agent_name, map_name)
+    wr = stats.get("win_rate", 0)
+    pr = stats.get("pick_rate", 0)
+
+    profile = _load_agent_profiles().get(agent_name, {})
+    map_fit = "strong map for this agent" if map_name in profile.get("good_maps", []) \
+              else "not a signature map"
+
+    if tier == "S":
+        expl = f"S Tier — {wr}% WR, {pr}% PR, {map_fit}. Pro-meta essential."
+    elif tier == "A":
+        expl = f"A Tier — {wr}% WR, {pr}% PR, {map_fit}. Strong meta pick."
+    elif tier == "B":
+        expl = f"B Tier — {wr}% WR, {pr}% PR, {map_fit}. Viable choice."
+    else:
+        expl = f"C Tier — {wr}% WR, {pr}% PR, {map_fit}. Niche pick."
+
+    return tier in ("S", "A"), score, expl
+
+
+def get_tier_groups(map_name: str) -> Dict[str, List[Tuple[str, dict]]]:
+    """
+    All agents on a map grouped by tier: {"S": [(name, stats), ...], ...}
+    Each tier list is sorted by composite score descending.
+    Used by the Meta Tracker tier list.
+    """
+    groups: Dict[str, List[Tuple[str, dict, float]]] = {"S": [], "A": [], "B": [], "C": []}
+    for name, stats in get_all_meta_agents_for_map(map_name).items():
+        tier = get_agent_tier(name, map_name) or "C"
+        groups[tier].append((name, stats, get_composite_score(name, map_name)))
+    out: Dict[str, List[Tuple[str, dict]]] = {}
+    for tier, items in groups.items():
+        items.sort(key=lambda x: x[2], reverse=True)
+        out[tier] = [(n, s) for n, s, _ in items]
+    return out

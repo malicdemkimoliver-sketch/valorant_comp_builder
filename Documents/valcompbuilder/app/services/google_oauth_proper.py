@@ -10,8 +10,17 @@ from datetime import datetime
 import os
 
 # Google OAuth Configuration
-GOOGLE_CLIENT_ID = "479281130427-ntgbl24stb04n08t7d1i7dcoibgvbsuc.apps.googleusercontent.com"
-GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "YOUR_CLIENT_SECRET")  # Set via environment
+def _get_secret(key: str) -> str:
+    import os
+    import streamlit as st
+    try:
+        return st.secrets[key]
+    except (KeyError, FileNotFoundError):
+        return os.environ.get(key, "")
+
+
+GOOGLE_CLIENT_ID = _get_secret("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = _get_secret("GOOGLE_CLIENT_SECRET")  # Set via environment
 REDIRECT_URI = "http://localhost:8501"  # Will be updated in production
 
 # Google OAuth URLs

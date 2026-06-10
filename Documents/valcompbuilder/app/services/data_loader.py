@@ -38,7 +38,6 @@ def load_agents():
         Agent("Astra", "Controller", "💨", ["smokes", "recon"], ["Global utility", "Info"], ["Ascent", "Haven"]),
         Agent("Brimstone", "Controller", "💨", ["smokes", "plant-util"], ["Stim beacon", "Molly"], ["Split", "Icebox"]),
         Agent("Harbor", "Controller", "💨", ["defensive", "anchor"], ["Water walls", "Site control"], ["Bind", "Lotus"]),
-        Agent("Vyse", "Controller", "💨", ["defensive", "zone-control"], ["Arc rose", "Walls"], ["Ascent", "Pearl"]),
         Agent("Viper", "Controller", "💨", ["smokes", "defensive"], ["Poison", "Wall"], ["Bind", "Icebox"]),
         
         # Initiators
@@ -56,6 +55,7 @@ def load_agents():
         Agent("Cypher", "Sentinel", "🛡️", ["defensive", "flank-control"], ["Cages", "Tripwire"], ["Split", "Icebox"]),
         Agent("Chamber", "Sentinel", "🛡️", ["anchor", "defensive"], ["OP wall", "Teleport"], ["Ascent", "Haven"]),
         Agent("Clove", "Sentinel", "🛡️", ["defensive", "anchor"], ["Healing", "Utility"], ["Pearl", "Split"]),
+	Agent("Vyse", "Sentinel", "🛡️", ["defensive", "zone-control"], ["Arc rose", "Walls"], ["Ascent", "Pearl"]),
         Agent("Deadlock", "Sentinel", "🛡️", ["defensive", "anchor"], ["Locks", "Utility"], ["Ascent", "Icebox"]),
     ]
     return agents

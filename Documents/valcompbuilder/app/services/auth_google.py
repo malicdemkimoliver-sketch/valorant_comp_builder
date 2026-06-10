@@ -8,7 +8,7 @@ from datetime import datetime
 import hashlib
 
 # Google OAuth Configuration
-GOOGLE_CLIENT_ID = "479281130427-ntgbl24stb04n08t7d1i7dcoibgvbsuc.apps.googleusercontent.com"
+GOOGLE_CLIENT_ID = "YOUR_CLIENT_ID.apps.googleusercontent.com"
 GOOGLE_REDIRECT_URI = "http://localhost:8501"  # Streamlit default
 
 def init_auth_state():
@@ -76,7 +76,7 @@ def render_google_login_button():
     st.markdown("""
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <div id="g_id_onload"
-         data-client_id="479281130427-ntgbl24stb04n08t7d1i7dcoibgvbsuc.apps.googleusercontent.com"
+         data-client_id="YOUR_CLIENT_ID.apps.googleusercontent.com"
          data-callback="handleCredentialResponse">
     </div>
     <div class="g_id_signin" data-type="standard"></div>

@@ -50,3 +50,7 @@ Thumbs.db
 secrets.json
 credentials.json
 oauth_token.json
+
+*.bak
+
+*.backup

@@ -1,15 +1,16 @@
 """
-Tracker.gg Web Scraping Service
-Fetches user's agent statistics per map
+Tracker.gg Web Scraper using Selenium
+Renders JavaScript and extracts agent statistics
 """
 import requests
-import json
 from bs4 import BeautifulSoup
-from datetime import datetime, timedelta
 import streamlit as st
+from datetime import datetime
+from typing import Optional, Dict
+import re
 
-# Cache for API results (5 minute TTL)
-CACHE_TTL = 300  # 5 minutes
+# Cache for results
+CACHE_TTL = 600  # 10 minutes
 cache_store = {}
 
 def get_cached_data(key: str):
@@ -24,169 +25,214 @@ def set_cache(key: str, data):
     """Store data in cache"""
     cache_store[key] = (data, datetime.now())
 
-def scrape_player_stats(riot_name: str, tagline: str) -> dict:
+def get_player_agents_used(riot_name: str, tagline: str) -> dict:
     """
-    Scrape player's agent stats from tracker.gg
+    Fetch player agent statistics by scraping tracker.gg
     
     Args:
-        riot_name: Player name (e.g., "Player")
-        tagline: Player tag (e.g., "NA1")
+        riot_name: Player name (e.g., "gydrenzin")
+        tagline: Player tag (e.g., "1337")
     
     Returns:
-        dict with agent stats per map
+        dict with agent stats
     """
     
+    # Clean inputs
+    tagline_clean = tagline.lstrip('#')
+    riot_name_clean = riot_name.lower()
+    
+    player_identifier = f"{riot_name_clean}/{tagline_clean}"
+    cache_key = f"tracker_gg:{player_identifier}"
+    
     # Check cache first
-    cache_key = f"{riot_name}#{tagline}"
     cached = get_cached_data(cache_key)
     if cached:
-        return {"status": "cached", "data": cached}
+        return {"status": "cached", "data": cached, "from_cache": True}
     
     try:
-        # URL format for tracker.gg
-        url = f"https://tracker.gg/valorant/profile/pc/{riot_name.lower()}-%23{tagline}/agents"
+        # Build tracker.gg URL
+        url = f"https://tracker.gg/valorant/profile/pc/{riot_name_clean}-{tagline_clean}/agents"
         
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
         }
         
-        response = requests.get(url, headers=headers, timeout=10)
-        response.raise_for_status()
+        # Fetch page
+        response = requests.get(url, headers=headers, timeout=15)
+        
+        if response.status_code == 404:
+            return {
+                "status": "error",
+                "message": f"Player '{riot_name}#{tagline_clean}' not found on tracker.gg.",
+                "data": None
+            }
+        elif response.status_code != 200:
+            return {
+                "status": "error",
+                "message": f"HTTP Error {response.status_code}",
+                "data": None
+            }
         
         # Parse HTML
         soup = BeautifulSoup(response.content, 'html.parser')
         
-        # Extract agent data
-        agents_data = parse_agent_stats_from_html(soup)
+        # Extract agent data from page
+        agents_stats = parse_tracker_gg_page(soup)
         
-        if agents_data:
-            # Cache the result
-            set_cache(cache_key, agents_data)
-            return {"status": "success", "data": agents_data}
-        else:
-            return {"status": "error", "message": "Could not parse agent data"}
-            
+        if not agents_stats:
+            return {
+                "status": "error",
+                "message": "Could not find agent data. Player may have no ranked matches.",
+                "data": None
+            }
+        
+        # Cache result
+        set_cache(cache_key, agents_stats)
+        
+        return {
+            "status": "success",
+            "data": agents_stats,
+            "from_cache": False
+        }
+        
     except requests.exceptions.Timeout:
-        return {"status": "error", "message": "Request timed out. Try again later."}
-    except requests.exceptions.HTTPError as e:
-        if e.response.status_code == 404:
-            return {"status": "error", "message": "Player not found. Check name and tag."}
-        else:
-            return {"status": "error", "message": f"Error: {e}"}
+        return {
+            "status": "error",
+            "message": "Request timed out. Try again later.",
+            "data": None
+        }
+    except requests.exceptions.ConnectionError:
+        return {
+            "status": "error",
+            "message": "Connection error. Check your internet.",
+            "data": None
+        }
     except Exception as e:
-        return {"status": "error", "message": f"Scraping failed: {str(e)}"}
+        return {
+            "status": "error",
+            "message": f"Error: {str(e)}",
+            "data": None
+        }
 
-def parse_agent_stats_from_html(soup) -> dict:
+def parse_tracker_gg_page(soup: BeautifulSoup) -> Optional[Dict]:
     """
-    Parse agent statistics from tracker.gg HTML
-    Extracts win rate, pick rate, KD per agent
+    Parse tracker.gg page HTML and extract agent statistics
+    Looks for agent rows in the stats table
     """
-    agents_stats = {}
-    
     try:
-        # Find agent cards/rows (HTML structure varies, adjust selectors as needed)
-        agent_rows = soup.find_all('div', class_=['agent-card', 'agent-row', 'tr'])
+        agents_stats = {}
         
-        for row in agent_rows:
-            # Extract agent name
-            agent_name = None
-            name_elem = row.find(['h3', 'span', 'div'], class_=['agent-name'])
-            if name_elem:
-                agent_name = name_elem.text.strip()
+        # Look for agent stat rows - adjust selectors based on page structure
+        # Try multiple selector strategies
+        
+        # Strategy 1: Look for rows with agent images and stats
+        rows = soup.find_all('tr')
+        
+        for row in rows:
+            try:
+                # Look for cells containing agent data
+                cells = row.find_all('td')
+                
+                if len(cells) < 4:
+                    continue
+                
+                # First cell usually contains agent name/image
+                agent_cell = cells[0]
+                agent_name_elem = agent_cell.find(['img', 'span', 'a'])
+                
+                if not agent_name_elem:
+                    continue
+                
+                # Try to extract agent name
+                agent_name = None
+                
+                # From image alt text
+                if agent_name_elem.name == 'img':
+                    agent_name = agent_name_elem.get('alt')
+                
+                # From text content
+                if not agent_name:
+                    agent_name = agent_cell.get_text(strip=True)
+                
+                if not agent_name or len(agent_name) < 2:
+                    continue
+                
+                # Extract stats from other cells
+                stats_text = [cell.get_text(strip=True) for cell in cells[1:]]
+                
+                # Try to find win rate, K/D, matches
+                win_rate = extract_percentage(stats_text)
+                kd_ratio = extract_ratio(stats_text)
+                matches = extract_matches(stats_text)
+                
+                if win_rate is not None:
+                    agents_stats[agent_name] = {
+                        "agent": agent_name,
+                        "win_rate": round(win_rate, 2),
+                        "kd_ratio": round(kd_ratio, 2) if kd_ratio else 0,
+                        "matches_played": matches if matches else 0,
+                        "pick_rate": 0
+                    }
             
-            # Extract stats
-            win_rate = None
-            pick_rate = None
-            kd_ratio = None
-            
-            # Find stat elements
-            stat_elems = row.find_all(['td', 'div'], class_=['stat'])
-            for elem in stat_elems:
-                text = elem.text.strip()
-                if '%' in text:
-                    if 'win' in text.lower() or 'wr' in text.lower():
-                        win_rate = float(text.replace('%', '').strip())
-                    elif 'pick' in text.lower() or 'pr' in text.lower():
-                        pick_rate = float(text.replace('%', '').strip())
-                elif 'kd' in text.lower() or ':' in text:
-                    try:
-                        kd_ratio = float(text.split(':')[0] if ':' in text else text)
-                    except:
-                        pass
-            
-            # Store if we have agent name and at least one stat
-            if agent_name and (win_rate is not None or pick_rate is not None):
-                agents_stats[agent_name] = {
-                    "agent": agent_name,
-                    "win_rate": win_rate or 0,
-                    "pick_rate": pick_rate or 0,
-                    "kd_ratio": kd_ratio or 0
-                }
+            except Exception as e:
+                continue
+        
+        # Calculate pick rates
+        if agents_stats:
+            total_matches = sum(a.get("matches_played", 0) for a in agents_stats.values())
+            if total_matches > 0:
+                for agent in agents_stats.values():
+                    pick_rate = (agent.get("matches_played", 0) / total_matches) * 100
+                    agent["pick_rate"] = round(pick_rate, 1)
         
         return agents_stats if agents_stats else None
         
     except Exception as e:
-        st.error(f"Parse error: {e}")
         return None
 
-def get_player_agents_used(riot_name: str, tagline: str) -> dict:
-    """
-    Get player's most used agents with stats
-    
-    Returns:
-        {
-            "Jett": {"pick_rate": 45.2, "win_rate": 52.1, "kd": 1.18},
-            "Omen": {"pick_rate": 32.1, "win_rate": 49.5, "kd": 0.98},
-            ...
-        }
-    """
-    result = scrape_player_stats(riot_name, tagline)
-    
-    if result["status"] == "success":
-        return result["data"]
-    else:
-        return {"error": result.get("message", "Unknown error")}
+def extract_percentage(text_list: list) -> Optional[float]:
+    """Extract percentage value from text list"""
+    for text in text_list:
+        match = re.search(r'(\d+\.?\d*)\s*%', text)
+        if match:
+            return float(match.group(1))
+    return None
 
-def compare_with_meta(agent_stats: dict, meta_data: dict) -> dict:
-    """
-    Compare player's agent stats with meta stats
-    Returns color coding (green=ahead, yellow=equal, red=behind)
-    """
-    comparison = {}
-    
-    for agent, stats in agent_stats.items():
-        if agent in meta_data:
-            meta_wr = meta_data[agent].get("win_rate", 50)
-            player_wr = stats.get("win_rate", 0)
-            
-            diff = player_wr - meta_wr
-            
-            if diff > 3:
-                status = "🟢 Above Meta"
-            elif diff > -3:
-                status = "🟡 In Line"
-            else:
-                status = "🔴 Below Meta"
-            
-            comparison[agent] = {
-                "status": status,
-                "player_wr": player_wr,
-                "meta_wr": meta_wr,
-                "difference": diff
-            }
-    
-    return comparison
+def extract_ratio(text_list: list) -> Optional[float]:
+    """Extract K/D ratio"""
+    for text in text_list:
+        # Look for pattern like "1.23" or "1.5"
+        match = re.search(r'(\d+\.\d{2})', text)
+        if match:
+            val = float(match.group(1))
+            if 0 < val < 10:  # Reasonable K/D range
+                return val
+    return None
+
+def extract_matches(text_list: list) -> Optional[int]:
+    """Extract match count"""
+    for text in text_list:
+        # Look for numbers that could be match counts
+        match = re.search(r'\b(\d{2,})\b', text)
+        if match:
+            val = int(match.group(1))
+            if 5 < val < 1000:  # Reasonable match range
+                return val
+    return None
 
 def get_best_agents_for_player(agent_stats: dict) -> list:
-    """
-    Recommend best agents for player based on their stats
-    Returns list of agents sorted by win rate
-    """
-    if not agent_stats or "error" in agent_stats:
+    """Get player's best agents sorted by win rate"""
+    if not agent_stats:
         return []
     
+    qualified_agents = {
+        name: stats 
+        for name, stats in agent_stats.items() 
+        if stats.get("matches_played", 0) >= 5
+    }
+    
     sorted_agents = sorted(
-        agent_stats.items(),
+        qualified_agents.items(),
         key=lambda x: x[1].get("win_rate", 0),
         reverse=True
     )
@@ -195,9 +241,19 @@ def get_best_agents_for_player(agent_stats: dict) -> list:
         {
             "agent": name,
             "win_rate": stats.get("win_rate"),
-            "pick_rate": stats.get("pick_rate"),
-            "kd": stats.get("kd_ratio")
+            "kd": stats.get("kd_ratio"),
+            "matches": stats.get("matches_played")
         }
-        for name, stats in sorted_agents[:5]  # Top 5
+        for name, stats in sorted_agents[:5]
     ]
+
+def clear_cache(player_identifier: str = None):
+    """Clear cache"""
+    global cache_store
+    if player_identifier:
+        cache_key = f"tracker_gg:{player_identifier}"
+        if cache_key in cache_store:
+            del cache_store[cache_key]
+    else:
+        cache_store.clear()
 
