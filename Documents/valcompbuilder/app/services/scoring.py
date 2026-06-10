@@ -1,25 +1,20 @@
 """
-Scoring engine V3 — gentler, simpler, fairer.
+Scoring engine V4 — the classic six-category breakdown, powered by V3 internals.
 
-WHY V3:
-  V2 relied on many fine-grained tags; if an agent's data was thin, combos
-  silently never fired and good comps scored under 50. V3 fixes that:
+Categories (totals 100):
+  Role Balance     (25): Controller 8, Initiator 6, Sentinel 6, 1-2 Duelists 5
+  Map Fit          (20): 4/agent — good_maps match OR S/A meta tier on the map
+  Agent Synergy    (20): complementary combos (entry+flash, smokes+entry,
+                         recon+entry, anchor+flank, post-plant+zone)
+  Utility Coverage (15): smokes 5, recon 4, flash 3, post-plant 3
+  Attack Strength  (10): entry 5, aggressive 3, flash support 2
+  Defense Strength (10): anchor 4, defensive/zone 3, flank control 3
 
-  1. ROLE FALLBACKS — if an agent's utility/tag data is missing or thin,
-     sensible defaults are inferred from its role (every Controller smokes,
-     every Initiator brings info, every Sentinel anchors, every Duelist
-     entries). Scores no longer collapse on incomplete data.
-  2. FEWER COMPONENTS — 5 instead of 7.
-  3. SOFTER PENALTIES — and total penalties are capped at -20.
-
-Breakdown (totals 100):
-  Role Balance     (30): the single most important thing in a comp
-  Map Fit          (20): good_maps match OR S/A meta tier on the map
-  Utility Coverage (20): smokes, recon, flash, post-plant
-  Synergy          (15): complementary combos (entry+flash, smokes+entry...)
-  Meta Alignment   (15): per-agent meta tier on the selected map
-
-Expected ranges: meta comps 85-95 · solid comps 70-84 · flawed 50-69 · bad <50
+Kept from V3 (the fixes that stopped good comps scoring <50):
+  - Role fallbacks: thin agent data inherits sensible defaults from its role
+  - Vision-block smokes: Viper/Harbor walls and orbs count as smokes
+  - Meta-aware map fit: S/A tier on a map counts as fitting it
+  - Soft penalties capped at -20
 """
 from typing import List, Dict, Tuple
 
@@ -41,7 +36,6 @@ ANCHOR_TAGS = {"anchor", "site-control"}
 FLANK_TAGS = {"flank-control"}
 ZONE_TAGS = {"defensive", "zone-control"}
 
-# Role fallbacks — what every agent of a role inherently provides
 ROLE_DEFAULT_UTIL = {
     "Controller": {"smokes"},
     "Initiator": {"recon", "flash"},
@@ -57,7 +51,6 @@ ROLE_DEFAULT_TAGS = {
 
 
 def _attr(agent, name, default=None):
-    """Duck-typed attribute access — works with any Agent class or dict."""
     if isinstance(agent, dict):
         return agent.get(name, default if default is not None else [])
     return getattr(agent, name, default if default is not None else [])
@@ -74,22 +67,23 @@ def _fits_map(agent, map_name: str) -> bool:
 
 
 def _effective_util(agent) -> set:
-    """Agent utility, padded with role defaults so thin data can't zero out."""
-    role = _attr(agent, "role", "")
-    return set(_attr(agent, "utility", [])) | ROLE_DEFAULT_UTIL.get(role, set())
+    """Real utility data; role defaults ONLY when the agent has none at all."""
+    real = set(_attr(agent, "utility", []))
+    if real:
+        return real
+    return ROLE_DEFAULT_UTIL.get(_attr(agent, "role", ""), set())
 
 
 def _effective_tags(agent) -> set:
-    role = _attr(agent, "role", "")
-    return set(_attr(agent, "synergy_tags", [])) | ROLE_DEFAULT_TAGS.get(role, set())
+    """Real synergy tags; role defaults ONLY when the agent has none at all."""
+    real = set(_attr(agent, "synergy_tags", []))
+    if real:
+        return real
+    return ROLE_DEFAULT_TAGS.get(_attr(agent, "role", ""), set())
 
 
 def score_comp(agents: List, map_name: str, rules: Dict) -> Tuple[int, Dict]:
-    """
-    Score a team composition. Returns (total_score, breakdown).
-    Clamped to [0, 100]. `rules` is accepted for compatibility but V3
-    uses its own balanced defaults.
-    """
+    """Score a comp. Returns (total 0-100, breakdown with classic categories)."""
     breakdown: Dict[str, int] = {}
     total = 0
 
@@ -107,21 +101,22 @@ def score_comp(agents: List, map_name: str, rules: Dict) -> Tuple[int, Dict]:
     has_flash = bool(util_set & FLASH_UTIL)
     has_post_plant = bool(util_set & POST_PLANT_UTIL)
     has_entry = "entry" in tag_set
+    has_aggressive = "aggressive" in tag_set
     has_anchor = bool(tag_set & ANCHOR_TAGS)
     has_flank = bool(tag_set & FLANK_TAGS)
     has_zone = bool(tag_set & ZONE_TAGS) or bool(util_set & {"wall", "walls", "barrier"})
 
-    # ── 1. Role Balance (30) ─────────────────────────────────────────────────
+    # ── 1. Role Balance (25) ─────────────────────────────────────────────────
     role_score = 0
-    if "Controller" in roles: role_score += 10
-    if "Initiator" in roles:  role_score += 8
-    if "Sentinel" in roles:   role_score += 7
+    if "Controller" in roles: role_score += 8
+    if "Initiator" in roles:  role_score += 6
+    if "Sentinel" in roles:   role_score += 6
     if 1 <= duelist_count <= 2: role_score += 5
     elif duelist_count == 0:    role_score += 2
-    breakdown["Role Balance"] = min(role_score, 30)
+    breakdown["Role Balance"] = min(role_score, 25)
     total += breakdown["Role Balance"]
 
-    # ── 2. Map Fit (20) — good_maps OR proven meta tier ─────────────────────
+    # ── 2. Map Fit (20) ──────────────────────────────────────────────────────
     map_score = 0
     for a in agents:
         if _fits_map(a, map_name):
@@ -132,37 +127,40 @@ def score_comp(agents: List, map_name: str, rules: Dict) -> Tuple[int, Dict]:
     breakdown["Map Fit"] = min(map_score, 20)
     total += breakdown["Map Fit"]
 
-    # ── 3. Utility Coverage (20) ─────────────────────────────────────────────
+    # ── 3. Agent Synergy (20) — complementary combos ─────────────────────────
+    syn = 0
+    if has_entry and has_flash:      syn += 5   # someone opens, someone enables
+    if has_smokes and has_entry:     syn += 5   # executes are possible
+    if has_recon and has_entry:      syn += 4   # info-led aggression
+    if has_anchor and has_flank:     syn += 3   # full defensive structure
+    if has_post_plant and has_zone:  syn += 3   # round-closing power
+    breakdown["Agent Synergy"] = min(syn, 20)
+    total += breakdown["Agent Synergy"]
+
+    # ── 4. Utility Coverage (15) ─────────────────────────────────────────────
     util_score = 0
-    if has_smokes:     util_score += 7
-    if has_recon:      util_score += 5
-    if has_flash:      util_score += 4
-    if has_post_plant: util_score += 4
-    breakdown["Utility Coverage"] = min(util_score, 20)
+    if has_smokes:     util_score += 5
+    if has_recon:      util_score += 4
+    if has_flash:      util_score += 3
+    if has_post_plant: util_score += 3
+    breakdown["Utility Coverage"] = min(util_score, 15)
     total += breakdown["Utility Coverage"]
 
-    # ── 4. Synergy (15) — complementary combos ──────────────────────────────
-    syn = 0
-    if has_entry and has_flash:      syn += 4   # someone opens, someone enables
-    if has_smokes and has_entry:     syn += 4   # executes are possible
-    if has_recon and has_entry:      syn += 3   # info-led aggression
-    if has_anchor and has_flank:     syn += 2   # full defensive structure
-    if has_post_plant and has_zone:  syn += 2   # round-closing power
-    breakdown["Synergy"] = min(syn, 15)
-    total += breakdown["Synergy"]
+    # ── 5. Attack Strength (10) ──────────────────────────────────────────────
+    atk = 0
+    if has_entry:      atk += 5
+    if has_aggressive: atk += 3
+    if has_flash:      atk += 2
+    breakdown["Attack Strength"] = min(atk, 10)
+    total += breakdown["Attack Strength"]
 
-    # ── 5. Meta Alignment (15) ───────────────────────────────────────────────
-    meta_score = 0.0
-    if _META_AVAILABLE and is_meta_loaded():
-        for a in agents:
-            tier = get_agent_tier(_attr(a, "name", ""), map_name)
-            if tier == "S":   meta_score += 3.0
-            elif tier == "A": meta_score += 2.0
-            elif tier == "B": meta_score += 1.0
-    else:
-        meta_score = 7.5  # neutral half-credit when no meta data
-    breakdown["Meta Alignment"] = min(round(meta_score), 15)
-    total += breakdown["Meta Alignment"]
+    # ── 6. Defense Strength (10) ─────────────────────────────────────────────
+    dfn = 0
+    if has_anchor: dfn += 4
+    if has_zone:   dfn += 3
+    if has_flank:  dfn += 3
+    breakdown["Defense Strength"] = min(dfn, 10)
+    total += breakdown["Defense Strength"]
 
     # ── Penalties (soft, capped at -20) ──────────────────────────────────────
     pen = 0
@@ -183,11 +181,11 @@ def score_comp(agents: List, map_name: str, rules: Dict) -> Tuple[int, Dict]:
 
 
 def get_score_grade(score: int) -> Tuple[str, str]:
-    if score >= 85:   return "S", "#00ff9f"
-    elif score >= 70: return "A", "#7fff00"
-    elif score >= 55: return "B", "#ffd700"
-    elif score >= 40: return "C", "#ff8c00"
-    else:             return "D", "#ff4444"
+    if score >= 85:   return "S", "#00ff9f"   # mint green
+    elif score >= 70: return "A", "#ffd700"   # gold
+    elif score >= 55: return "B", "#ff9f43"   # amber
+    elif score >= 40: return "C", "#ff6348"   # coral
+    else:             return "D", "#ff4444"   # red
 
 
 def get_score_label(score: int) -> str:

@@ -31,10 +31,11 @@ _profile_cache: Optional[Dict[str, dict]] = None
 # Pick rate is NORMALIZED to the highest pick rate on each map, which makes
 # tiers scale-invariant: works for pro data (top PR ~95%) and ranked data
 # from vstats.gg (top PR ~15%) without retuning.
-WR_WEIGHT = 0.60          # win rate, on its natural 0-100 scale
-PR_NORM_WEIGHT = 30.0     # normalized pick rate contributes up to 30 pts
-GOOD_MAP_BONUS = 6.0
-TIER_THRESHOLDS = [("S", 63), ("A", 50), ("B", 42)]  # below last = "C"
+WR_WEIGHT = 1.0           # win rate is the primary signal (ranked data)
+PR_NORM_WEIGHT = 8.0      # small popularity nudge (PR is compressed in ranked)
+GOOD_MAP_BONUS = 3.0
+# Thresholds on the WR-centric composite (WR + up to 8 PR-norm + 3 good-map):
+TIER_THRESHOLDS = [("S", 56), ("A", 52), ("B", 49)]  # below last = "C"
 
 
 # ── Loading ───────────────────────────────────────────────────────────────────
