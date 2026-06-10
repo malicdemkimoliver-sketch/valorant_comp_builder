@@ -1,6 +1,5 @@
-streamlit==1.28.1
-requests==2.31.0
-beautifulsoup4==4.12.2
-google-auth==2.25.2
-google-auth-oauthlib==1.2.0
-
+﻿streamlit>=1.40
+requests>=2.32
+beautifulsoup4>=4.12
+google-auth>=2.30
+google-auth-oauthlib>=1.2
