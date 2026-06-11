@@ -1,26 +1,60 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+ * Valorant Comp Builder design tokens.
+ * Palette carried over from the Streamlit app's landing/builder pages:
+ * navy base #0f1923, brand red #ff4655, accent orange #ff8c42,
+ * role colors used across every page.
+ */
+@theme {
+  /* Brand */
+  --color-vred: #ff4655;
+  --color-vorange: #ff8c42;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Surfaces */
+  --color-navy-950: #0a111a;
+  --color-navy-900: #0f1923;
+  --color-navy-800: #1a2332;
+  --color-navy-700: #233040;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  /* Roles */
+  --color-duelist: #ff4d6d;
+  --color-controller: #7c3aed;
+  --color-initiator: #0ea5e9;
+  --color-sentinel: #10b981;
+
+  /* Type */
+  --font-display: var(--font-rajdhani), "Segoe UI", sans-serif;
+  --font-sans: var(--font-geist-sans), Arial, sans-serif;
+
+  /* Motion */
+  --animate-float: float 3.5s ease-in-out infinite;
+  --animate-bounce-down: bounce-down 1.6s ease-in-out infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-9px);
+    }
+  }
+
+  @keyframes bounce-down {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.6;
+    }
+    50% {
+      transform: translateY(7px);
+      opacity: 1;
+    }
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-navy-900);
+  color: var(--color-slate-200);
 }
