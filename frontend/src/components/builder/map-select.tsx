@@ -30,14 +30,16 @@ export function MapSelect({
             key={map.name}
             type="button"
             onClick={() => onSelect(map.name)}
-            className={`relative h-24 w-40 shrink-0 overflow-hidden rounded-lg border text-left transition-all ${
+            className={`relative h-24 w-40 shrink-0 overflow-hidden rounded-lg border-2 text-left transition-all ${
               isSelected
-                ? "border-vred shadow-[0_0_16px_rgba(255,70,85,0.35)]"
+                ? "border-vred shadow-[0_0_18px_rgba(255,70,85,0.45)]"
                 : "border-navy-700 opacity-80 hover:opacity-100"
             }`}
             style={{
               backgroundImage: map.splash
-                ? `linear-gradient(rgba(15,25,35,0.55), rgba(15,25,35,0.8)), url('${map.splash}')`
+                ? isSelected
+                  ? `linear-gradient(rgba(255,70,85,0.22), rgba(15,25,35,0.82)), url('${map.splash}')`
+                  : `linear-gradient(rgba(15,25,35,0.55), rgba(15,25,35,0.8)), url('${map.splash}')`
                 : undefined,
               backgroundSize: "cover",
               backgroundPosition: "center",
@@ -48,14 +50,25 @@ export function MapSelect({
                 <span className={`text-[10px] font-bold tracking-wider ${tag.className}`}>
                   {tag.label}
                 </span>
-                {map.in_active_pool && (
-                  <span className="rounded bg-vred px-1 py-px text-[9px] font-bold tracking-wider text-white">
-                    ACTIVE
-                  </span>
-                )}
+                <span className="flex items-center gap-1">
+                  {map.in_active_pool && (
+                    <span className="rounded bg-vred px-1 py-px text-[9px] font-bold tracking-wider text-white">
+                      ACTIVE
+                    </span>
+                  )}
+                  {isSelected && (
+                    <span className="flex h-4 w-4 items-center justify-center rounded-full bg-vred text-[10px] font-bold text-white shadow-[0_0_8px_rgba(255,70,85,0.6)]">
+                      ✓
+                    </span>
+                  )}
+                </span>
               </div>
               <div>
-                <div className="font-display text-base font-bold tracking-wider">
+                <div
+                  className={`font-display text-base font-bold tracking-wider ${
+                    isSelected ? "text-vred" : ""
+                  }`}
+                >
                   {map.name.toUpperCase()}
                 </div>
                 {map.sites && (

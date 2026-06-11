@@ -25,27 +25,36 @@ export function AgentCard({
       type="button"
       onClick={() => onToggle(agent.name)}
       disabled={disabled}
-      className={`flex flex-col items-center gap-1.5 rounded-lg border p-2.5 transition-all ${
+      className={`relative flex flex-col items-center gap-1.5 rounded-lg border p-2.5 transition-all ${
         selected
-          ? "border-vred bg-vred/10 shadow-[0_0_12px_rgba(255,70,85,0.25)]"
+          ? "border-vred bg-vred/15 ring-2 ring-vred/60 shadow-[0_0_16px_rgba(255,70,85,0.4)]"
           : disabled
             ? "border-navy-700 bg-navy-800/30 opacity-40"
             : "border-navy-700 bg-navy-800/50 hover:border-vred/60"
       }`}
     >
+      {selected && (
+        <span className="absolute -top-2 -right-2 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-vred text-[11px] font-bold text-white shadow-[0_0_8px_rgba(255,70,85,0.6)]">
+          ✓
+        </span>
+      )}
       {agent.display_icon ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={agent.display_icon}
           alt={agent.name}
-          className={`h-12 w-12 rounded-full border ${
-            selected ? "border-vred" : "border-navy-700"
+          className={`h-12 w-12 rounded-full border-2 ${
+            selected ? "border-vred brightness-110" : "border-navy-700"
           }`}
         />
       ) : (
         <span className="text-2xl leading-12">{agent.icon}</span>
       )}
-      <span className="text-xs font-semibold">{agent.name}</span>
+      <span
+        className={`text-xs font-semibold ${selected ? "text-vred" : ""}`}
+      >
+        {agent.name}
+      </span>
       <span className="flex items-center gap-1">
         {meta &&
           (meta.meta_pick ? (
