@@ -15,7 +15,7 @@ const rajdhani = Rajdhani({
 });
 
 export const metadata: Metadata = {
-  title: "Valorant Comp Builder",
+  title: "Gyd's VLR Comp Builder",
   description:
     "Build winning Valorant team compositions with live meta insights — agent scoring, map tier lists, and pick suggestions.",
 };
@@ -43,7 +43,7 @@ export default function RootLayout({
               href="/"
               className="font-display text-lg font-bold tracking-[0.2em]"
             >
-              <span className="text-vred">VALORANT</span>{" "}
+              <span className="text-vred">GYD&apos;S VLR</span>{" "}
               <span className="text-vorange">COMP BUILDER</span>
             </Link>
             <div className="flex items-center gap-6">
@@ -61,7 +61,7 @@ export default function RootLayout({
         </header>
         <div className="flex-1">{children}</div>
         <footer className="border-t border-navy-700 bg-navy-950 px-6 py-6 text-center text-xs text-slate-500">
-          Valorant Comp Builder — community project. Game data from{" "}
+          Gyd&apos;s VLR Comp Builder — community project. Game data from{" "}
           <a
             href="https://valorant-api.com"
             className="text-slate-400 underline hover:text-vred"

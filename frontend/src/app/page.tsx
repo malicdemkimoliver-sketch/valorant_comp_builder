@@ -44,7 +44,7 @@ export default function Home() {
       >
         <h1 className="animate-float font-display text-5xl font-bold leading-[1.08] tracking-[0.08em] sm:text-7xl">
           <span className="text-vred drop-shadow-[0_4px_24px_rgba(255,70,85,0.4)]">
-            VALORANT
+            GYD&apos;S VLR
           </span>
           <br />
           <span className="text-vorange drop-shadow-[0_4px_24px_rgba(255,140,66,0.35)]">

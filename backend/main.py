@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from backend.routers import agents, comp, maps, meta, presets
 
-app = FastAPI(title="Valorant Comp Builder API")
+app = FastAPI(title="Gyd's VLR Comp Builder API")
 
 app.add_middleware(
     CORSMiddleware,

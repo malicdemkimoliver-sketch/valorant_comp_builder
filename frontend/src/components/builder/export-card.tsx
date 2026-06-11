@@ -72,7 +72,7 @@ export function ExportImage({
           <div className="flex items-start justify-between">
             <div>
               <div className="font-display text-3xl font-bold tracking-[0.15em]">
-                <span className="text-vred">VALORANT</span>{" "}
+                <span className="text-vred">GYD&apos;S VLR</span>{" "}
                 <span className="text-vorange">COMP BUILDER</span>
               </div>
               <div className="mt-1 font-display text-xl tracking-[0.3em] text-slate-300">
@@ -142,7 +142,7 @@ export function ExportImage({
               ))}
             </div>
             <div className="text-xs text-slate-500">
-              valorant-comp-builder · data: valorant-api.com + vstats
+              gyd&apos;s vlr comp builder · data: valorant-api.com + vstats
             </div>
           </div>
         </div>
