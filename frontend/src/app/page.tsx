@@ -42,13 +42,18 @@ export default function Home() {
           backgroundPosition: "center",
         }}
       >
-        <h1 className="animate-float font-display text-5xl font-bold leading-[1.08] tracking-[0.08em] sm:text-7xl">
-          <span className="text-vred drop-shadow-[0_4px_24px_rgba(255,70,85,0.4)]">
-            GYD&apos;S VLR
+        <h1 className="animate-float">
+          <span className="sr-only">Gyd&apos;s VLR Comp Builder</span>
+          <span className="relative mx-auto block h-[80px] w-[340px] overflow-hidden sm:h-[110px] sm:w-[500px]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/gydrenzin-logo.png"
+              alt="GYDRENZIN"
+              className="absolute top-1/2 left-0 w-full -translate-y-1/2 mix-blend-screen drop-shadow-[0_4px_24px_rgba(255,255,255,0.25)]"
+            />
           </span>
-          <br />
-          <span className="text-vorange drop-shadow-[0_4px_24px_rgba(255,140,66,0.35)]">
-            COMP BUILDER
+          <span className="mt-2 block font-display text-3xl font-bold tracking-[0.25em] text-vorange drop-shadow-[0_4px_24px_rgba(255,140,66,0.35)] sm:text-5xl">
+            VLR COMP BUILDER
           </span>
         </h1>
         <p className="mt-6 max-w-xl text-base leading-relaxed text-slate-300 sm:text-lg">

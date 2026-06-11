@@ -71,9 +71,16 @@ export function ExportImage({
         >
           <div className="flex items-start justify-between">
             <div>
-              <div className="font-display text-3xl font-bold tracking-[0.15em]">
-                <span className="text-vred">GYD&apos;S VLR</span>{" "}
-                <span className="text-vorange">COMP BUILDER</span>
+              <div className="relative h-12 w-56 overflow-hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/gydrenzin-logo.png"
+                  alt="GYDRENZIN"
+                  className="absolute top-1/2 left-0 w-full -translate-y-1/2 mix-blend-screen"
+                />
+              </div>
+              <div className="font-display text-sm font-bold tracking-[0.2em] text-vorange">
+                VLR COMP BUILDER
               </div>
               <div className="mt-1 font-display text-xl tracking-[0.3em] text-slate-300">
                 {map.name.toUpperCase()}

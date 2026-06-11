@@ -41,10 +41,20 @@ export default function RootLayout({
           <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
             <Link
               href="/"
-              className="font-display text-lg font-bold tracking-[0.2em]"
+              aria-label="Gyd's VLR Comp Builder — home"
+              className="flex items-center gap-3"
             >
-              <span className="text-vred">GYD&apos;S VLR</span>{" "}
-              <span className="text-vorange">COMP BUILDER</span>
+              <span className="relative block h-9 w-40 overflow-hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/gydrenzin-logo.png"
+                  alt="GYDRENZIN"
+                  className="absolute top-1/2 left-0 w-full -translate-y-1/2 mix-blend-screen"
+                />
+              </span>
+              <span className="font-display text-sm font-bold tracking-[0.2em] text-vorange">
+                VLR COMP BUILDER
+              </span>
             </Link>
             <div className="flex items-center gap-6">
               {NAV_LINKS.map((link) => (
