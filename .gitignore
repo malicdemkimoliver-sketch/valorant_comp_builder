@@ -1,11 +1,56 @@
-__pycache__/
-*.pyc
-*.pyo
-.DS_Store
-*.egg-info/
+# Environment Variables
 .env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*$py.class
+*.egg-info/
+env/
 venv/
 .venv/
+build/
+dist/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Fetched API cache
+data/cache/
+
+# Database / user data
 data/db/*.db
 data/db/.write_test
-.streamlit/secrets.toml
+data/db.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Credentials (NEVER commit secrets!)
+secrets.json
+credentials.json
+oauth_token.json
+
+# Scratch / debug
+*.bak
+*.backup
+*.tmp
+vstats_debug_*.txt
+ascent.txt
+breeze.txt
+fracture.txt
+haven.txt
+lotus.txt
+pearl.txt
+split.txt

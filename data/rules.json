@@ -1,29 +1,33 @@
 {
   "scoring_weights": {
     "role_balance": {
-      "weight": 25,
+      "weight": 20,
       "description": "Score based on role distribution in the comp",
       "breakdown": {
-        "has_controller": 8,
-        "has_initiator": 6,
-        "has_sentinel": 6,
-        "duelist_count_optimal": 5
+        "has_controller": 7,
+        "has_initiator": 5,
+        "has_sentinel": 5,
+        "duelist_count_optimal": 3
       }
     },
     "map_fit": {
-      "weight": 20,
-      "description": "How well agents match the selected map",
+      "weight": 15,
+      "description": "Agents match the map via good_maps OR S/A meta tier",
       "breakdown": {
-        "per_agent_on_good_map": 4,
-        "max_possible": 20
+        "per_agent_on_good_map": 3,
+        "max_possible": 15
       }
     },
     "synergy": {
       "weight": 20,
-      "description": "Synergy tag overlap between agents",
+      "description": "Complementary combos (entry+flash, smokes+entry, recon+entry, anchor+flank, post-plant+zone) plus shared-tag cohesion",
       "breakdown": {
-        "per_shared_tag": 2,
-        "max_possible": 20
+        "entry_plus_flash": 4,
+        "smokes_plus_entry": 3,
+        "recon_plus_entry": 3,
+        "anchor_plus_flank": 3,
+        "postplant_plus_zone": 3,
+        "shared_tag_cap": 4
       }
     },
     "utility_coverage": {
@@ -47,11 +51,20 @@
     },
     "defense_strength": {
       "weight": 10,
-      "description": "Defensive capability of the comp",
+      "description": "Defensive capability (anchor/site-control, defensive/zone-control, flank-control)",
       "breakdown": {
         "anchor_tag": 4,
         "defensive_tag": 3,
         "flank_control_tag": 3
+      }
+    },
+    "meta_alignment": {
+      "weight": 10,
+      "description": "Bonus for agents with S/A/B meta tier on the selected map (from VCT data)",
+      "breakdown": {
+        "s_tier_per_agent": 2,
+        "a_tier_per_agent": 1.5,
+        "b_tier_per_agent": 0.75
       }
     }
   },
@@ -72,7 +85,7 @@
     "no_sentinel": "No Sentinel selected — your team has no site anchor or flank coverage.",
     "too_many_duelists": "Too many Duelists (3+) — your team lacks utility and support.",
     "no_entry_duelist": "No entry-focused Duelist — who is opening site?",
-    "no_smokes": "No smokes in your comp — you cannot safely execute sites.",
+    "no_smokes": "No Controller smokes in your comp — you cannot safely execute sites.",
     "no_recon": "No recon utility — your team is playing blind.",
     "no_post_plant": "No post-plant utility — you may struggle to secure rounds.",
     "no_flank_control": "No flank control — your team is vulnerable to rotations.",

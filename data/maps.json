@@ -6,9 +6,19 @@
     "attack_sided": false,
     "defense_sided": false,
     "balanced": true,
-    "key_features": ["open-mid", "mechanical-doors", "long-range", "operator-friendly"],
-    "preferred_roles": ["Controller", "Initiator", "Sentinel"],
-    "notes": "Mid control is crucial. Door control adds strategic depth. Good for almost any comp."
+    "key_features": [
+      "open-mid",
+      "mechanical-doors",
+      "long-range",
+      "operator-friendly"
+    ],
+    "preferred_roles": [
+      "Controller",
+      "Initiator",
+      "Sentinel"
+    ],
+    "notes": "Mid control is crucial. Door control adds strategic depth. Good for almost any comp.",
+    "active_2026": true
   },
   {
     "name": "Breeze",
@@ -17,9 +27,18 @@
     "attack_sided": false,
     "defense_sided": false,
     "balanced": false,
-    "key_features": ["long-range", "open-spaces", "operator-friendly", "large-site"],
-    "preferred_roles": ["Controller", "Sentinel"],
-    "notes": "Viper and Sova shine here. Long-range operators dominate. Tight hallways on mid."
+    "key_features": [
+      "long-range",
+      "open-spaces",
+      "operator-friendly",
+      "large-site"
+    ],
+    "preferred_roles": [
+      "Controller",
+      "Sentinel"
+    ],
+    "notes": "Viper and Sova shine here. Long-range operators dominate. Tight hallways on mid.",
+    "active_2026": true
   },
   {
     "name": "Fracture",
@@ -28,9 +47,18 @@
     "attack_sided": true,
     "defense_sided": false,
     "balanced": false,
-    "key_features": ["attacker-sided", "flank-potential", "close-range", "unique-layout"],
-    "preferred_roles": ["Duelist", "Initiator"],
-    "notes": "Strong attack-sided map. Mobile agents and flank-aware sentinels are key. Door splits the map."
+    "key_features": [
+      "attacker-sided",
+      "flank-potential",
+      "close-range",
+      "unique-layout"
+    ],
+    "preferred_roles": [
+      "Duelist",
+      "Initiator"
+    ],
+    "notes": "Strong attack-sided map. Mobile agents and flank-aware sentinels are key. Door splits the map.",
+    "active_2026": true
   },
   {
     "name": "Haven",
@@ -39,9 +67,19 @@
     "attack_sided": true,
     "defense_sided": false,
     "balanced": false,
-    "key_features": ["3-sites", "attacker-sided", "rotation-heavy", "multi-angle"],
-    "preferred_roles": ["Controller", "Initiator", "Sentinel"],
-    "notes": "3 bomb sites means defenders must rotate fast. Controllers and info-gathering agents shine."
+    "key_features": [
+      "3-sites",
+      "attacker-sided",
+      "rotation-heavy",
+      "multi-angle"
+    ],
+    "preferred_roles": [
+      "Controller",
+      "Initiator",
+      "Sentinel"
+    ],
+    "notes": "3 bomb sites means defenders must rotate fast. Controllers and info-gathering agents shine.",
+    "active_2026": true
   },
   {
     "name": "Lotus",
@@ -50,9 +88,19 @@
     "attack_sided": false,
     "defense_sided": false,
     "balanced": true,
-    "key_features": ["3-sites", "rotating-doors", "breakable-walls", "complex-rotations"],
-    "preferred_roles": ["Controller", "Initiator", "Sentinel"],
-    "notes": "Doors add unique rotation dynamics. Strong for utility-heavy comps with good communication."
+    "key_features": [
+      "3-sites",
+      "rotating-doors",
+      "breakable-walls",
+      "complex-rotations"
+    ],
+    "preferred_roles": [
+      "Controller",
+      "Initiator",
+      "Sentinel"
+    ],
+    "notes": "Doors add unique rotation dynamics. Strong for utility-heavy comps with good communication.",
+    "active_2026": true
   },
   {
     "name": "Pearl",
@@ -61,9 +109,19 @@
     "attack_sided": false,
     "defense_sided": true,
     "balanced": false,
-    "key_features": ["defense-sided", "long-mid", "no-mechanics", "close-corridors"],
-    "preferred_roles": ["Controller", "Sentinel", "Initiator"],
-    "notes": "Mid control is dominant. Strong sentinel presence helps defend the long mid."
+    "key_features": [
+      "defense-sided",
+      "long-mid",
+      "no-mechanics",
+      "close-corridors"
+    ],
+    "preferred_roles": [
+      "Controller",
+      "Sentinel",
+      "Initiator"
+    ],
+    "notes": "Mid control is dominant. Strong sentinel presence helps defend the long mid.",
+    "active_2026": true
   },
   {
     "name": "Split",
@@ -72,9 +130,19 @@
     "attack_sided": false,
     "defense_sided": true,
     "balanced": false,
-    "key_features": ["defense-sided", "vertical-play", "close-range", "ropes"],
-    "preferred_roles": ["Sentinel", "Initiator", "Controller"],
-    "notes": "Very defense-sided. Sentinels and flank watchers dominate. Vertical play with Raze/Jett."
+    "key_features": [
+      "defense-sided",
+      "vertical-play",
+      "close-range",
+      "ropes"
+    ],
+    "preferred_roles": [
+      "Sentinel",
+      "Initiator",
+      "Controller"
+    ],
+    "notes": "Very defense-sided. Sentinels and flank watchers dominate. Vertical play with Raze/Jett.",
+    "active_2026": true
   },
   {
     "name": "Bind",
@@ -83,9 +151,19 @@
     "attack_sided": true,
     "defense_sided": false,
     "balanced": false,
-    "key_features": ["teleporters", "no-mid", "attacker-sided", "flank-potential"],
-    "preferred_roles": ["Duelist", "Initiator", "Controller"],
-    "notes": "Teleporters create flank opportunities. No mid lane means direct A or B executes. Raze is dominant here."
+    "key_features": [
+      "teleporters",
+      "no-mid",
+      "attacker-sided",
+      "flank-potential"
+    ],
+    "preferred_roles": [
+      "Duelist",
+      "Initiator",
+      "Controller"
+    ],
+    "notes": "Teleporters create flank opportunities. No mid lane means direct A or B executes. Raze is dominant here.",
+    "active_2026": false
   },
   {
     "name": "Icebox",
@@ -94,9 +172,19 @@
     "attack_sided": false,
     "defense_sided": true,
     "balanced": false,
-    "key_features": ["defense-sided", "vertical-play", "ziplines", "tight-corridors"],
-    "preferred_roles": ["Sentinel", "Controller", "Initiator"],
-    "notes": "Ziplines enable vertical repositioning. Strong for KJ and Viper. Sage wall is powerful here."
+    "key_features": [
+      "defense-sided",
+      "vertical-play",
+      "ziplines",
+      "tight-corridors"
+    ],
+    "preferred_roles": [
+      "Sentinel",
+      "Controller",
+      "Initiator"
+    ],
+    "notes": "Ziplines enable vertical repositioning. Strong for KJ and Viper. Sage wall is powerful here.",
+    "active_2026": false
   },
   {
     "name": "Sunset",
@@ -105,9 +193,19 @@
     "attack_sided": false,
     "defense_sided": false,
     "balanced": true,
-    "key_features": ["mid-focused", "mechanical-door", "balanced", "close-corridors"],
-    "preferred_roles": ["Controller", "Initiator", "Sentinel"],
-    "notes": "Mid control via B-link is crucial. Door mechanic on B site adds strategic depth like Ascent."
+    "key_features": [
+      "mid-focused",
+      "mechanical-door",
+      "balanced",
+      "close-corridors"
+    ],
+    "preferred_roles": [
+      "Controller",
+      "Initiator",
+      "Sentinel"
+    ],
+    "notes": "Mid control via B-link is crucial. Door mechanic on B site adds strategic depth like Ascent.",
+    "active_2026": false
   },
   {
     "name": "Abyss",
@@ -116,8 +214,18 @@
     "attack_sided": false,
     "defense_sided": false,
     "balanced": true,
-    "key_features": ["open-edges", "vertical-play", "no-spike-drop", "long-range"],
-    "preferred_roles": ["Duelist", "Controller", "Initiator"],
-    "notes": "Edge pressure is unique — agents with mobility or ledge denial are powerful. Operator and long-range dominate."
+    "key_features": [
+      "open-edges",
+      "vertical-play",
+      "no-spike-drop",
+      "long-range"
+    ],
+    "preferred_roles": [
+      "Duelist",
+      "Controller",
+      "Initiator"
+    ],
+    "notes": "Edge pressure is unique — agents with mobility or ledge denial are powerful. Operator and long-range dominate.",
+    "active_2026": false
   }
 ]
