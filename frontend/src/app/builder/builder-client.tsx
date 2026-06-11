@@ -9,7 +9,9 @@ import type {
   RatedMetaEntry,
   ScoreResult,
   Suggestion,
+  TeamCompsResponse,
 } from "@/lib/types";
+import { Background } from "@/components/ui/background";
 import { AgentGrid } from "@/components/builder/agent-grid";
 import { CompSlots } from "@/components/builder/comp-slots";
 import { ExportImage } from "@/components/builder/export-card";
@@ -18,17 +20,20 @@ import { Presets } from "@/components/builder/presets";
 import { ScorePanel } from "@/components/builder/score-panel";
 import { Share } from "@/components/builder/share";
 import { Suggestions } from "@/components/builder/suggestions";
+import { TeamComps } from "@/components/builder/team-comps";
 
 export function BuilderClient({
   agents,
   maps,
   presets,
+  teamComps,
   initialMap,
   initialAgents,
 }: {
   agents: Agent[];
   maps: MapInfo[];
   presets: PresetsResponse;
+  teamComps: TeamCompsResponse;
   initialMap: string;
   initialAgents: string[];
 }) {
@@ -145,6 +150,7 @@ export function BuilderClient({
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-8">
+      <Background />
       <div className="mb-5 flex items-baseline justify-between">
         <h1 className="font-display text-3xl font-bold tracking-[0.1em]">
           <span className="text-vred">COMP</span>{" "}
@@ -164,6 +170,16 @@ export function BuilderClient({
             agents={selectedAgents}
             onRemove={toggleAgent}
             onReset={() => setSelected([])}
+          />
+          <TeamComps
+            comps={teamComps.comps[mapName] ?? []}
+            mapName={mapName}
+            eventWindow={teamComps.event_window}
+            patch={teamComps.patch}
+            agentsByName={agentsByName}
+            onLoad={(agentNames) =>
+              setSelected(agentNames.filter((n) => agentsByName[n]).slice(0, 5))
+            }
           />
           <Presets
             presets={presets.presets[mapName] ?? []}

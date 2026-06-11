@@ -1,5 +1,10 @@
 import { decodeComp } from "@/lib/comp-code";
-import type { Agent, MapInfo, PresetsResponse } from "@/lib/types";
+import type {
+  Agent,
+  MapInfo,
+  PresetsResponse,
+  TeamCompsResponse,
+} from "@/lib/types";
 import { BuilderClient } from "./builder-client";
 
 const API_URL = process.env.API_URL ?? "http://localhost:8000";
@@ -18,10 +23,11 @@ export default async function BuilderPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const params = await searchParams;
-  const [agents, maps, presets] = await Promise.all([
+  const [agents, maps, presets, teamComps] = await Promise.all([
     getJson<Agent[]>("/api/agents"),
     getJson<MapInfo[]>("/api/maps"),
     getJson<PresetsResponse>("/api/presets"),
+    getJson<TeamCompsResponse>("/api/team-comps"),
   ]);
 
   const agentNames = new Set(agents.map((a) => a.name));
@@ -56,6 +62,7 @@ export default async function BuilderPage({
       agents={agents}
       maps={maps}
       presets={presets}
+      teamComps={teamComps}
       initialMap={initialMap}
       initialAgents={initialAgents}
     />

@@ -103,6 +103,32 @@ export type PresetsResponse = {
   presets: Record<string, Preset[]>;
 };
 
+export type VodLink = {
+  label: string;
+  url: string;
+};
+
+export type TeamComp = {
+  team: string;
+  region?: string;
+  agents: string[];
+  wins: number;
+  losses: number;
+  winrate: number;
+  event: string;
+  note: string;
+  vods: VodLink[];
+  twitch?: string;
+  source_url?: string;
+};
+
+export type TeamCompsResponse = {
+  generated: string | null;
+  event_window: string | null;
+  patch: string | null;
+  comps: Record<string, TeamComp[]>;
+};
+
 export const ROLE_ORDER = ["Duelist", "Initiator", "Controller", "Sentinel"];
 
 export const ROLE_COLORS: Record<string, string> = {

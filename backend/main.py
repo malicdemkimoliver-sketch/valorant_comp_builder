@@ -9,7 +9,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend import meta_refresh
-from backend.routers import agents, comp, maps, meta, presets
+from backend.routers import agents, comp, maps, meta, presets, team_comps
 
 
 @asynccontextmanager
@@ -33,6 +33,7 @@ app.include_router(maps.router)
 app.include_router(meta.router)
 app.include_router(comp.router)
 app.include_router(presets.router)
+app.include_router(team_comps.router)
 
 
 @app.get("/api/health")

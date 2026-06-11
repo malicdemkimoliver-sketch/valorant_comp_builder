@@ -1,0 +1,293 @@
+{
+  "generated": "2026-06-12",
+  "event_window": "VALORANT Masters London 2026 — Swiss Stage (Jun 6–10)",
+  "patch": "12.10",
+  "note": "Best-winrate 5-agent comps per map, compiled from all 27 Swiss-stage maps on vlr.gg. W-L counts identical agent sets per team across the event. VOD timestamps jump to the start of that map.",
+  "comps": {
+    "Ascent": [
+      {
+        "team": "LEVIATÁN",
+        "region": "Americas",
+        "agents": ["Chamber", "Neon", "Omen", "Phoenix", "Sova"],
+        "wins": 1,
+        "losses": 0,
+        "winrate": 100,
+        "event": "Masters London 2026",
+        "note": "Chamber holds mid on an Operator while Neon/Phoenix hit fast off Sova recon — beat NRG 13-7. Only Ascent played in the Swiss stage, so treat the record as thin.",
+        "vods": [
+          { "label": "LEV vs NRG — Map 1 Ascent (YouTube)", "url": "https://youtu.be/q-wuLNx0d5k?t=133" }
+        ],
+        "twitch": "https://www.twitch.tv/valorant",
+        "source_url": "https://www.vlr.gg/684615/nrg-vs-leviat-n-valorant-masters-london-2026-r2-1-0"
+      }
+    ],
+    "Breeze": [
+      {
+        "team": "Team Vitality",
+        "region": "EMEA",
+        "agents": ["Harbor", "Jett", "KAY/O", "Sova", "Viper"],
+        "wins": 1,
+        "losses": 0,
+        "winrate": 100,
+        "event": "Masters London 2026",
+        "note": "Double-controller wall comp: Viper+Harbor split the huge sites while KAY/O suppress clears space for Jett — crushed Dragon Ranger 13-3.",
+        "vods": [
+          { "label": "VIT vs DRG — Map 2 Breeze (YouTube)", "url": "https://youtu.be/Xo1sU79Fvas?t=2799" }
+        ],
+        "twitch": "https://www.twitch.tv/valorant",
+        "source_url": "https://www.vlr.gg/684610/team-vitality-vs-dragon-ranger-gaming-valorant-masters-london-2026-r1"
+      },
+      {
+        "team": "Xi Lai Gaming",
+        "region": "China",
+        "agents": ["Jett", "Omen", "Phoenix", "Sova", "Viper"],
+        "wins": 1,
+        "losses": 0,
+        "winrate": 100,
+        "event": "Masters London 2026",
+        "note": "Classic Breeze double-smoke (Viper+Omen) with Phoenix flashes opening A-main for Jett; closed out Global Esports 13-10 in the decider.",
+        "vods": [
+          { "label": "GE vs XLG — Map 3 Breeze (YouTube)", "url": "https://youtu.be/nBjwduhpzmM?t=6045" }
+        ],
+        "twitch": "https://www.twitch.tv/valorant",
+        "source_url": "https://www.vlr.gg/684618/global-esports-vs-xi-lai-gaming-valorant-masters-london-2026-r3-1-1"
+      },
+      {
+        "team": "Global Esports",
+        "region": "Pacific",
+        "agents": ["Chamber", "Neon", "Sage", "Sova", "Viper"],
+        "wins": 1,
+        "losses": 1,
+        "winrate": 50,
+        "event": "Masters London 2026",
+        "note": "Sage wall + Chamber holds anchor the sites; Neon takes mid control off Sova darts. The only comp run twice on Breeze in the Swiss stage (beat FULL SENSE, lost to Xi Lai).",
+        "vods": [
+          { "label": "GE vs FS — Map 2 Breeze (YouTube)", "url": "https://youtu.be/rXGUHJMRiK8?t=3090" }
+        ],
+        "twitch": "https://www.twitch.tv/valorant",
+        "source_url": "https://www.vlr.gg/684617/global-esports-vs-full-sense-valorant-masters-london-2026-r2-0-1"
+      }
+    ],
+    "Fracture": [
+      {
+        "team": "Team Vitality",
+        "region": "EMEA",
+        "agents": ["Brimstone", "Cypher", "Fade", "Phoenix", "Raze"],
+        "wins": 1,
+        "losses": 0,
+        "winrate": 100,
+        "event": "Masters London 2026",
+        "note": "Brim/Raze Fracture standard with Fade haunts covering both pinches; took the decider 13-10 off FUT's own comp mirror.",
+        "vods": [],
+        "twitch": "https://www.twitch.tv/valorant",
+        "source_url": "https://www.vlr.gg/684614/team-vitality-vs-fut-esports-valorant-masters-london-2026-r2-1-0"
+      },
+      {
+        "team": "LEVIATÁN",
+        "region": "Americas",
+        "agents": ["Breach", "Brimstone", "Neon", "Tejo", "Waylay"],
+        "wins": 1,
+        "losses": 0,
+        "winrate": 100,
+        "event": "Masters London 2026",
+        "note": "Util-heavy double initiator: Breach+Tejo stun/missile both sides of the site before Waylay and Neon dive in — edged Global Esports 13-11.",
+        "vods": [
+          { "label": "LEV vs GE — Map 2 Fracture (YouTube)", "url": "https://youtu.be/opiaS8K3ZIM?t=2518" }
+        ],
+        "twitch": "https://www.twitch.tv/valorant",
+        "source_url": "https://www.vlr.gg/684612/leviat-n-vs-global-esports-valorant-masters-london-2026-r1"
+      },
+      {
+        "team": "FUT Esports",
+        "region": "EMEA",
+        "agents": ["Brimstone", "Cypher", "Fade", "Jett", "Raze"],
+        "wins": 2,
+        "losses": 1,
+        "winrate": 67,
+        "event": "Masters London 2026",
+        "note": "Most-played Fracture comp of the Swiss stage (3 maps): Jett+Raze double duelist hits behind Brim smokes, Cypher locking flanks. Beat FULL SENSE 13-3 and NRG 13-11.",
+        "vods": [
+          { "label": "FS vs FUT — Map 1 Fracture (YouTube)", "url": "https://youtu.be/TVOx7WKAu_A?t=273" },
+          { "label": "FUT vs NRG — Map 3 Fracture (YouTube)", "url": "https://youtu.be/ep-ofVqg81s?t=7142" }
+        ],
+        "twitch": "https://www.twitch.tv/valorant",
+        "source_url": "https://www.vlr.gg/684619/fut-esports-vs-nrg-valorant-masters-london-2026-r3-1-1"
+      }
+    ],
+    "Haven": [
+      {
+        "team": "FUT Esports",
+        "region": "EMEA",
+        "agents": ["Cypher", "Jett", "Omen", "Sova", "Waylay"],
+        "wins": 3,
+        "losses": 0,
+        "winrate": 100,
+        "event": "Masters London 2026",
+        "note": "Best Haven comp of the Swiss stage — 3-0. Waylay+Jett double-dash entries off Sova recon and Omen smokes; beat NRG 14-12, Vitality 13-2 and FULL SENSE 13-2.",
+        "vods": [
+          { "label": "FUT vs NRG — Map 2 Haven (YouTube)", "url": "https://youtu.be/ep-ofVqg81s?t=3626" },
+          { "label": "FS vs FUT — Map 2 Haven (YouTube)", "url": "https://youtu.be/TVOx7WKAu_A?t=2324" }
+        ],
+        "twitch": "https://www.twitch.tv/valorant",
+        "source_url": "https://www.vlr.gg/684619/fut-esports-vs-nrg-valorant-masters-london-2026-r3-1-1"
+      },
+      {
+        "team": "Dragon Ranger Gaming",
+        "region": "China",
+        "agents": ["Cypher", "Neon", "Omen", "Skye", "Waylay"],
+        "wins": 1,
+        "losses": 0,
+        "winrate": 100,
+        "event": "Masters London 2026",
+        "note": "Skye flash + Waylay/Neon speed comp that ran over Xi Lai 13-4 — the most one-sided Haven map of the stage.",
+        "vods": [
+          { "label": "DRG vs XLG — Map 1 Haven (YouTube)", "url": "https://youtu.be/9h3r8pTV618?t=116" }
+        ],
+        "twitch": "https://www.twitch.tv/valorant",
+        "source_url": "https://www.vlr.gg/684616/dragon-ranger-gaming-vs-xi-lai-gaming-valorant-masters-london-2026-r2-0-1"
+      },
+      {
+        "team": "Global Esports",
+        "region": "Pacific",
+        "agents": ["Cypher", "Deadlock", "Neon", "Omen", "Sova"],
+        "wins": 1,
+        "losses": 0,
+        "winrate": 100,
+        "event": "Masters London 2026",
+        "note": "Double sentinel (Cypher+Deadlock) garage/back-site lockdown with Neon as the lone duelist — held off Xi Lai 13-10.",
+        "vods": [
+          { "label": "GE vs XLG — Map 1 Haven (YouTube)", "url": "https://youtu.be/nBjwduhpzmM?t=119" }
+        ],
+        "twitch": "https://www.twitch.tv/valorant",
+        "source_url": "https://www.vlr.gg/684618/global-esports-vs-xi-lai-gaming-valorant-masters-london-2026-r3-1-1"
+      }
+    ],
+    "Lotus": [
+      {
+        "team": "NRG",
+        "region": "Americas",
+        "agents": ["Fade", "Omen", "Raze", "Viper", "Vyse"],
+        "wins": 3,
+        "losses": 0,
+        "winrate": 100,
+        "event": "Masters London 2026",
+        "note": "The Lotus comp of the event — 3-0 for NRG (13-11 FUT, 13-5 LEV, 11-7 XLG), and Vitality won with the same five. Viper/Omen double smoke, Fade info, Raze clears the tight doors.",
+        "vods": [
+          { "label": "FUT vs NRG — Map 1 Lotus (YouTube)", "url": "https://youtu.be/ep-ofVqg81s?t=238" },
+          { "label": "NRG vs LEV — Map 2 Lotus (YouTube)", "url": "https://youtu.be/q-wuLNx0d5k?t=2976" },
+          { "label": "XLG vs NRG — Map 2 Lotus (YouTube)", "url": "https://youtu.be/jD3cGBf_Vw4?t=2871" }
+        ],
+        "twitch": "https://www.twitch.tv/valorant",
+        "source_url": "https://www.vlr.gg/684619/fut-esports-vs-nrg-valorant-masters-london-2026-r3-1-1"
+      },
+      {
+        "team": "Xi Lai Gaming",
+        "region": "China",
+        "agents": ["Cypher", "Deadlock", "Omen", "Phoenix", "Sova"],
+        "wins": 1,
+        "losses": 0,
+        "winrate": 100,
+        "event": "Masters London 2026",
+        "note": "Sentinel-heavy defensive shell with Phoenix flashes for site hits; took down Global Esports 13-9.",
+        "vods": [
+          { "label": "GE vs XLG — Map 2 Lotus (YouTube)", "url": "https://youtu.be/nBjwduhpzmM?t=2879" }
+        ],
+        "twitch": "https://www.twitch.tv/valorant",
+        "source_url": "https://www.vlr.gg/684618/global-esports-vs-xi-lai-gaming-valorant-masters-london-2026-r3-1-1"
+      }
+    ],
+    "Pearl": [
+      {
+        "team": "LEVIATÁN",
+        "region": "Americas",
+        "agents": ["Astra", "Chamber", "Neon", "Phoenix", "Sova"],
+        "wins": 2,
+        "losses": 0,
+        "winrate": 100,
+        "event": "Masters London 2026",
+        "note": "2-0 on Pearl: Astra global smokes + Chamber mid picks, Neon/Phoenix hitting B long. Beat Global Esports 13-9 and NRG 13-8.",
+        "vods": [
+          { "label": "LEV vs GE — Map 1 Pearl (YouTube)", "url": "https://youtu.be/opiaS8K3ZIM?t=230" },
+          { "label": "NRG vs LEV — Map 3 Pearl (YouTube)", "url": "https://youtu.be/q-wuLNx0d5k?t=5269" }
+        ],
+        "twitch": "https://www.twitch.tv/valorant",
+        "source_url": "https://www.vlr.gg/684612/leviat-n-vs-global-esports-valorant-masters-london-2026-r1"
+      },
+      {
+        "team": "Team Vitality",
+        "region": "EMEA",
+        "agents": ["Astra", "Chamber", "KAY/O", "Neon", "Sova"],
+        "wins": 1,
+        "losses": 0,
+        "winrate": 100,
+        "event": "Masters London 2026",
+        "note": "KAY/O suppress instead of a second flash — shuts down retake util on B before Neon commits. Edged FUT 13-11.",
+        "vods": [],
+        "twitch": "https://www.twitch.tv/valorant",
+        "source_url": "https://www.vlr.gg/684614/team-vitality-vs-fut-esports-valorant-masters-london-2026-r2-1-0"
+      },
+      {
+        "team": "Global Esports",
+        "region": "Pacific",
+        "agents": ["Astra", "Fade", "Killjoy", "Neon", "Phoenix"],
+        "wins": 1,
+        "losses": 1,
+        "winrate": 50,
+        "event": "Masters London 2026",
+        "note": "Killjoy site anchor with Fade haunts for mid control; beat FULL SENSE 13-8, then dropped the rematch pick to LEVIATÁN.",
+        "vods": [
+          { "label": "GE vs FS — Map 3 Pearl (YouTube)", "url": "https://youtu.be/rXGUHJMRiK8?t=5524" }
+        ],
+        "twitch": "https://www.twitch.tv/valorant",
+        "source_url": "https://www.vlr.gg/684617/global-esports-vs-full-sense-valorant-masters-london-2026-r2-0-1"
+      }
+    ],
+    "Split": [
+      {
+        "team": "LEVIATÁN",
+        "region": "Americas",
+        "agents": ["Fade", "Neon", "Omen", "Phoenix", "Viper"],
+        "wins": 1,
+        "losses": 0,
+        "winrate": 100,
+        "event": "Masters London 2026",
+        "note": "Viper+Omen choke control with Fade prowlers clearing heaven; Neon ropes B fast. Closed the series vs Global Esports 13-9.",
+        "vods": [
+          { "label": "LEV vs GE — Map 3 Split (YouTube)", "url": "https://youtu.be/opiaS8K3ZIM?t=5666" }
+        ],
+        "twitch": "https://www.twitch.tv/valorant",
+        "source_url": "https://www.vlr.gg/684612/leviat-n-vs-global-esports-valorant-masters-london-2026-r1"
+      },
+      {
+        "team": "Xi Lai Gaming",
+        "region": "China",
+        "agents": ["Omen", "Raze", "Skye", "Viper", "Waylay"],
+        "wins": 1,
+        "losses": 0,
+        "winrate": 100,
+        "event": "Masters London 2026",
+        "note": "Raze+Waylay double duelist mid hits behind Viper wall; won the decider vs Dragon Ranger 13-11.",
+        "vods": [
+          { "label": "DRG vs XLG — Map 3 Split (YouTube)", "url": "https://youtu.be/9h3r8pTV618?t=5268" }
+        ],
+        "twitch": "https://www.twitch.tv/valorant",
+        "source_url": "https://www.vlr.gg/684616/dragon-ranger-gaming-vs-xi-lai-gaming-valorant-masters-london-2026-r2-0-1"
+      },
+      {
+        "team": "FULL SENSE",
+        "region": "Pacific",
+        "agents": ["Fade", "Jett", "Omen", "Sage", "Viper"],
+        "wins": 1,
+        "losses": 0,
+        "winrate": 100,
+        "event": "Masters London 2026",
+        "note": "Sage wall denies B push while Jett takes mid top off Fade info — FULL SENSE's lone map win of the stage, 13-9 over Global Esports.",
+        "vods": [
+          { "label": "GE vs FS — Map 1 Split (YouTube)", "url": "https://youtu.be/rXGUHJMRiK8?t=71" }
+        ],
+        "twitch": "https://www.twitch.tv/valorant",
+        "source_url": "https://www.vlr.gg/684617/global-esports-vs-full-sense-valorant-masters-london-2026-r2-0-1"
+      }
+    ]
+  }
+}
