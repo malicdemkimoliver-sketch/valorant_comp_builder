@@ -57,3 +57,12 @@ oauth_token.json
 
 vstats_debug_*.txt
 *.tmp
+
+vstats_debug_*.txt
+ascent.txt
+breeze.txt
+fracture.txt
+haven.txt
+lotus.txt
+pearl.txt
+split.txt

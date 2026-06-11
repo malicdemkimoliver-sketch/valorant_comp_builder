@@ -49,7 +49,7 @@ This app uses **Google OAuth 2.0** for secure authentication. Users login with t
    - Click "Create"
 
 5. **Copy your credentials:**
-   - **Client ID:** `479281130427-ntgbl24stb04n08t7d1i7dcoibgvbsuc.apps.googleusercontent.com`
+   - **Client ID:** `YOUR_CLIENT_ID.apps.googleusercontent.com`
    - **Client Secret:** (You'll need this for environment variable)
 
 ### Step 3: Set Environment Variables

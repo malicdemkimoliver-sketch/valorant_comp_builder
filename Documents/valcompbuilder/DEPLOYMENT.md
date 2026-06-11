@@ -27,7 +27,7 @@ This guide covers deploying to Railway.app, Heroku, or similar platforms.
 In Railway dashboard, go to **Variables**:
 
 ```
-GOOGLE_CLIENT_SECRET = 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
+GOOGLE_CLIENT_SECRET = YOUR_CLIENT_SECRET
 ```
 
 ### Step 3: Configure Streamlit
@@ -82,7 +82,7 @@ heroku create your-app-name
 ### Step 2: Set Config Variables
 
 ```bash
-heroku config:set GOOGLE_CLIENT_SECRET="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"
+heroku config:set GOOGLE_CLIENT_SECRET="YOUR_CLIENT_SECRET"
 ```
 
 ### Step 3: Create Procfile
@@ -128,7 +128,7 @@ cp .streamlit/secrets.toml.example .streamlit/secrets.toml
 
 # Edit and add your Google Client Secret
 # .streamlit/secrets.toml:
-# GOOGLE_CLIENT_SECRET = "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"
+# GOOGLE_CLIENT_SECRET = "YOUR_CLIENT_SECRET"
 ```
 
 ### Run App
