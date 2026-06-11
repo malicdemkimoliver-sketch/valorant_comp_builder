@@ -23,6 +23,7 @@ export function AgentCard({
   return (
     <button
       type="button"
+      data-glow
       onClick={() => onToggle(agent.name)}
       disabled={disabled}
       className={`relative flex flex-col items-center gap-1.5 rounded-lg border p-2.5 transition-all ${

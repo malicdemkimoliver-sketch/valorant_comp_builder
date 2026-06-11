@@ -1,4 +1,5 @@
 import type { MapInfo } from "@/lib/types";
+import { useSpotlight } from "@/lib/use-spotlight";
 
 function mapTag(map: MapInfo): { label: string; className: string } {
   if (map.attack_sided) return { label: "ATTACK", className: "text-duelist" };
@@ -19,9 +20,13 @@ export function MapSelect({
   const sorted = [...maps].sort(
     (a, b) => Number(b.in_active_pool) - Number(a.in_active_pool)
   );
+  const spotlightRef = useSpotlight<HTMLDivElement>();
 
   return (
-    <div className="flex gap-3 overflow-x-auto pb-2">
+    <div
+      ref={spotlightRef}
+      className="spotlight-group flex gap-3 overflow-x-auto pb-2"
+    >
       {sorted.map((map) => {
         const isSelected = map.name === selected;
         const tag = mapTag(map);
@@ -29,6 +34,7 @@ export function MapSelect({
           <button
             key={map.name}
             type="button"
+            data-glow
             onClick={() => onSelect(map.name)}
             className={`relative h-24 w-40 shrink-0 overflow-hidden rounded-lg border-2 text-left transition-all ${
               isSelected

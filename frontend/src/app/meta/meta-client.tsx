@@ -11,6 +11,7 @@ import {
 import type { Agent, MapInfo, MapMeta, MetaEntry } from "@/lib/types";
 import { ROLE_COLORS, ROLE_ORDER } from "@/lib/types";
 import { MapSelect } from "@/components/builder/map-select";
+import { Background } from "@/components/ui/background";
 
 const TIER_STYLE: Record<string, { color: string; label: string; desc: string }> = {
   S: { color: "#ff4655", label: "S TIER", desc: "Pro-meta essential" },
@@ -123,6 +124,7 @@ export function MetaClient({
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-8">
+      <Background />
       <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
         <h1 className="font-display text-3xl font-bold tracking-[0.1em]">
           <span className="text-vred">META</span>{" "}

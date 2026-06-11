@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { NeonButtonLink } from "@/components/ui/neon-button";
 
 const HERO_BG =
   "https://media.valorant-api.com/maps/7eaecc1b-4337-bbf6-6ab9-04b8f06b3319/splash.png";
@@ -91,12 +91,9 @@ export default function Home() {
 
       {/* CTA */}
       <section className="flex justify-center px-6 pb-16">
-        <Link
-          href="/builder"
-          className="rounded-xl bg-vred px-12 py-4 font-display text-lg font-bold tracking-[0.15em] text-white transition-all hover:-translate-y-0.5 hover:bg-vred/90 hover:shadow-[0_10px_30px_rgba(255,70,85,0.35)]"
-        >
+        <NeonButtonLink href="/builder">
           🎮 LET&apos;S BUILD A COMP!
-        </Link>
+        </NeonButtonLink>
       </section>
     </main>
   );

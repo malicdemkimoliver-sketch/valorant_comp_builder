@@ -58,3 +58,28 @@ body {
   background: var(--color-navy-900);
   color: var(--color-slate-200);
 }
+
+/*
+ * Spotlight glow for card groups (agent grid, map strip).
+ * A container with .spotlight-group + the useSpotlight hook feeds
+ * card-local --glow-x/--glow-y vars to each [data-glow] card; the glow
+ * is a vred-tinted radial that follows the pointer while hovering the group.
+ */
+[data-glow]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s;
+  background: radial-gradient(
+    180px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+    rgba(255, 70, 85, 0.16),
+    transparent 70%
+  );
+}
+
+.spotlight-group:hover [data-glow]::after {
+  opacity: 1;
+}

@@ -1,5 +1,6 @@
 import type { Agent, RatedMetaEntry } from "@/lib/types";
 import { ROLE_ORDER } from "@/lib/types";
+import { useSpotlight } from "@/lib/use-spotlight";
 import { AgentCard } from "./agent-card";
 
 const ROLE_HEADER: Record<string, string> = {
@@ -21,9 +22,10 @@ export function AgentGrid({
   onToggle: (name: string) => void;
 }) {
   const full = selected.length >= 5;
+  const spotlightRef = useSpotlight<HTMLDivElement>();
 
   return (
-    <div>
+    <div ref={spotlightRef} className="spotlight-group">
       {ROLE_ORDER.map((role) => (
         <section key={role} className="mb-6">
           <h2
