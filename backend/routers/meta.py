@@ -39,6 +39,8 @@ def map_meta(map_name: str) -> dict:
                     else None
                 ),
                 "on_meta": tier in ("S", "A"),
+                # Builder badge logic: good_maps OR S/A tier, thin-map aware
+                "meta_pick": meta_service.is_meta_pick(name, resolved),
             }
             for name, stats in items
         ]
@@ -55,6 +57,7 @@ def map_meta(map_name: str) -> dict:
                     "pick_rate": None,
                     "composite": None,
                     "on_meta": False,
+                    "meta_pick": meta_service.is_meta_pick(agent["name"], resolved),
                 }
             )
 

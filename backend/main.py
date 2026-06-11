@@ -6,7 +6,7 @@ Run from the repo root so the `app` package is importable:
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.routers import agents, comp, maps, meta
+from backend.routers import agents, comp, maps, meta, presets
 
 app = FastAPI(title="Valorant Comp Builder API")
 
@@ -21,6 +21,7 @@ app.include_router(agents.router)
 app.include_router(maps.router)
 app.include_router(meta.router)
 app.include_router(comp.router)
+app.include_router(presets.router)
 
 
 @app.get("/api/health")

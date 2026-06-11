@@ -1,0 +1,412 @@
+{
+  "generated": "2026-06-11",
+  "series": "vstats.gg Season 26 Act 3 London pool",
+  "presets": {
+    "Ascent": [
+      {
+        "name": "Meta Standard",
+        "agents": [
+          "Clove",
+          "Jett",
+          "Phoenix",
+          "Sage",
+          "Sova"
+        ],
+        "description": "Highest composite-score pick in every role, plus the best remaining agent. Led by Clove (54.3% WR on Ascent).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 90,
+        "grade": "S"
+      },
+      {
+        "name": "Double Initiator",
+        "agents": [
+          "Clove",
+          "Jett",
+          "Sage",
+          "Skye",
+          "Sova"
+        ],
+        "description": "Info-heavy executes — two initiators clear space before the duelist commits. Led by Clove (54.3% WR on Ascent).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 90,
+        "grade": "S"
+      },
+      {
+        "name": "Double Sentinel Fortress",
+        "agents": [
+          "Clove",
+          "Jett",
+          "Killjoy",
+          "Sage",
+          "Sova"
+        ],
+        "description": "Lockdown defense — double sentinel anchors sites and punishes flanks. Led by Clove (54.3% WR on Ascent).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 81,
+        "grade": "A"
+      },
+      {
+        "name": "Slow Default",
+        "agents": [
+          "Brimstone",
+          "Clove",
+          "Jett",
+          "Sage",
+          "Sova"
+        ],
+        "description": "Utility-rich double controller comp for methodical, late-round executes. Led by Clove (54.3% WR on Ascent).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 77,
+        "grade": "A"
+      }
+    ],
+    "Breeze": [
+      {
+        "name": "Meta Standard",
+        "agents": [
+          "Chamber",
+          "Clove",
+          "Jett",
+          "Reyna",
+          "Sova"
+        ],
+        "description": "Highest composite-score pick in every role, plus the best remaining agent. Led by Jett (51.4% WR on Breeze).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 88,
+        "grade": "S"
+      },
+      {
+        "name": "Double Initiator",
+        "agents": [
+          "Chamber",
+          "Clove",
+          "Gekko",
+          "Jett",
+          "Sova"
+        ],
+        "description": "Info-heavy executes — two initiators clear space before the duelist commits. Led by Jett (51.4% WR on Breeze).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 88,
+        "grade": "S"
+      },
+      {
+        "name": "Double Sentinel Fortress",
+        "agents": [
+          "Chamber",
+          "Clove",
+          "Jett",
+          "Sage",
+          "Sova"
+        ],
+        "description": "Lockdown defense — double sentinel anchors sites and punishes flanks. Led by Jett (51.4% WR on Breeze).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 81,
+        "grade": "A"
+      },
+      {
+        "name": "Slow Default",
+        "agents": [
+          "Chamber",
+          "Clove",
+          "Jett",
+          "Sova",
+          "Viper"
+        ],
+        "description": "Utility-rich double controller comp for methodical, late-round executes. Led by Jett (51.4% WR on Breeze).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 81,
+        "grade": "A"
+      }
+    ],
+    "Fracture": [
+      {
+        "name": "Meta Standard",
+        "agents": [
+          "Chamber",
+          "Clove",
+          "Fade",
+          "Jett",
+          "Phoenix"
+        ],
+        "description": "Highest composite-score pick in every role, plus the best remaining agent. Led by Phoenix (51.59% WR on Fracture).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 88,
+        "grade": "S"
+      },
+      {
+        "name": "Double Initiator",
+        "agents": [
+          "Chamber",
+          "Clove",
+          "Fade",
+          "Phoenix",
+          "Skye"
+        ],
+        "description": "Info-heavy executes — two initiators clear space before the duelist commits. Led by Phoenix (51.59% WR on Fracture).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 88,
+        "grade": "S"
+      },
+      {
+        "name": "Double Sentinel Fortress",
+        "agents": [
+          "Chamber",
+          "Clove",
+          "Fade",
+          "Phoenix",
+          "Sage"
+        ],
+        "description": "Lockdown defense — double sentinel anchors sites and punishes flanks. Led by Phoenix (51.59% WR on Fracture).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 88,
+        "grade": "S"
+      },
+      {
+        "name": "Slow Default",
+        "agents": [
+          "Brimstone",
+          "Chamber",
+          "Clove",
+          "Fade",
+          "Phoenix"
+        ],
+        "description": "Utility-rich double controller comp for methodical, late-round executes. Led by Phoenix (51.59% WR on Fracture).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 94,
+        "grade": "S"
+      }
+    ],
+    "Haven": [
+      {
+        "name": "Meta Standard",
+        "agents": [
+          "Clove",
+          "Jett",
+          "Phoenix",
+          "Sage",
+          "Sova"
+        ],
+        "description": "Highest composite-score pick in every role, plus the best remaining agent. Led by Clove (54.56% WR on Haven).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 90,
+        "grade": "S"
+      },
+      {
+        "name": "Double Initiator",
+        "agents": [
+          "Clove",
+          "Gekko",
+          "Jett",
+          "Sage",
+          "Sova"
+        ],
+        "description": "Info-heavy executes — two initiators clear space before the duelist commits. Led by Clove (54.56% WR on Haven).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 90,
+        "grade": "S"
+      },
+      {
+        "name": "Double Sentinel Fortress",
+        "agents": [
+          "Clove",
+          "Jett",
+          "Killjoy",
+          "Sage",
+          "Sova"
+        ],
+        "description": "Lockdown defense — double sentinel anchors sites and punishes flanks. Led by Clove (54.56% WR on Haven).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 81,
+        "grade": "A"
+      },
+      {
+        "name": "Slow Default",
+        "agents": [
+          "Clove",
+          "Jett",
+          "Miks",
+          "Sage",
+          "Sova"
+        ],
+        "description": "Utility-rich double controller comp for methodical, late-round executes. Led by Clove (54.56% WR on Haven).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 77,
+        "grade": "A"
+      }
+    ],
+    "Lotus": [
+      {
+        "name": "Meta Standard",
+        "agents": [
+          "Chamber",
+          "Clove",
+          "Fade",
+          "Jett",
+          "Sage"
+        ],
+        "description": "Highest composite-score pick in every role, plus the best remaining agent. Led by Clove (55.23% WR on Lotus).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 75,
+        "grade": "A"
+      },
+      {
+        "name": "Double Initiator",
+        "agents": [
+          "Chamber",
+          "Clove",
+          "Fade",
+          "Gekko",
+          "Jett"
+        ],
+        "description": "Info-heavy executes — two initiators clear space before the duelist commits. Led by Clove (55.23% WR on Lotus).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 85,
+        "grade": "S"
+      },
+      {
+        "name": "Double Duelist Aggression",
+        "agents": [
+          "Chamber",
+          "Clove",
+          "Fade",
+          "Jett",
+          "Reyna"
+        ],
+        "description": "Two opening threats for fast map control and snowball rounds. Led by Clove (55.23% WR on Lotus).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 85,
+        "grade": "S"
+      },
+      {
+        "name": "Slow Default",
+        "agents": [
+          "Chamber",
+          "Clove",
+          "Fade",
+          "Jett",
+          "Omen"
+        ],
+        "description": "Utility-rich double controller comp for methodical, late-round executes. Led by Clove (55.23% WR on Lotus).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 85,
+        "grade": "S"
+      }
+    ],
+    "Pearl": [
+      {
+        "name": "Meta Standard",
+        "agents": [
+          "Chamber",
+          "Clove",
+          "Fade",
+          "Jett",
+          "Reyna"
+        ],
+        "description": "Highest composite-score pick in every role, plus the best remaining agent. Led by Jett (49.83% WR on Pearl).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 85,
+        "grade": "S"
+      },
+      {
+        "name": "Double Initiator",
+        "agents": [
+          "Chamber",
+          "Clove",
+          "Fade",
+          "Gekko",
+          "Jett"
+        ],
+        "description": "Info-heavy executes — two initiators clear space before the duelist commits. Led by Jett (49.83% WR on Pearl).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 85,
+        "grade": "S"
+      },
+      {
+        "name": "Double Sentinel Fortress",
+        "agents": [
+          "Chamber",
+          "Clove",
+          "Fade",
+          "Jett",
+          "Sage"
+        ],
+        "description": "Lockdown defense — double sentinel anchors sites and punishes flanks. Led by Jett (49.83% WR on Pearl).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 75,
+        "grade": "A"
+      },
+      {
+        "name": "Slow Default",
+        "agents": [
+          "Chamber",
+          "Clove",
+          "Fade",
+          "Jett",
+          "Miks"
+        ],
+        "description": "Utility-rich double controller comp for methodical, late-round executes. Led by Jett (49.83% WR on Pearl).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 75,
+        "grade": "A"
+      }
+    ],
+    "Split": [
+      {
+        "name": "Meta Standard",
+        "agents": [
+          "Clove",
+          "Jett",
+          "Reyna",
+          "Sage",
+          "Skye"
+        ],
+        "description": "Highest composite-score pick in every role, plus the best remaining agent. Led by Sage (54.36% WR on Split).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 84,
+        "grade": "A"
+      },
+      {
+        "name": "Double Initiator",
+        "agents": [
+          "Clove",
+          "Fade",
+          "Jett",
+          "Sage",
+          "Skye"
+        ],
+        "description": "Info-heavy executes — two initiators clear space before the duelist commits. Led by Sage (54.36% WR on Split).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 84,
+        "grade": "A"
+      },
+      {
+        "name": "Double Sentinel Fortress",
+        "agents": [
+          "Clove",
+          "Cypher",
+          "Jett",
+          "Sage",
+          "Skye"
+        ],
+        "description": "Lockdown defense — double sentinel anchors sites and punishes flanks. Led by Sage (54.36% WR on Split).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 94,
+        "grade": "S"
+      },
+      {
+        "name": "Slow Default",
+        "agents": [
+          "Brimstone",
+          "Clove",
+          "Jett",
+          "Sage",
+          "Skye"
+        ],
+        "description": "Utility-rich double controller comp for methodical, late-round executes. Led by Sage (54.36% WR on Split).",
+        "source": "Derived from vstats.gg Season 26 Act 3 London pool · updated 2026-06-11",
+        "score": 90,
+        "grade": "S"
+      }
+    ]
+  }
+}
