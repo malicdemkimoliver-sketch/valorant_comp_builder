@@ -54,7 +54,7 @@ def load_agents():
         Agent("Killjoy", "Sentinel", "🛡️", ["defensive", "anchor"], ["Turret", "Alarm bot"], ["Ascent", "Icebox"]),
         Agent("Cypher", "Sentinel", "🛡️", ["defensive", "flank-control"], ["Cages", "Tripwire"], ["Split", "Icebox"]),
         Agent("Chamber", "Sentinel", "🛡️", ["anchor", "defensive"], ["OP wall", "Teleport"], ["Ascent", "Haven"]),
-        Agent("Clove", "Sentinel", "🛡️", ["defensive", "anchor"], ["Healing", "Utility"], ["Pearl", "Split"]),
+        Agent("Clove", "Controller", "🛡️", ["defensive", "anchor"], ["Healing", "Utility"], ["Pearl", "Split"]),
 	Agent("Vyse", "Sentinel", "🛡️", ["defensive", "zone-control"], ["Arc rose", "Walls"], ["Ascent", "Pearl"]),
         Agent("Deadlock", "Sentinel", "🛡️", ["defensive", "anchor"], ["Locks", "Utility"], ["Ascent", "Icebox"]),
     ]

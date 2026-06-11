@@ -1,155 +1,845 @@
 {
-  "last_updated": "2026-06-10",
-  "series": "MetaBot.GG · 2026 Ranked (All Ranks)",
-  "note": "SEED data. Corrode complete; run tools/update_meta_from_metabot.py to fill all 7 maps.",
+  "last_updated": "2026-06-11",
+  "series": "vstats.gg Season 26 Act 3 London pool",
   "active_maps": [
-    "Abyss",
-    "Bind",
+    "Ascent",
     "Breeze",
-    "Corrode",
+    "Fracture",
     "Haven",
+    "Lotus",
     "Pearl",
     "Split"
   ],
+  "thin_maps": [
+    "Ascent",
+    "Fracture",
+    "Lotus"
+  ],
   "meta_by_map": {
-    "Corrode": {
-      "Skye": {
-        "win_rate": 63.0,
-        "pick_rate": 0.3
-      },
-      "Sage": {
-        "win_rate": 57.8,
-        "pick_rate": 0.8
-      },
-      "Neon": {
-        "win_rate": 55.1,
-        "pick_rate": 6.5
-      },
-      "Vyse": {
-        "win_rate": 54.4,
-        "pick_rate": 3.9
-      },
-      "Veto": {
-        "win_rate": 53.9,
-        "pick_rate": 1.2
-      },
-      "Omen": {
-        "win_rate": 53.6,
-        "pick_rate": 2.5
-      },
-      "Cypher": {
-        "win_rate": 53.4,
-        "pick_rate": 0.8
-      },
-      "Tejo": {
-        "win_rate": 53.4,
-        "pick_rate": 0.4
-      },
+    "Ascent": {
       "Clove": {
-        "win_rate": 53.4,
-        "pick_rate": 17.6
-      },
-      "Sova": {
-        "win_rate": 53.2,
-        "pick_rate": 2.0
-      },
-      "Fade": {
-        "win_rate": 53.0,
-        "pick_rate": 14.3
-      },
-      "Jett": {
-        "win_rate": 52.6,
-        "pick_rate": 7.5
-      },
-      "Raze": {
-        "win_rate": 51.6,
-        "pick_rate": 0.6
-      },
-      "Reyna": {
-        "win_rate": 50.8,
-        "pick_rate": 6.8
-      },
-      "Yoru": {
-        "win_rate": 50.1,
-        "pick_rate": 6.7
-      },
-      "Iso": {
-        "win_rate": 50.0,
-        "pick_rate": 1.0
-      },
-      "Chamber": {
-        "win_rate": 50.0,
-        "pick_rate": 10.3
-      },
-      "Breach": {
-        "win_rate": 50.0,
-        "pick_rate": 0.2
-      },
-      "Deadlock": {
-        "win_rate": 49.5,
-        "pick_rate": 1.3
-      },
-      "Waylay": {
-        "win_rate": 49.4,
-        "pick_rate": 11.3
-      },
-      "Viper": {
-        "win_rate": 48.1,
-        "pick_rate": 1.4
+        "win_rate": 54.3,
+        "pick_rate": 33.1
       },
       "Phoenix": {
-        "win_rate": 46.8,
-        "pick_rate": 1.3
+        "win_rate": 52.42,
+        "pick_rate": 34.05
       },
-      "Harbor": {
-        "win_rate": 46.2,
-        "pick_rate": 0.1
-      },
-      "Brimstone": {
-        "win_rate": 44.9,
-        "pick_rate": 0.2
-      },
-      "KAY/O": {
-        "win_rate": 40.8,
-        "pick_rate": 0.5
-      },
-      "Gekko": {
-        "win_rate": 40.0,
-        "pick_rate": 0.1
-      },
-      "Astra": {
-        "win_rate": 37.4,
-        "pick_rate": 0.4
+      "Sage": {
+        "win_rate": 52.48,
+        "pick_rate": 27.56
       },
       "Killjoy": {
-        "win_rate": 12.5,
-        "pick_rate": 0.0
+        "win_rate": 52.07,
+        "pick_rate": 30.46
+      },
+      "Sova": {
+        "win_rate": 52.72,
+        "pick_rate": 42.61
+      },
+      "Brimstone": {
+        "win_rate": 50.84,
+        "pick_rate": 10.2
+      },
+      "Cypher": {
+        "win_rate": 50.2,
+        "pick_rate": 18.24
+      },
+      "Raze": {
+        "win_rate": 50.18,
+        "pick_rate": 17.16
+      },
+      "Jett": {
+        "win_rate": 50.1,
+        "pick_rate": 56.18
+      },
+      "Deadlock": {
+        "win_rate": 49.77,
+        "pick_rate": 7.12
+      },
+      "Vyse": {
+        "win_rate": 49.61,
+        "pick_rate": 3.82
+      },
+      "Tejo": {
+        "win_rate": 49.51,
+        "pick_rate": 7.4
+      },
+      "Reyna": {
+        "win_rate": 49.04,
+        "pick_rate": 44.86
+      },
+      "Fade": {
+        "win_rate": 49.14,
+        "pick_rate": 9.39
+      },
+      "Skye": {
+        "win_rate": 49.12,
+        "pick_rate": 11.26
+      },
+      "Gekko": {
+        "win_rate": 49.11,
+        "pick_rate": 9.64
+      },
+      "Miks": {
+        "win_rate": 48.8,
+        "pick_rate": 26.17
+      },
+      "Veto": {
+        "win_rate": 48.99,
+        "pick_rate": 2.27
+      },
+      "Breach": {
+        "win_rate": 48.84,
+        "pick_rate": 5.97
+      },
+      "Chamber": {
+        "win_rate": 48.32,
+        "pick_rate": 28.52
+      },
+      "Neon": {
+        "win_rate": 48.25,
+        "pick_rate": 9.89
+      },
+      "Astra": {
+        "win_rate": 48.11,
+        "pick_rate": 2.1
+      },
+      "Waylay": {
+        "win_rate": 47.88,
+        "pick_rate": 7.62
+      },
+      "Omen": {
+        "win_rate": 46.9,
+        "pick_rate": 28.18
+      },
+      "Viper": {
+        "win_rate": 47.55,
+        "pick_rate": 1.62
+      },
+      "Iso": {
+        "win_rate": 46.94,
+        "pick_rate": 8.24
+      },
+      "KAY/O": {
+        "win_rate": 46.36,
+        "pick_rate": 10.56
+      },
+      "Yoru": {
+        "win_rate": 46.02,
+        "pick_rate": 4.38
+      },
+      "Harbor": {
+        "win_rate": 45.73,
+        "pick_rate": 1.42
+      }
+    },
+    "Breeze": {
+      "Clove": {
+        "win_rate": 55.04,
+        "pick_rate": 23.03
+      },
+      "Sage": {
+        "win_rate": 52.39,
+        "pick_rate": 28.6
+      },
+      "Gekko": {
+        "win_rate": 51.17,
+        "pick_rate": 13.71
+      },
+      "Sova": {
+        "win_rate": 51.76,
+        "pick_rate": 40.17
+      },
+      "Killjoy": {
+        "win_rate": 50.78,
+        "pick_rate": 6.18
+      },
+      "Phoenix": {
+        "win_rate": 50.68,
+        "pick_rate": 21.49
+      },
+      "Jett": {
+        "win_rate": 51.4,
+        "pick_rate": 57.2
+      },
+      "Neon": {
+        "win_rate": 50.64,
+        "pick_rate": 16.09
+      },
+      "Reyna": {
+        "win_rate": 50.29,
+        "pick_rate": 48.2
+      },
+      "Viper": {
+        "win_rate": 50.17,
+        "pick_rate": 21.5
+      },
+      "Chamber": {
+        "win_rate": 50.04,
+        "pick_rate": 53.31
+      },
+      "Fade": {
+        "win_rate": 49.65,
+        "pick_rate": 8.26
+      },
+      "Cypher": {
+        "win_rate": 49.4,
+        "pick_rate": 9.89
+      },
+      "Vyse": {
+        "win_rate": 49.44,
+        "pick_rate": 2.98
+      },
+      "Skye": {
+        "win_rate": 49.26,
+        "pick_rate": 13.82
+      },
+      "Deadlock": {
+        "win_rate": 49.18,
+        "pick_rate": 7.08
+      },
+      "Astra": {
+        "win_rate": 49.01,
+        "pick_rate": 8.93
+      },
+      "Miks": {
+        "win_rate": 48.73,
+        "pick_rate": 26.32
+      },
+      "Brimstone": {
+        "win_rate": 48.78,
+        "pick_rate": 7.98
+      },
+      "Iso": {
+        "win_rate": 48.65,
+        "pick_rate": 10.88
+      },
+      "Tejo": {
+        "win_rate": 48.6,
+        "pick_rate": 6.6
+      },
+      "Raze": {
+        "win_rate": 48.52,
+        "pick_rate": 10.14
+      },
+      "Veto": {
+        "win_rate": 48.66,
+        "pick_rate": 2.57
+      },
+      "Waylay": {
+        "win_rate": 48.02,
+        "pick_rate": 8.22
+      },
+      "Harbor": {
+        "win_rate": 47.59,
+        "pick_rate": 9.69
+      },
+      "Omen": {
+        "win_rate": 47.09,
+        "pick_rate": 18.16
+      },
+      "Breach": {
+        "win_rate": 47.08,
+        "pick_rate": 4.47
+      },
+      "KAY/O": {
+        "win_rate": 46.72,
+        "pick_rate": 9.23
+      },
+      "Yoru": {
+        "win_rate": 46.55,
+        "pick_rate": 5.31
+      }
+    },
+    "Fracture": {
+      "Clove": {
+        "win_rate": 54.05,
+        "pick_rate": 27.61
+      },
+      "Killjoy": {
+        "win_rate": 51.81,
+        "pick_rate": 17.28
+      },
+      "Sage": {
+        "win_rate": 52.12,
+        "pick_rate": 26.78
+      },
+      "Brimstone": {
+        "win_rate": 51.56,
+        "pick_rate": 21.68
+      },
+      "Phoenix": {
+        "win_rate": 51.59,
+        "pick_rate": 27.23
+      },
+      "Fade": {
+        "win_rate": 50.68,
+        "pick_rate": 13.62
+      },
+      "Gekko": {
+        "win_rate": 50.59,
+        "pick_rate": 11.63
+      },
+      "Jett": {
+        "win_rate": 50.6,
+        "pick_rate": 47.64
+      },
+      "Neon": {
+        "win_rate": 50.35,
+        "pick_rate": 15.48
+      },
+      "Cypher": {
+        "win_rate": 50.17,
+        "pick_rate": 13.3
+      },
+      "Reyna": {
+        "win_rate": 50.19,
+        "pick_rate": 46.85
+      },
+      "Deadlock": {
+        "win_rate": 49.96,
+        "pick_rate": 9.95
+      },
+      "Tejo": {
+        "win_rate": 49.93,
+        "pick_rate": 20.27
+      },
+      "Skye": {
+        "win_rate": 49.91,
+        "pick_rate": 15.43
+      },
+      "Raze": {
+        "win_rate": 49.78,
+        "pick_rate": 19.45
+      },
+      "Chamber": {
+        "win_rate": 49.62,
+        "pick_rate": 42.61
+      },
+      "Vyse": {
+        "win_rate": 49.47,
+        "pick_rate": 3.15
+      },
+      "Sova": {
+        "win_rate": 49.02,
+        "pick_rate": 9.36
+      },
+      "Miks": {
+        "win_rate": 48.58,
+        "pick_rate": 32.56
+      },
+      "Breach": {
+        "win_rate": 48.69,
+        "pick_rate": 20.44
+      },
+      "Veto": {
+        "win_rate": 48.69,
+        "pick_rate": 2.84
+      },
+      "Waylay": {
+        "win_rate": 48.27,
+        "pick_rate": 10.21
+      },
+      "Viper": {
+        "win_rate": 48.03,
+        "pick_rate": 2.42
+      },
+      "Iso": {
+        "win_rate": 47.37,
+        "pick_rate": 9.96
+      },
+      "Astra": {
+        "win_rate": 47.26,
+        "pick_rate": 3.01
+      },
+      "KAY/O": {
+        "win_rate": 46.92,
+        "pick_rate": 7.74
+      },
+      "Omen": {
+        "win_rate": 45.66,
+        "pick_rate": 14.68
+      },
+      "Harbor": {
+        "win_rate": 46.3,
+        "pick_rate": 2.21
+      },
+      "Yoru": {
+        "win_rate": 45.6,
+        "pick_rate": 4.62
       }
     },
     "Haven": {
-      "Viper": {
-        "win_rate": 59.1,
-        "pick_rate": 0.4
+      "Clove": {
+        "win_rate": 54.56,
+        "pick_rate": 34.41
       },
-      "Fade": {
-        "win_rate": 57.1,
-        "pick_rate": 0.2
+      "Killjoy": {
+        "win_rate": 52.15,
+        "pick_rate": 16.37
       },
-      "Miks": {
-        "win_rate": 56.1,
-        "pick_rate": 0.1
+      "Sage": {
+        "win_rate": 52.44,
+        "pick_rate": 30.54
       },
-      "Astra": {
-        "win_rate": 55.1,
-        "pick_rate": 0.2
+      "Phoenix": {
+        "win_rate": 51.65,
+        "pick_rate": 32.27
+      },
+      "Gekko": {
+        "win_rate": 50.86,
+        "pick_rate": 10.93
+      },
+      "Sova": {
+        "win_rate": 51.54,
+        "pick_rate": 41.07
+      },
+      "Cypher": {
+        "win_rate": 50.77,
+        "pick_rate": 17.88
       },
       "Raze": {
-        "win_rate": 54.2,
-        "pick_rate": 0.5
+        "win_rate": 50.2,
+        "pick_rate": 14.17
+      },
+      "Jett": {
+        "win_rate": 50.28,
+        "pick_rate": 55.42
+      },
+      "Fade": {
+        "win_rate": 50.0,
+        "pick_rate": 9.66
+      },
+      "Brimstone": {
+        "win_rate": 49.92,
+        "pick_rate": 9.51
       },
       "Deadlock": {
-        "win_rate": 53.8,
-        "pick_rate": 0.1
+        "win_rate": 49.84,
+        "pick_rate": 6.68
+      },
+      "Neon": {
+        "win_rate": 49.74,
+        "pick_rate": 13.29
+      },
+      "Vyse": {
+        "win_rate": 49.68,
+        "pick_rate": 2.45
+      },
+      "Reyna": {
+        "win_rate": 49.2,
+        "pick_rate": 47.04
+      },
+      "Skye": {
+        "win_rate": 49.21,
+        "pick_rate": 13.55
+      },
+      "Miks": {
+        "win_rate": 48.9,
+        "pick_rate": 26.52
+      },
+      "Chamber": {
+        "win_rate": 48.48,
+        "pick_rate": 40.54
+      },
+      "Veto": {
+        "win_rate": 49.11,
+        "pick_rate": 2.39
+      },
+      "Breach": {
+        "win_rate": 48.94,
+        "pick_rate": 6.66
+      },
+      "Tejo": {
+        "win_rate": 48.61,
+        "pick_rate": 6.71
+      },
+      "Waylay": {
+        "win_rate": 48.32,
+        "pick_rate": 7.32
+      },
+      "Iso": {
+        "win_rate": 47.51,
+        "pick_rate": 9.44
+      },
+      "Omen": {
+        "win_rate": 46.66,
+        "pick_rate": 28.32
+      },
+      "Viper": {
+        "win_rate": 47.28,
+        "pick_rate": 1.73
+      },
+      "Astra": {
+        "win_rate": 47.07,
+        "pick_rate": 2.18
+      },
+      "KAY/O": {
+        "win_rate": 46.79,
+        "pick_rate": 7.3
+      },
+      "Yoru": {
+        "win_rate": 46.66,
+        "pick_rate": 4.55
+      },
+      "Harbor": {
+        "win_rate": 44.42,
+        "pick_rate": 1.12
+      }
+    },
+    "Lotus": {
+      "Clove": {
+        "win_rate": 55.23,
+        "pick_rate": 33.41
+      },
+      "Sage": {
+        "win_rate": 52.26,
+        "pick_rate": 27.06
+      },
+      "Killjoy": {
+        "win_rate": 51.07,
+        "pick_rate": 11.73
+      },
+      "Phoenix": {
+        "win_rate": 51.07,
+        "pick_rate": 23.4
+      },
+      "Fade": {
+        "win_rate": 51.22,
+        "pick_rate": 31.64
+      },
+      "Raze": {
+        "win_rate": 51.03,
+        "pick_rate": 32.88
+      },
+      "Vyse": {
+        "win_rate": 50.58,
+        "pick_rate": 9.06
+      },
+      "Gekko": {
+        "win_rate": 50.31,
+        "pick_rate": 14.05
+      },
+      "Deadlock": {
+        "win_rate": 50.0,
+        "pick_rate": 8.12
+      },
+      "Jett": {
+        "win_rate": 49.97,
+        "pick_rate": 44.33
+      },
+      "Brimstone": {
+        "win_rate": 49.95,
+        "pick_rate": 7.59
+      },
+      "Chamber": {
+        "win_rate": 49.76,
+        "pick_rate": 47.7
+      },
+      "Reyna": {
+        "win_rate": 49.69,
+        "pick_rate": 45.93
+      },
+      "Sova": {
+        "win_rate": 49.8,
+        "pick_rate": 9.15
+      },
+      "Skye": {
+        "win_rate": 49.71,
+        "pick_rate": 14.85
+      },
+      "Neon": {
+        "win_rate": 49.62,
+        "pick_rate": 14.14
+      },
+      "Cypher": {
+        "win_rate": 49.19,
+        "pick_rate": 9.37
+      },
+      "Breach": {
+        "win_rate": 49.06,
+        "pick_rate": 12.64
+      },
+      "Veto": {
+        "win_rate": 49.01,
+        "pick_rate": 2.49
+      },
+      "Tejo": {
+        "win_rate": 48.92,
+        "pick_rate": 7.73
+      },
+      "Miks": {
+        "win_rate": 48.29,
+        "pick_rate": 30.46
+      },
+      "Viper": {
+        "win_rate": 48.7,
+        "pick_rate": 2.8
+      },
+      "Iso": {
+        "win_rate": 48.32,
+        "pick_rate": 10.63
+      },
+      "Waylay": {
+        "win_rate": 48.14,
+        "pick_rate": 7.77
+      },
+      "Omen": {
+        "win_rate": 46.74,
+        "pick_rate": 25.86
+      },
+      "Astra": {
+        "win_rate": 47.41,
+        "pick_rate": 2.47
+      },
+      "KAY/O": {
+        "win_rate": 46.59,
+        "pick_rate": 6.91
+      },
+      "Yoru": {
+        "win_rate": 46.45,
+        "pick_rate": 4.34
+      },
+      "Harbor": {
+        "win_rate": 45.8,
+        "pick_rate": 1.51
+      }
+    },
+    "Pearl": {
+      "Clove": {
+        "win_rate": 54.64,
+        "pick_rate": 33.62
+      },
+      "Killjoy": {
+        "win_rate": 52.26,
+        "pick_rate": 13.93
+      },
+      "Phoenix": {
+        "win_rate": 51.9,
+        "pick_rate": 33.45
+      },
+      "Sage": {
+        "win_rate": 51.65,
+        "pick_rate": 27.45
+      },
+      "Brimstone": {
+        "win_rate": 50.94,
+        "pick_rate": 8.64
+      },
+      "Gekko": {
+        "win_rate": 50.84,
+        "pick_rate": 12.84
+      },
+      "Fade": {
+        "win_rate": 51.33,
+        "pick_rate": 36.64
+      },
+      "Vyse": {
+        "win_rate": 50.59,
+        "pick_rate": 6.33
+      },
+      "Cypher": {
+        "win_rate": 50.49,
+        "pick_rate": 9.73
+      },
+      "Deadlock": {
+        "win_rate": 50.39,
+        "pick_rate": 8.29
+      },
+      "Neon": {
+        "win_rate": 50.22,
+        "pick_rate": 13.68
+      },
+      "Raze": {
+        "win_rate": 49.98,
+        "pick_rate": 14.01
+      },
+      "Jett": {
+        "win_rate": 49.83,
+        "pick_rate": 50.95
+      },
+      "Sova": {
+        "win_rate": 49.81,
+        "pick_rate": 12.87
+      },
+      "Veto": {
+        "win_rate": 49.78,
+        "pick_rate": 2.73
+      },
+      "Reyna": {
+        "win_rate": 49.5,
+        "pick_rate": 46.2
+      },
+      "Tejo": {
+        "win_rate": 49.56,
+        "pick_rate": 9.17
+      },
+      "Chamber": {
+        "win_rate": 48.86,
+        "pick_rate": 48.75
+      },
+      "Skye": {
+        "win_rate": 49.34,
+        "pick_rate": 12.05
+      },
+      "Miks": {
+        "win_rate": 48.46,
+        "pick_rate": 28.65
+      },
+      "Waylay": {
+        "win_rate": 48.52,
+        "pick_rate": 9.55
+      },
+      "Astra": {
+        "win_rate": 48.2,
+        "pick_rate": 10.61
+      },
+      "Breach": {
+        "win_rate": 48.11,
+        "pick_rate": 4.82
+      },
+      "Iso": {
+        "win_rate": 47.85,
+        "pick_rate": 9.84
+      },
+      "Viper": {
+        "win_rate": 47.91,
+        "pick_rate": 2.5
+      },
+      "Omen": {
+        "win_rate": 46.65,
+        "pick_rate": 16.64
+      },
+      "Yoru": {
+        "win_rate": 46.68,
+        "pick_rate": 4.81
+      },
+      "Harbor": {
+        "win_rate": 46.78,
+        "pick_rate": 3.14
+      },
+      "KAY/O": {
+        "win_rate": 46.0,
+        "pick_rate": 8.1
+      }
+    },
+    "Split": {
+      "Clove": {
+        "win_rate": 54.74,
+        "pick_rate": 35.38
+      },
+      "Sage": {
+        "win_rate": 54.36,
+        "pick_rate": 42.66
+      },
+      "Killjoy": {
+        "win_rate": 51.46,
+        "pick_rate": 9.63
+      },
+      "Phoenix": {
+        "win_rate": 51.14,
+        "pick_rate": 26.39
+      },
+      "Raze": {
+        "win_rate": 51.21,
+        "pick_rate": 30.33
+      },
+      "Gekko": {
+        "win_rate": 50.55,
+        "pick_rate": 10.77
+      },
+      "Fade": {
+        "win_rate": 50.45,
+        "pick_rate": 18.37
+      },
+      "Skye": {
+        "win_rate": 50.46,
+        "pick_rate": 27.25
+      },
+      "Cypher": {
+        "win_rate": 50.23,
+        "pick_rate": 22.72
+      },
+      "Deadlock": {
+        "win_rate": 49.99,
+        "pick_rate": 8.44
+      },
+      "Brimstone": {
+        "win_rate": 49.83,
+        "pick_rate": 8.71
+      },
+      "Jett": {
+        "win_rate": 49.59,
+        "pick_rate": 46.21
+      },
+      "Neon": {
+        "win_rate": 49.7,
+        "pick_rate": 12.18
+      },
+      "Reyna": {
+        "win_rate": 49.38,
+        "pick_rate": 44.86
+      },
+      "Sova": {
+        "win_rate": 49.44,
+        "pick_rate": 11.26
+      },
+      "Vyse": {
+        "win_rate": 49.4,
+        "pick_rate": 4.25
+      },
+      "Tejo": {
+        "win_rate": 49.19,
+        "pick_rate": 8.84
+      },
+      "Veto": {
+        "win_rate": 49.18,
+        "pick_rate": 3.13
+      },
+      "Breach": {
+        "win_rate": 48.91,
+        "pick_rate": 9.5
+      },
+      "Miks": {
+        "win_rate": 48.57,
+        "pick_rate": 27.89
+      },
+      "Viper": {
+        "win_rate": 48.38,
+        "pick_rate": 3.34
+      },
+      "Chamber": {
+        "win_rate": 47.51,
+        "pick_rate": 28.84
+      },
+      "Waylay": {
+        "win_rate": 48.15,
+        "pick_rate": 8.53
+      },
+      "Omen": {
+        "win_rate": 46.9,
+        "pick_rate": 25.26
+      },
+      "Astra": {
+        "win_rate": 47.64,
+        "pick_rate": 2.67
+      },
+      "Iso": {
+        "win_rate": 47.23,
+        "pick_rate": 8.81
+      },
+      "KAY/O": {
+        "win_rate": 47.06,
+        "pick_rate": 7.95
+      },
+      "Yoru": {
+        "win_rate": 46.63,
+        "pick_rate": 4.56
+      },
+      "Harbor": {
+        "win_rate": 44.31,
+        "pick_rate": 1.28
       }
     }
   }

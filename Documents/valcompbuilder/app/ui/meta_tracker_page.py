@@ -15,6 +15,7 @@ TIER_STYLE = {
     "A": {"color": "#ff8c42", "label": "A TIER", "desc": "Strong meta pick"},
     "B": {"color": "#ffd700", "label": "B TIER", "desc": "Viable choice"},
     "C": {"color": "#64748b", "label": "C TIER", "desc": "Niche pick"},
+    "NR": {"color": "#3a4a5a", "label": "NOT RATED", "desc": "No data on this map"},
 }
 
 AGENTS_PER_ROW = 5
@@ -48,6 +49,10 @@ def render():
     maps = get_all_maps()
     selected_map = st.selectbox("Select map", maps, key="meta_tracker_map")
 
+    from app.services.meta_service import is_thin_map
+    if is_thin_map(selected_map):
+        st.info(f"⚠️ {selected_map} recently rotated into the pool — ranked data is limited and tiers may be unreliable.")
+
     st.markdown(
         "<p style='color:#94a3b8;font-size:0.85rem;'>"
         "Tiers blend <b>win rate</b>, <b>pick rate</b>, and each agent's "
@@ -56,7 +61,7 @@ def render():
 
     groups = get_tier_groups(selected_map)
 
-    for tier in ["S", "A", "B", "C"]:
+    for tier in ["S", "A", "B", "C", "NR"]:
         agents = groups.get(tier, [])
         if not agents:
             continue
@@ -76,9 +81,19 @@ def render():
             row = agents[row_start:row_start + AGENTS_PER_ROW]
             cols = st.columns(AGENTS_PER_ROW)
             for col, (name, stats) in zip(cols, row):
-                wr = stats.get("win_rate", 0)
-                pr = stats.get("pick_rate", 0)
+                wr = stats.get("win_rate")
+                pr = stats.get("pick_rate")
                 with col:
+                    if wr is None or pr is None:
+                        st.markdown(f"""
+                        <div style="border:1px solid {style['color']}22;border-left:3px solid {style['color']};
+                                    border-radius:8px;padding:10px 12px;margin-bottom:8px;
+                                    background:rgba(255,255,255,0.01);opacity:0.6;">
+                            <div style="font-weight:700;font-size:0.95rem;margin-bottom:6px;">{name}</div>
+                            <div style="font-size:0.74rem;color:#64748b;">No data this map</div>
+                        </div>
+                        """, unsafe_allow_html=True)
+                        continue
                     st.markdown(f"""
                     <div style="border:1px solid {style['color']}33;border-left:3px solid {style['color']};
                                 border-radius:8px;padding:10px 12px;margin-bottom:8px;

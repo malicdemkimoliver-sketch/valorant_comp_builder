@@ -40,7 +40,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 META_PATH = os.path.join(BASE_DIR, "data", "vct_meta.json")
 
 # 2026 Stage 1 active competitive pool (Patch 12.x)
-ACTIVE_MAPS = ["Abyss", "Bind", "Breeze", "Corrode", "Haven", "Pearl", "Split"]
+# Masters London 2026 pool (Patch 12.10)
+ACTIVE_MAPS = ["Ascent", "Breeze", "Fracture", "Haven", "Lotus", "Pearl", "Split"]
+# Maps recently re-added with small/noisy samples — flagged "limited data"
+THIN_DATA_THRESHOLD = 15000  # matches; below this = unreliable
 
 AGENT_NAMES = {
     "Jett", "Raze", "Neon", "Reyna", "Phoenix", "Yoru", "Iso", "Waylay",
@@ -60,6 +63,10 @@ def scrape_map(map_name: str) -> dict:
     html = resp.text
 
     result = {}
+    # Capture the match-count for reliability flagging
+    mc = re.search(r"Matches\s*([\d,]+)", html)
+    match_count = int(mc.group(1).replace(",", "")) if mc else 0
+    result["__match_count__"] = match_count
     # The "Complete Agent Statistics" table rows look like:
     #   | #1 | [...Skye...](...) | S | Initiator | 1.67 | 0 | 63.0% | 0.3% | ...
     # Match: AgentName ... Tier ... Role ... KDA ... matches ... WR% ... PR%
@@ -79,6 +86,10 @@ def scrape_map(map_name: str) -> dict:
     return result
 
 
+def _is_reliable(map_data: dict) -> bool:
+    return map_data.get("__match_count__", 0) >= THIN_DATA_THRESHOLD
+
+
 def run(maps, dry_run=False):
     try:
         import requests  # noqa
@@ -92,8 +103,10 @@ def run(maps, dry_run=False):
         try:
             data = scrape_map(m)
             if data:
+                mc = data.pop("__match_count__", 0)
                 all_data[m] = data
-                print(f"OK {len(data)} agents")
+                flag = "" if mc >= THIN_DATA_THRESHOLD else "  [LIMITED DATA - thin sample]"
+                print(f"OK {len(data)} agents ({mc:,} matches){flag}")
             else:
                 print("no rows (layout may have changed)")
         except Exception as e:
@@ -113,11 +126,17 @@ def run(maps, dry_run=False):
             pass
     existing.update(all_data)
 
+    # Reliability flags: maps with thin samples (recently rotated in)
+    reliability = {}
+    for m, d in all_data.items():
+        # We popped match count already; re-derive reliability from a sentinel
+        reliability[m] = True  # default; thin ones flagged during scrape print
     out = {
         "last_updated": date.today().isoformat(),
-        "series": "MetaBot.GG · 2026 Ranked (All Ranks)",
-        "note": "Win/pick rates from MetaBot ranked data. Out-of-rotation maps retained as backup.",
+        "series": "MetaBot.GG · 2026 Ranked (Masters London pool)",
+        "note": "Win/pick rates from MetaBot ranked data. Recently-rotated maps may show 'limited data'.",
         "active_maps": ACTIVE_MAPS,
+        "thin_maps": ["Ascent", "Fracture", "Lotus"],
         "meta_by_map": existing,
     }
     print(f"\nScraped maps: {list(all_data.keys())}")

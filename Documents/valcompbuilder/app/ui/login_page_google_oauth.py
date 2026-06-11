@@ -66,7 +66,7 @@ def render():
     
     st.markdown(f"""
     <div style="text-align: center; padding: 20px;">
-        <a href="{auth_url}" style="
+        <a href="{auth_url}" target="_top" onclick="window.top.location.href='{auth_url}';return false;" style="
             display: inline-block;
             padding: 12px 24px;
             background: #4285F4;

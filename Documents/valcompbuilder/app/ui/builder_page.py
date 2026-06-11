@@ -11,6 +11,7 @@ from app.services.scoring import score_comp, get_score_grade, get_score_label
 from app.services.comp_encoder import CompEncoder
 from app.services.database import save_comp, get_user_comps, delete_comp
 from app.models.comp import Comp
+from app.services.meta_service import is_meta_pick, is_thin_map
 
 RC = {"Duelist":"#ff4d6d","Controller":"#7c3aed","Initiator":"#0ea5e9","Sentinel":"#10b981"}
 RI = {"Duelist":"⚔️","Controller":"💨","Initiator":"🔍","Sentinel":"🛡️"}
@@ -371,7 +372,7 @@ def render():
             for idx, agent in enumerate(role_agents):
                 is_sel = agent.name in sel
                 locked = len(sel) >= 5 and not is_sel
-                is_meta = agent.fits_map(selected_map)
+                is_meta = is_meta_pick(agent.name, selected_map)
                 meta_color = "#10b981" if is_meta else "#f59e0b"
                 meta_badge = "✅ Meta" if is_meta else "⚠️ Off"
                 
@@ -441,7 +442,7 @@ def render():
         cols = st.columns(5)
         for i, agent in enumerate(s_obj):
             agent_color = RC.get(agent.role, "#64748b")
-            is_meta = agent.fits_map(selected_map)
+            is_meta = is_meta_pick(agent.name, selected_map)
             meta_color = "#10b981" if is_meta else "#f59e0b"
             meta_text = "✅ On-Meta" if is_meta else "⚠️ Off-Meta"
             

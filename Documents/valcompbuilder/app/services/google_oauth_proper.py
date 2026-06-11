@@ -124,6 +124,9 @@ def set_authenticated_user(user_info: dict, id_token: str):
     st.session_state.user_picture = user_info.get("picture")
     st.session_state.oauth_id_token = id_token
     st.session_state.login_time = datetime.now().isoformat()
+    st.session_state.has_seen_landing = True
+    # Return the user to where they were before logging in (default: builder)
+    st.session_state.current_page = st.session_state.get("return_to", "builder")
     
     # Save to localStorage for persistence
     st.markdown(f"""

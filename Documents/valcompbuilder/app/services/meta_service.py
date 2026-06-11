@@ -209,18 +209,55 @@ def get_meta_status(agent_name: str, map_name: str) -> Tuple[bool, float, str]:
     return tier in ("S", "A"), score, expl
 
 
-def get_tier_groups(map_name: str) -> Dict[str, List[Tuple[str, dict]]]:
+def get_tier_groups(map_name: str, include_all: bool = True) -> Dict[str, List[Tuple[str, dict]]]:
     """
-    All agents on a map grouped by tier: {"S": [(name, stats), ...], ...}
-    Each tier list is sorted by composite score descending.
-    Used by the Meta Tracker tier list.
+    All agents on a map grouped by tier: {"S": [...], "A": [...], "B": [...],
+    "C": [...], "NR": [...]}.  "NR" = Not Rated (no data for this map).
+    When include_all=True, every agent in the roster appears — agents missing
+    from this map's data land in "NR" with zero stats, so the Meta Tracker
+    can show the full list regardless of pick rate.
     """
-    groups: Dict[str, List[Tuple[str, dict, float]]] = {"S": [], "A": [], "B": [], "C": []}
-    for name, stats in get_all_meta_agents_for_map(map_name).items():
+    map_data = get_all_meta_agents_for_map(map_name)
+    groups: Dict[str, List[Tuple[str, dict, float]]] = {
+        "S": [], "A": [], "B": [], "C": [], "NR": []}
+
+    # Rated agents (present in this map's data)
+    for name, stats in map_data.items():
         tier = get_agent_tier(name, map_name) or "C"
         groups[tier].append((name, stats, get_composite_score(name, map_name)))
+
+    # Optionally add every other roster agent as "Not Rated"
+    if include_all:
+        rated = set(map_data.keys())
+        for name in sorted(_load_agent_profiles().keys()):
+            if name not in rated:
+                groups["NR"].append((name, {"win_rate": None, "pick_rate": None}, -1.0))
+
     out: Dict[str, List[Tuple[str, dict]]] = {}
     for tier, items in groups.items():
-        items.sort(key=lambda x: x[2], reverse=True)
+        items.sort(key=lambda x: (x[2] if x[2] is not None else -1), reverse=True)
         out[tier] = [(n, s) for n, s, _ in items]
     return out
+
+
+def is_thin_map(map_name: str) -> bool:
+    """True if this map has limited/unreliable data (recently rotated in)."""
+    meta = load_meta_data()
+    return map_name in meta.get("thin_maps", [])
+
+
+def is_meta_pick(agent_name: str, map_name: str) -> bool:
+    """
+    Drives the builder's Meta/Off badge.
+    An agent is META if EITHER:
+      (a) the map is in the agent's good_maps profile (designer/community intent), OR
+      (b) the agent is S or A tier on this map (real performance data).
+    On thin-data maps, fall back to good_maps only (tier data unreliable).
+    """
+    profile = _load_agent_profiles().get(agent_name, {})
+    good_map = map_name in profile.get("good_maps", [])
+    if is_thin_map(map_name):
+        return good_map  # tier data not trustworthy here
+    tier = get_agent_tier(agent_name, map_name)
+    high_tier = tier in ("S", "A")
+    return good_map or high_tier

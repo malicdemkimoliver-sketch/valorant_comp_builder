@@ -26,6 +26,15 @@ st.set_page_config(
 # Initialize session state
 if "current_page" not in st.session_state:
     st.session_state.current_page = "landing"
+    st.session_state.has_seen_landing = False
+
+# If Google redirected back with ?code=, route to login so the callback runs
+try:
+    _has_code = "code" in st.query_params
+except Exception:
+    _has_code = "code" in st.experimental_get_query_params()
+if _has_code and not st.session_state.get("user_logged_in", False):
+    st.session_state.current_page = "login"
 
 if "user_logged_in" not in st.session_state:
     st.session_state.user_logged_in = False
@@ -47,7 +56,7 @@ def render_sidebar():
     """Render sidebar navigation"""
     
     with st.sidebar:
-        st.markdown("# ⚙️ Valorant Comp Builder")
+        st.markdown("""<div style="text-align:center;padding:14px 8px;"><svg width="42" height="42" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 2px 8px rgba(255,70,85,0.4));"><path d="M8 14 L40 14 L50 40 L60 14 L92 14 L58 86 L42 86 Z" fill="#ff4655"/><path d="M8 14 L40 14 L50 40 L42 50 Z" fill="#ff6b78" opacity="0.55"/></svg><div style="font-weight:800;font-size:0.72rem;letter-spacing:1.5px;color:#ff4655;margin-top:8px;">GYDRENZIN'S</div><div style="font-weight:700;font-size:0.92rem;color:#ece8e1;margin-top:1px;">Valorant Comp Builder</div><div style="display:inline-block;margin-top:6px;padding:1px 9px;border-radius:10px;background:rgba(255,70,85,0.12);border:1px solid rgba(255,70,85,0.35);font-size:0.6rem;letter-spacing:1px;color:#ff8c42;font-weight:700;">V1</div></div>""", unsafe_allow_html=True)
         st.markdown("---")
         
         # Features section
@@ -103,11 +112,6 @@ def render_sidebar():
         st.markdown("---")
         
         # Back to landing
-        if st.button("🏠 Back to Landing", use_container_width=True,
-                    key="nav_home"):
-            st.session_state.current_page = "landing"
-            st.rerun()
-
 def render_main_content():
     """Render main content based on current page"""
     
@@ -146,4 +150,3 @@ def render_main_content():
 
 if __name__ == "__main__":
     main()
-

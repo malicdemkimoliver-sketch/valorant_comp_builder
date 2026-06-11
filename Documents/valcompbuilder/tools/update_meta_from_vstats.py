@@ -1,18 +1,10 @@
 """
 update_meta_from_vstats.py — refresh data/vct_meta.json from vstats.gg
+(Season 26 Act 3 ranked data, all agents per map)
 
-vstats.gg renders its tables with JavaScript, so this tool drives a real
-headless browser (Playwright) on YOUR machine, reads the agent table for
-each map, and writes data/vct_meta.json in the structure the app expects:
-
-    {
-      "last_updated": "2026-06-10",
-      "series": "vstats.gg · Season 26 Act 3",
-      "meta_by_map": {
-        "Ascent": { "Jett": {"pick_rate": 12.3, "win_rate": 51.2}, ... },
-        ...
-      }
-    }
+vstats.gg renders its tables with JavaScript, so this drives a real headless
+browser (Playwright). It reads the per-map agent table for each Masters London
+map and writes data/vct_meta.json in the structure the app expects.
 
 SETUP (one time):
     pip install playwright --break-system-packages
@@ -20,17 +12,15 @@ SETUP (one time):
 
 USAGE:
     cd C:\\Users\\kimma\\Documents\\valcompbuilder
-    python tools\\update_meta_from_vstats.py                # all maps
-    python tools\\update_meta_from_vstats.py --maps Ascent Bind
-    python tools\\update_meta_from_vstats.py --dry-run      # preview only
+    python tools\\update_meta_from_vstats.py               # all London maps
+    python tools\\update_meta_from_vstats.py --dry-run     # preview only
+    python tools\\update_meta_from_vstats.py --maps Haven Split
+    python tools\\update_meta_from_vstats.py --debug       # dump page text if parsing fails
 
-FALLBACK (if scraping breaks after a site redesign):
-    1. Open vstats.gg in your browser, filter the agent table to a map
-    2. Select the whole table, copy, paste into a text file e.g. ascent.txt
-    3. python tools\\update_meta_from_vstats.py --from-paste ascent.txt --map Ascent
-
-NOTE: be a good citizen — this visits one page per map with delays between
-requests. Don't run it in a loop; once per patch/act is plenty.
+FALLBACK (if the site layout changes):
+    1. Open vstats.gg, filter the agent table to a map
+    2. Select the whole table, copy, paste into e.g. haven.txt
+    3. python tools\\update_meta_from_vstats.py --from-paste haven.txt --map Haven
 """
 import argparse
 import json
@@ -43,99 +33,67 @@ from datetime import date
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 META_PATH = os.path.join(BASE_DIR, "data", "vct_meta.json")
 
-DEFAULT_MAPS = ["Ascent", "Bind", "Breeze", "Fracture", "Haven",
-                "Icebox", "Lotus", "Pearl", "Split", "Abyss", "Sunset", "Corrode"]
+ACTIVE_MAPS = ["Ascent", "Breeze", "Fracture", "Haven", "Lotus", "Pearl", "Split"]
+THIN_MAPS = ["Ascent", "Fracture", "Lotus"]
 
 AGENT_NAMES = {
     "Jett", "Raze", "Neon", "Reyna", "Phoenix", "Yoru", "Iso", "Waylay",
-    "Omen", "Brimstone", "Viper", "Astra", "Clove", "Harbor",
+    "Omen", "Brimstone", "Viper", "Astra", "Clove", "Harbor", "Miks",
     "Sova", "Fade", "Breach", "Skye", "Gekko", "KAY/O", "Tejo",
     "Killjoy", "Cypher", "Sage", "Deadlock", "Chamber", "Vyse", "Veto",
 }
-# vstats may render KAY/O as KAYO or Kay/o
-NAME_FIXES = {"KAYO": "KAY/O", "Kayo": "KAY/O", "Kay/o": "KAY/O", "KAY/o": "KAY/O"}
+NAME_FIXES = {"KAYO": "KAY/O", "Kayo": "KAY/O", "KAY/0": "KAY/O"}
 
 
-def _norm_name(raw: str):
+def _norm(raw):
     raw = raw.strip()
     raw = NAME_FIXES.get(raw, raw)
-    for canonical in AGENT_NAMES:
-        if raw.lower() == canonical.lower():
-            return canonical
+    for canon in AGENT_NAMES:
+        if raw.lower() == canon.lower():
+            return canon
     return None
 
 
-def _pct(text: str):
-    m = re.search(r"(\d+(?:[.,]\d+)?)\s*%", text)
-    return float(m.group(1).replace(",", ".")) if m else None
-
-
-# ── Strategy 1: Playwright scrape ────────────────────────────────────────────
-def scrape_map(page, map_name: str) -> dict:
-    """Scrape the agent table for one map. Returns {agent: {pick_rate, win_rate}}."""
-    url = f"https://www.vstats.gg/agents?map={map_name}"
+def scrape_map(page, map_name, debug=False):
+    url = f"https://www.vstats.gg/VALORANT?map={map_name}"
     page.goto(url, wait_until="networkidle", timeout=60_000)
-    time.sleep(2.0)  # let late XHRs settle
+    time.sleep(3.0)
 
-    # Read every table row; figure out columns from the header
     result = {}
-    rows = page.query_selector_all("table tr")
-    if not rows:
-        # some layouts use role=row divs
-        rows = page.query_selector_all('[role="row"]')
-
-    header_cells, wr_idx, pr_idx, nm_idx = [], None, None, 0
+    rows = page.query_selector_all("table tr, [role='row'], .agent-row, li")
     for row in rows:
-        cells = row.query_selector_all("td, th, [role='cell'], [role='columnheader']")
-        texts = [c.inner_text().strip() for c in cells]
-        if not texts:
+        try:
+            txt = row.inner_text()
+        except Exception:
             continue
-
-        # Header row: locate column indices (prefer non-mirror win rate)
-        lower = [t.lower() for t in texts]
-        if any("win" in t and "rate" in t for t in lower) and wr_idx is None:
-            for i, t in enumerate(lower):
-                if "non-mirror" in t and "win" in t:
-                    wr_idx = i
-            if wr_idx is None:
-                for i, t in enumerate(lower):
-                    if "win" in t and "rate" in t:
-                        wr_idx = i
-                        break
-            for i, t in enumerate(lower):
-                if "pick" in t and "rate" in t:
-                    pr_idx = i
-                    break
+        if not txt or "%" not in txt:
             continue
-
-        # Data row
         name = None
-        for t in texts[:3]:
-            name = _norm_name(re.sub(r"[\d.%,]", "", t).strip())
+        for token in re.split(r"[\t\n|]+|\s{2,}", txt):
+            name = _norm(re.sub(r"[\d.%,()]", "", token).strip())
             if name:
                 break
-        if not name:
+        if not name or name in result:
             continue
-
-        wr = _pct(texts[wr_idx]) if wr_idx is not None and wr_idx < len(texts) else None
-        pr = _pct(texts[pr_idx]) if pr_idx is not None and pr_idx < len(texts) else None
-        if wr is None or pr is None:
-            # fall back: first two percentages in the row
-            pcts = [_pct(t) for t in texts if _pct(t) is not None]
-            if len(pcts) >= 2:
-                pr = pr if pr is not None else pcts[0]
-                wr = wr if wr is not None else pcts[1]
-        if wr is not None and pr is not None:
+        pcts = re.findall(r"(\d+(?:[.,]\d+)?)\s*%", txt)
+        if len(pcts) >= 2:
+            pr = float(pcts[0].replace(",", "."))
+            wr = float(pcts[1].replace(",", "."))
             result[name] = {"pick_rate": pr, "win_rate": wr}
 
+    if debug and not result:
+        dump = os.path.join(BASE_DIR, f"vstats_debug_{map_name}.txt")
+        with open(dump, "w", encoding="utf-8") as f:
+            f.write(page.inner_text("body"))
+        print(f"    [debug] no rows parsed; page text dumped to {dump}")
     return result
 
 
-def run_scrape(maps, dry_run=False):
+def run_scrape(maps, dry_run=False, debug=False):
     try:
         from playwright.sync_api import sync_playwright
     except ImportError:
-        print("✗ Playwright not installed. Run:")
+        print("Playwright not installed. Run:")
         print("    pip install playwright --break-system-packages")
         print("    python -m playwright install chromium")
         sys.exit(1)
@@ -145,98 +103,89 @@ def run_scrape(maps, dry_run=False):
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
         for i, m in enumerate(maps):
-            print(f"[{i+1}/{len(maps)}] Scraping {m}...", end=" ", flush=True)
+            print(f"[{i+1}/{len(maps)}] {m}...", end=" ", flush=True)
             try:
-                data = scrape_map(page, m)
+                data = scrape_map(page, m, debug=debug)
                 if data:
                     all_data[m] = data
-                    print(f"✓ {len(data)} agents")
+                    flag = "  [THIN/limited]" if m in THIN_MAPS else ""
+                    print(f"OK {len(data)} agents{flag}")
                 else:
-                    print("✗ no rows found (map may be out of rotation, or layout changed — use --from-paste)")
+                    print("no rows (try --debug, or --from-paste fallback)")
             except Exception as e:
-                print(f"✗ {e}")
-            time.sleep(3.0)  # polite delay between pages
+                print(f"ERROR {e}")
+            time.sleep(3.0)
         browser.close()
 
     if not all_data:
-        print("\nNothing scraped. Try the --from-paste fallback (see file header).")
+        print("\nNothing scraped. Use --debug or --from-paste fallback.")
         sys.exit(1)
     _write(all_data, dry_run)
 
 
-# ── Strategy 2: paste-in fallback ────────────────────────────────────────────
-def run_paste(paste_file: str, map_name: str, dry_run=False):
-    """Parse a copy-pasted table (tab/space separated) for one map."""
-    with open(paste_file, "r", encoding="utf-8") as f:
-        text = f.read()
-
+def run_paste(paste_file, map_name, dry_run=False):
+    text = open(paste_file, encoding="utf-8").read()
     data = {}
     for line in text.splitlines():
-        if not line.strip():
+        if "%" not in line:
             continue
         name = None
         for token in re.split(r"[\t]+|\s{2,}", line):
-            name = _norm_name(re.sub(r"[\d.%,]", "", token).strip())
+            name = _norm(re.sub(r"[\d.%,()]", "", token).strip())
             if name:
                 break
         if not name:
             continue
         pcts = [float(x.replace(",", ".")) for x in re.findall(r"(\d+(?:[.,]\d+)?)\s*%", line)]
         if len(pcts) >= 2:
-            # vstats column order: pick rate usually before win rate
             data[name] = {"pick_rate": pcts[0], "win_rate": pcts[1]}
-
     if not data:
-        print("✗ Could not parse any agent rows from the paste file.")
+        print("Could not parse any rows.")
         sys.exit(1)
-    print(f"✓ Parsed {len(data)} agents for {map_name}")
+    print(f"Parsed {len(data)} agents for {map_name}")
+    _write({map_name: data}, dry_run)
 
-    # merge into existing file
+
+def _write(scraped, dry_run):
     existing = {}
     if os.path.exists(META_PATH):
         try:
-            with open(META_PATH, "r", encoding="utf-8") as f:
-                existing = json.load(f).get("meta_by_map", {})
+            existing = json.load(open(META_PATH, encoding="utf-8")).get("meta_by_map", {})
         except Exception:
             pass
-    existing[map_name] = data
-    _write(existing, dry_run)
+    existing.update(scraped)
 
-
-def _write(meta_by_map: dict, dry_run: bool):
     out = {
         "last_updated": date.today().isoformat(),
-        "series": "vstats.gg · ranked data",
-        "note": "Win rates prefer non-mirror WR where the site provides it.",
-        "meta_by_map": meta_by_map,
+        "series": "vstats.gg · Season 26 Act 3 (Masters London pool)",
+        "note": "Ranked data from vstats.gg. Recently-rotated maps may be unreliable.",
+        "active_maps": ACTIVE_MAPS,
+        "thin_maps": THIN_MAPS,
+        "meta_by_map": existing,
     }
-    print(f"\nMaps: {list(meta_by_map.keys())}")
-    sample_map = next(iter(meta_by_map))
-    sample = list(meta_by_map[sample_map].items())[:3]
-    for name, st in sample:
-        print(f"  {sample_map} → {name}: {st}")
-
+    print(f"\nScraped: {[(m, len(d)) for m, d in scraped.items()]}")
+    sample = next(iter(scraped))
+    for nm, st in list(scraped[sample].items())[:3]:
+        print(f"  {sample} -> {nm}: {st}")
     if dry_run:
-        print("\n--dry-run: not writing file.")
+        print("\n--dry-run: not writing.")
         return
-    with open(META_PATH, "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=2, ensure_ascii=False)
-    print(f"\n✓ Written to {META_PATH}")
-    print("Restart the app to load fresh meta data.")
+    json.dump(out, open(META_PATH, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+    print(f"\nWritten to {META_PATH}. Restart the app.")
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--maps", nargs="*", default=DEFAULT_MAPS)
-    ap.add_argument("--from-paste", help="Path to a pasted-table text file")
-    ap.add_argument("--map", help="Map name for --from-paste")
+    ap.add_argument("--maps", nargs="*", default=ACTIVE_MAPS)
+    ap.add_argument("--from-paste")
+    ap.add_argument("--map")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--debug", action="store_true")
     args = ap.parse_args()
-
     if args.from_paste:
         if not args.map:
-            print("✗ --from-paste requires --map <MapName>")
+            print("--from-paste requires --map <MapName>")
             sys.exit(1)
         run_paste(args.from_paste, args.map, args.dry_run)
     else:
-        run_scrape(args.maps, args.dry_run)
+        run_scrape(args.maps, args.dry_run, args.debug)

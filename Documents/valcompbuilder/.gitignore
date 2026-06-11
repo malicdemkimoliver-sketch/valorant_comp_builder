@@ -54,3 +54,6 @@ oauth_token.json
 *.bak
 
 *.backup
+
+vstats_debug_*.txt
+*.tmp

@@ -17,7 +17,8 @@
       "Initiator",
       "Sentinel"
     ],
-    "notes": "Mid control is crucial. Door control adds strategic depth. Good for almost any comp."
+    "notes": "Mid control is crucial. Door control adds strategic depth. Good for almost any comp.",
+    "active_2026": true
   },
   {
     "name": "Breeze",
@@ -36,7 +37,8 @@
       "Controller",
       "Sentinel"
     ],
-    "notes": "Viper and Sova shine here. Long-range operators dominate. Tight hallways on mid."
+    "notes": "Viper and Sova shine here. Long-range operators dominate. Tight hallways on mid.",
+    "active_2026": true
   },
   {
     "name": "Fracture",
@@ -55,7 +57,8 @@
       "Duelist",
       "Initiator"
     ],
-    "notes": "Strong attack-sided map. Mobile agents and flank-aware sentinels are key. Door splits the map."
+    "notes": "Strong attack-sided map. Mobile agents and flank-aware sentinels are key. Door splits the map.",
+    "active_2026": true
   },
   {
     "name": "Haven",
@@ -75,7 +78,8 @@
       "Initiator",
       "Sentinel"
     ],
-    "notes": "3 bomb sites means defenders must rotate fast. Controllers and info-gathering agents shine."
+    "notes": "3 bomb sites means defenders must rotate fast. Controllers and info-gathering agents shine.",
+    "active_2026": true
   },
   {
     "name": "Lotus",
@@ -95,7 +99,8 @@
       "Initiator",
       "Sentinel"
     ],
-    "notes": "Doors add unique rotation dynamics. Strong for utility-heavy comps with good communication."
+    "notes": "Doors add unique rotation dynamics. Strong for utility-heavy comps with good communication.",
+    "active_2026": true
   },
   {
     "name": "Pearl",
@@ -115,7 +120,8 @@
       "Sentinel",
       "Initiator"
     ],
-    "notes": "Mid control is dominant. Strong sentinel presence helps defend the long mid."
+    "notes": "Mid control is dominant. Strong sentinel presence helps defend the long mid.",
+    "active_2026": true
   },
   {
     "name": "Split",
@@ -135,7 +141,8 @@
       "Initiator",
       "Controller"
     ],
-    "notes": "Very defense-sided. Sentinels and flank watchers dominate. Vertical play with Raze/Jett."
+    "notes": "Very defense-sided. Sentinels and flank watchers dominate. Vertical play with Raze/Jett.",
+    "active_2026": true
   },
   {
     "name": "Bind",
@@ -155,7 +162,8 @@
       "Initiator",
       "Controller"
     ],
-    "notes": "Teleporters create flank opportunities. No mid lane means direct A or B executes. Raze is dominant here."
+    "notes": "Teleporters create flank opportunities. No mid lane means direct A or B executes. Raze is dominant here.",
+    "active_2026": false
   },
   {
     "name": "Icebox",
@@ -175,7 +183,8 @@
       "Controller",
       "Initiator"
     ],
-    "notes": "Ziplines enable vertical repositioning. Strong for KJ and Viper. Sage wall is powerful here."
+    "notes": "Ziplines enable vertical repositioning. Strong for KJ and Viper. Sage wall is powerful here.",
+    "active_2026": false
   },
   {
     "name": "Sunset",
@@ -195,7 +204,8 @@
       "Initiator",
       "Sentinel"
     ],
-    "notes": "Mid control via B-link is crucial. Door mechanic on B site adds strategic depth like Ascent."
+    "notes": "Mid control via B-link is crucial. Door mechanic on B site adds strategic depth like Ascent.",
+    "active_2026": false
   },
   {
     "name": "Abyss",
@@ -215,25 +225,7 @@
       "Controller",
       "Initiator"
     ],
-    "notes": "Edge pressure is unique — agents with mobility or ledge denial are powerful. Operator and long-range dominate."
-  },
-  {
-    "name": "Corrode",
-    "icon": "🛢️",
-    "description": "2026 map. Duelist-favored layout with tight chokes. Skye and Sage dominate.",
-    "attack_sided": false,
-    "defense_sided": true,
-    "balanced": false,
-    "key_features": [
-      "tight-chokes",
-      "duelist-favored",
-      "2026-pool"
-    ],
-    "preferred_roles": [
-      "Duelist",
-      "Sentinel",
-      "Initiator"
-    ],
-    "notes": "New 2026 competitive map. Defense-leaning (51.5% def WR). Brimstone niche but high-WR."
+    "notes": "Edge pressure is unique — agents with mobility or ledge denial are powerful. Operator and long-range dominate.",
+    "active_2026": false
   }
 ]
