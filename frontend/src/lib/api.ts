@@ -50,3 +50,23 @@ export async function fetchMeta(
   }
   return res.json();
 }
+
+export type RefreshStatus = {
+  running: boolean;
+  last_error: string | null;
+  last_updated: string | null;
+  series: string | null;
+  stale: boolean;
+};
+
+export async function triggerMetaRefresh(): Promise<RefreshStatus> {
+  const res = await fetch("/api/meta/refresh", { method: "POST" });
+  if (!res.ok) throw new Error(`refresh failed: ${res.status}`);
+  return res.json();
+}
+
+export async function fetchMetaStatus(): Promise<RefreshStatus> {
+  const res = await fetch("/api/meta/status");
+  if (!res.ok) throw new Error(`status failed: ${res.status}`);
+  return res.json();
+}

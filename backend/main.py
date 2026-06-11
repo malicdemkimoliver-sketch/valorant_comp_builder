@@ -3,12 +3,23 @@ FastAPI backend — HTTP layer over the existing comp builder services.
 Run from the repo root so the `app` package is importable:
     python -m uvicorn backend.main:app --reload --port 8000
 """
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from backend import meta_refresh
 from backend.routers import agents, comp, maps, meta, presets
 
-app = FastAPI(title="Gyd's VLR Comp Builder API")
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    # Auto-refresh the meta stats in the background when they're outdated
+    meta_refresh.refresh_if_stale()
+    yield
+
+
+app = FastAPI(title="Gyd's VLR Comp Builder API", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,

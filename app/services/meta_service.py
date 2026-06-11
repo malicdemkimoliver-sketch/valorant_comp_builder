@@ -39,6 +39,13 @@ TIER_THRESHOLDS = [("S", 56), ("A", 52), ("B", 49)]  # below last = "C"
 
 
 # ── Loading ───────────────────────────────────────────────────────────────────
+def clear_cache() -> None:
+    """Drop cached meta/profile data so the next read picks up fresh files."""
+    global _meta_cache, _profile_cache
+    _meta_cache = None
+    _profile_cache = None
+
+
 def load_meta_data() -> Dict:
     """Load vct_meta.json (cached)."""
     global _meta_cache

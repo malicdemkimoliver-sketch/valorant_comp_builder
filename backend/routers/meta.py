@@ -1,9 +1,23 @@
 from fastapi import APIRouter, HTTPException
 
 from app.services import meta_service
-from backend import catalog
+from backend import catalog, meta_refresh
 
 router = APIRouter(prefix="/api/meta", tags=["meta"])
+
+
+# NOTE: fixed paths must be registered before the /{map_name} catch-all.
+@router.get("/status")
+def refresh_status() -> dict:
+    """Freshness of the stats data and the state of any running refresh."""
+    return meta_refresh.status()
+
+
+@router.post("/refresh")
+def trigger_refresh() -> dict:
+    """Scrape MetaBot in the background and rebuild vct_meta + presets."""
+    started = meta_refresh.start_refresh()
+    return {"started": started, **meta_refresh.status()}
 
 
 @router.get("/{map_name}")

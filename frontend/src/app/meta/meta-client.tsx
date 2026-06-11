@@ -2,7 +2,12 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { fetchMeta } from "@/lib/api";
+import {
+  fetchMeta,
+  fetchMetaStatus,
+  triggerMetaRefresh,
+  type RefreshStatus,
+} from "@/lib/api";
 import type { Agent, MapInfo, MapMeta, MetaEntry } from "@/lib/types";
 import { ROLE_COLORS, ROLE_ORDER } from "@/lib/types";
 import { MapSelect } from "@/components/builder/map-select";
@@ -44,6 +49,8 @@ export function MetaClient({
   const [meta, setMeta] = useState<MapMeta | null>(initialMeta);
   const [roleFilter, setRoleFilter] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const [status, setStatus] = useState<RefreshStatus | null>(null);
+  const [pollNonce, setPollNonce] = useState(0);
 
   const agentsByName = useMemo(
     () => Object.fromEntries(agents.map((a) => [a.name, a])),
@@ -65,6 +72,45 @@ export function MetaClient({
     window.history.replaceState(null, "", `/meta?map=${mapName}`);
   }, [mapName]);
 
+  // Track the backend refresh: while one runs (startup auto-refresh or the
+  // button below), poll until it finishes, then reload the tiers.
+  useEffect(() => {
+    let cancelled = false;
+    let timer: number | undefined;
+
+    async function tick(wasRunning: boolean) {
+      let s: RefreshStatus;
+      try {
+        s = await fetchMetaStatus();
+      } catch {
+        return; // backend unreachable — keep whatever we last knew
+      }
+      if (cancelled) return;
+      setStatus(s);
+      if (s.running) {
+        timer = window.setTimeout(() => tick(true), 4000);
+      } else if (wasRunning && !s.last_error) {
+        setMeta(null); // drop cached tiers so the map effect refetches
+      }
+    }
+
+    tick(false);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [pollNonce]);
+
+  async function onRefresh() {
+    try {
+      const s = await triggerMetaRefresh();
+      setStatus(s);
+      setPollNonce((n) => n + 1); // restart the polling loop
+    } catch {
+      // trigger failed (backend down) — the next status poll will tell
+    }
+  }
+
   const loading = meta?.map !== mapName;
 
   function matches(entry: MetaEntry): boolean {
@@ -77,16 +123,39 @@ export function MetaClient({
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-8">
-      <div className="mb-1 flex items-baseline justify-between">
+      <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
         <h1 className="font-display text-3xl font-bold tracking-[0.1em]">
           <span className="text-vred">META</span>{" "}
           <span className="text-vorange">TRACKER</span>
         </h1>
-        {meta && (
-          <span className="text-xs text-slate-500">
-            {meta.series} · updated {meta.last_updated}
-          </span>
-        )}
+        <div className="flex items-center gap-3">
+          {status?.last_error && !status.running && (
+            <span
+              className="text-xs font-semibold text-vred"
+              title={status.last_error}
+            >
+              last refresh failed
+            </span>
+          )}
+          {status?.stale && !status.running && !status.last_error && (
+            <span className="text-xs font-semibold text-vorange">
+              stats outdated
+            </span>
+          )}
+          {meta && (
+            <span className="text-xs text-slate-500">
+              {meta.series} · updated {status?.last_updated ?? meta.last_updated}
+            </span>
+          )}
+          <button
+            type="button"
+            onClick={onRefresh}
+            disabled={status?.running ?? false}
+            className="rounded-md border border-navy-700 px-3 py-1 text-xs font-bold tracking-wide text-slate-300 transition-colors hover:border-vred hover:text-vred disabled:cursor-default disabled:border-navy-700 disabled:text-slate-500"
+          >
+            {status?.running ? "REFRESHING…" : "↻ REFRESH"}
+          </button>
+        </div>
       </div>
       <p className="mb-5 text-sm text-slate-400">
         Tiers blend <strong>win rate</strong>, <strong>pick rate</strong>, and
