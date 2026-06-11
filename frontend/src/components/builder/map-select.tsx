@@ -32,13 +32,13 @@ export function MapSelect({
             onClick={() => onSelect(map.name)}
             className={`relative h-24 w-40 shrink-0 overflow-hidden rounded-lg border-2 text-left transition-all ${
               isSelected
-                ? "border-vred shadow-[0_0_18px_rgba(255,70,85,0.45)]"
+                ? "border-sentinel shadow-[0_0_18px_rgba(16,185,129,0.45)]"
                 : "border-navy-700 opacity-80 hover:opacity-100"
             }`}
             style={{
               backgroundImage: map.splash
                 ? isSelected
-                  ? `linear-gradient(rgba(255,70,85,0.22), rgba(15,25,35,0.82)), url('${map.splash}')`
+                  ? `linear-gradient(rgba(16,185,129,0.18), rgba(15,25,35,0.82)), url('${map.splash}')`
                   : `linear-gradient(rgba(15,25,35,0.55), rgba(15,25,35,0.8)), url('${map.splash}')`
                 : undefined,
               backgroundSize: "cover",
@@ -57,7 +57,7 @@ export function MapSelect({
                     </span>
                   )}
                   {isSelected && (
-                    <span className="flex h-4 w-4 items-center justify-center rounded-full bg-vred text-[10px] font-bold text-white shadow-[0_0_8px_rgba(255,70,85,0.6)]">
+                    <span className="flex h-4 w-4 items-center justify-center rounded-full bg-sentinel text-[10px] font-bold text-white shadow-[0_0_8px_rgba(16,185,129,0.6)]">
                       ✓
                     </span>
                   )}
@@ -66,7 +66,7 @@ export function MapSelect({
               <div>
                 <div
                   className={`font-display text-base font-bold tracking-wider ${
-                    isSelected ? "text-vred" : ""
+                    isSelected ? "text-sentinel" : ""
                   }`}
                 >
                   {map.name.toUpperCase()}

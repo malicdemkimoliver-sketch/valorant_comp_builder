@@ -27,14 +27,14 @@ export function AgentCard({
       disabled={disabled}
       className={`relative flex flex-col items-center gap-1.5 rounded-lg border p-2.5 transition-all ${
         selected
-          ? "border-vred bg-vred/15 ring-2 ring-vred/60 shadow-[0_0_16px_rgba(255,70,85,0.4)]"
+          ? "border-sentinel bg-sentinel/15 ring-2 ring-sentinel/60 shadow-[0_0_16px_rgba(16,185,129,0.4)]"
           : disabled
             ? "border-navy-700 bg-navy-800/30 opacity-40"
             : "border-navy-700 bg-navy-800/50 hover:border-vred/60"
       }`}
     >
       {selected && (
-        <span className="absolute -top-2 -right-2 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-vred text-[11px] font-bold text-white shadow-[0_0_8px_rgba(255,70,85,0.6)]">
+        <span className="absolute -top-2 -right-2 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-sentinel text-[11px] font-bold text-white shadow-[0_0_8px_rgba(16,185,129,0.6)]">
           ✓
         </span>
       )}
@@ -44,14 +44,14 @@ export function AgentCard({
           src={agent.display_icon}
           alt={agent.name}
           className={`h-12 w-12 rounded-full border-2 ${
-            selected ? "border-vred brightness-110" : "border-navy-700"
+            selected ? "border-sentinel brightness-110" : "border-navy-700"
           }`}
         />
       ) : (
         <span className="text-2xl leading-12">{agent.icon}</span>
       )}
       <span
-        className={`text-xs font-semibold ${selected ? "text-vred" : ""}`}
+        className={`text-xs font-semibold ${selected ? "text-sentinel" : ""}`}
       >
         {agent.name}
       </span>
