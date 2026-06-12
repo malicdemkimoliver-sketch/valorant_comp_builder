@@ -3,7 +3,12 @@ import json
 import os
 from datetime import datetime
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "data", "db.json")
+# Deployment: set DB_PATH to a file on a persistent volume (e.g. /data/db.json)
+# — the repo-relative default lives on an ephemeral filesystem on Railway.
+DB_PATH = os.environ.get(
+    "DB_PATH",
+    os.path.join(os.path.dirname(__file__), "..", "..", "data", "db.json"),
+)
 
 def ensure_db():
     """Create database if it doesn't exist"""

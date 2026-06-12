@@ -189,7 +189,10 @@ AUTH_GOOGLE_SECRET=<client secret>
 **Google OAuth setup (one time):** in [Google Cloud Console](https://console.cloud.google.com) create an OAuth 2.0 Client ID (type: Web application) and add
 `http://localhost:3000/api/auth/callback/google` to **Authorized redirect URIs** (plus your production URL later). Paste the ID/secret into `.env.local`. Without these, the whole app works except sign-in and saved comps.
 
-Backend env (optional): `BACKEND_SHARED_SECRET` — when set, FastAPI rejects saved-comps requests that don't carry the matching `X-Backend-Secret` header (see [security model](#authentication--security-model)).
+Backend env (both optional locally, required in production):
+
+- `BACKEND_SHARED_SECRET` — when set, FastAPI rejects saved-comps requests that don't carry the matching `X-Backend-Secret` header (see [security model](#authentication--security-model)).
+- `DB_PATH` — absolute path for the saved-comps database (default `data/db.json`). Point it at a persistent volume in production, e.g. `/data/db.json`.
 
 ---
 
@@ -251,14 +254,28 @@ Implemented client-side in [frontend/src/lib/comp-code.ts](frontend/src/lib/comp
 
 ## Deployment
 
-Planned (Phase 6): **Vercel** (frontend) + **Railway** (backend).
+**Vercel** (frontend) + **Railway** (backend). Deploy config lives in the repo:
 
-Checklist:
+- `railway.json` — start command (`uvicorn backend.main:app --host 0.0.0.0 --port $PORT`), `/api/health` healthcheck, restart policy
+- `.python-version` — pins Python 3.13 for the Railway build
+- root `requirements.txt` — combined manifest installed by Railway (FastAPI set) and the legacy Streamlit app
 
-1. Deploy FastAPI to Railway: `uvicorn backend.main:app --host 0.0.0.0 --port $PORT`, persistent volume (or future DB) for `data/db.json`.
-2. Deploy `frontend/` to Vercel with env vars: `API_URL` (Railway URL), `AUTH_SECRET`, `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`, `BACKEND_SHARED_SECRET`.
-3. Set the same `BACKEND_SHARED_SECRET` on Railway.
-4. Add the production callback URL (`https://<domain>/api/auth/callback/google`) to the Google OAuth client.
+### Backend → Railway
+
+1. New project → deploy from the GitHub repo (repo root, no subdirectory).
+2. Mount a **volume** at `/data` (saved comps must survive redeploys — the container filesystem is ephemeral).
+3. Env vars: `DB_PATH=/data/db.json`, `BACKEND_SHARED_SECRET=<random secret>`.
+4. Verify `https://<railway-url>/api/health` → `{"status":"ok"}`. The first boot auto-refreshes meta stats in a background thread, so the healthcheck passes immediately.
+
+### Frontend → Vercel
+
+1. New project from the repo with **Root Directory = `frontend/`**.
+2. Env vars: `API_URL` (the Railway URL, no trailing slash), `AUTH_SECRET` (fresh: `npx auth secret`), `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`, `BACKEND_SHARED_SECRET` (same value as Railway).
+3. Add `https://<vercel-domain>/api/auth/callback/google` to the Google OAuth client's authorized redirect URIs.
+
+### Post-deploy smoke test
+
+Sign in → build a comp → save → check `/saved` → load in builder → delete; confirm signed-out requests to `/api/saved` return 401; redeploy the backend and confirm saved comps survive (volume works).
 
 > Older docs in the repo root (`DEPLOYMENT.md`, `GOOGLE_OAUTH_SETUP.md`, `README_PRODUCTION.md`, `COMPLETE_OVERHAUL.md`, `UPDATE_GUIDE_V3.md`) describe the **legacy Streamlit deployment** and are superseded by this document.
 

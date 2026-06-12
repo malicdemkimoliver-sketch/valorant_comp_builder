@@ -1,5 +1,14 @@
-﻿streamlit>=1.40
+# Combined manifest: Railway (FastAPI backend) and the legacy Streamlit app
+# both install from this file. backend/requirements.txt stays the minimal
+# backend-only set for local dev.
+
+# FastAPI backend (Railway)
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
 requests>=2.32
 beautifulsoup4>=4.12
+
+# Legacy Streamlit app only
+streamlit>=1.40
 google-auth>=2.30
 google-auth-oauthlib>=1.2
