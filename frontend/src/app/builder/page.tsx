@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import { decodeComp } from "@/lib/comp-code";
 import type {
   Agent,
@@ -23,7 +24,8 @@ export default async function BuilderPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const params = await searchParams;
-  const [agents, maps, presets, teamComps] = await Promise.all([
+  const [session, agents, maps, presets, teamComps] = await Promise.all([
+    auth(),
     getJson<Agent[]>("/api/agents"),
     getJson<MapInfo[]>("/api/maps"),
     getJson<PresetsResponse>("/api/presets"),
@@ -65,6 +67,7 @@ export default async function BuilderPage({
       teamComps={teamComps}
       initialMap={initialMap}
       initialAgents={initialAgents}
+      signedIn={!!session?.user}
     />
   );
 }

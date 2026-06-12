@@ -17,6 +17,7 @@ import { CompSlots } from "@/components/builder/comp-slots";
 import { ExportImage } from "@/components/builder/export-card";
 import { MapSelect } from "@/components/builder/map-select";
 import { Presets } from "@/components/builder/presets";
+import { SaveComp } from "@/components/builder/save-comp";
 import { ScorePanel } from "@/components/builder/score-panel";
 import { Share } from "@/components/builder/share";
 import { Suggestions } from "@/components/builder/suggestions";
@@ -29,6 +30,7 @@ export function BuilderClient({
   teamComps,
   initialMap,
   initialAgents,
+  signedIn,
 }: {
   agents: Agent[];
   maps: MapInfo[];
@@ -36,6 +38,7 @@ export function BuilderClient({
   teamComps: TeamCompsResponse;
   initialMap: string;
   initialAgents: string[];
+  signedIn: boolean;
 }) {
   const [mapName, setMapName] = useState(initialMap);
   const [selected, setSelected] = useState<string[]>(initialAgents);
@@ -209,6 +212,12 @@ export function BuilderClient({
             onPick={toggleAgent}
           />
           <Share mapName={mapName} selected={selected} onLoad={loadComp} />
+          <SaveComp
+            mapName={mapName}
+            selected={selected}
+            score={score}
+            signedIn={signedIn}
+          />
           <ExportImage map={currentMap} agents={selectedAgents} score={score} />
         </aside>
       </div>

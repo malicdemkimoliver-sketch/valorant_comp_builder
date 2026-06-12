@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Rajdhani } from "next/font/google";
 import Link from "next/link";
+import { AuthStatus } from "@/components/auth-status";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -66,6 +67,7 @@ export default function RootLayout({
                   {link.label}
                 </Link>
               ))}
+              <AuthStatus />
             </div>
           </nav>
         </header>
