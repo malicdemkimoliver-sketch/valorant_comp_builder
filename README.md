@@ -254,7 +254,9 @@ Implemented client-side in [frontend/src/lib/comp-code.ts](frontend/src/lib/comp
 
 ## Deployment
 
-**Vercel** (frontend) + **Railway** (backend). Deploy config lives in the repo:
+**Live:** [vlrcompbuilder.vercel.app](https://vlrcompbuilder.vercel.app) (Vercel frontend) → [valorantcompbuilder-production.up.railway.app](https://valorantcompbuilder-production.up.railway.app) (Railway backend). Both auto-deploy on push to `main`.
+
+Deploy config lives in the repo:
 
 - `railway.json` — start command (`uvicorn backend.main:app --host 0.0.0.0 --port $PORT`), `/api/health` healthcheck, restart policy
 - `.python-version` — pins Python 3.13 for the Railway build
